@@ -1,0 +1,58 @@
+<ion-view view-title="Automatic">
+
+    <!-- BUTTON BOARD (on bottom) -->
+    <div class="buttonBoard">
+
+        <!-- First BUTTON ROW -->
+        <div class="row">
+            <!-- START BUTTON -->
+            <button ng-show="autoVM.curState == autoVM.STATE_IDLE" class="button button-outline button-block button-stable" ng-click="autoVM.run()">
+                Start
+            </button>
+            <!-- PAUSE BUTTON -->
+            <button ng-show="autoVM.curState == autoVM.STATE_RUNNING" class="button button-outline button-block button-stable" ng-click="autoVM.pause()">
+                Pause
+            </button>
+            <!-- RESUME BUTTON -->
+            <button ng-show="autoVM.curState == autoVM.STATE_PAUSED" class="button button-outline button-block button-stable" ng-click="autoVM.run()">
+                Resume
+            </button>
+        </div>
+
+
+        <!-- Second BUTTON ROW -->
+        <div class="row">
+            <!-- STOP BUTTON -->
+            <button ng-show="autoVM.curState != autoVM.STATE_IDLE" class="button button-outline button-block button-stable " ng-click="autoVM.save()">
+                Stop & Save
+            </button>
+        </div>
+
+        <!-- Third BUTTON ROW -->
+        <div class="row">
+            <!-- CANCEL BUTTON -->
+            <button ng-show="autoVM.curState != autoVM.STATE_IDLE" class="button button-outline button-block button-stable " ng-click="autoVM.cancel() ">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <ion-content class="padding">
+        <div class="curTime_header">
+            <div class="row" style="margin:0px">
+                <div class="col col-50 col-left">
+                    Current Time :
+                </div>
+                <div class="col col-50 col-right">
+                    {{autoVM.curHour}}h {{autoVM.curMin}}mn {{autoVM.curSec}}s
+                </div>
+            </div>
+        </div>
+
+        <div class="time_display">
+            {{autoVM.chrHour}}:{{autoVM.chrMin}}:{{autoVM.chrSec}}
+        </div>
+
+
+    </ion-content>
+</ion-view>
