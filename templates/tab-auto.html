@@ -1,43 +1,8 @@
 <ion-view view-title="Automatic">
 
-    <!-- BUTTON BOARD (on bottom) -->
-    <div class="buttonBoard">
-
-        <!-- First BUTTON ROW -->
-        <div class="row">
-            <!-- START BUTTON -->
-            <button ng-show="autoVM.curState == autoVM.STATE_IDLE" class="button button-outline button-block button-stable" ng-click="autoVM.run()">
-                Start
-            </button>
-            <!-- PAUSE BUTTON -->
-            <button ng-show="autoVM.curState == autoVM.STATE_RUNNING" class="button button-outline button-block button-stable" ng-click="autoVM.pause()">
-                Pause
-            </button>
-            <!-- RESUME BUTTON -->
-            <button ng-show="autoVM.curState == autoVM.STATE_PAUSED" class="button button-outline button-block button-stable" ng-click="autoVM.run()">
-                Resume
-            </button>
-        </div>
-
-
-        <!-- Second BUTTON ROW -->
-        <div class="row">
-            <!-- STOP BUTTON -->
-            <button ng-show="autoVM.curState != autoVM.STATE_IDLE" class="button button-outline button-block button-stable " ng-click="autoVM.save()">
-                Stop & Save
-            </button>
-        </div>
-
-        <!-- Third BUTTON ROW -->
-        <div class="row">
-            <!-- CANCEL BUTTON -->
-            <button ng-show="autoVM.curState != autoVM.STATE_IDLE" class="button button-outline button-block button-stable " ng-click="autoVM.cancel() ">
-                Cancel
-            </button>
-        </div>
-    </div>
-
     <ion-content class="padding">
+
+        <!-- CURRENT TIME DISPLAY -->
         <div class="curTime_header">
             <div class="row" style="margin:0px">
                 <div class="col col-50 col-left">
@@ -49,10 +14,92 @@
             </div>
         </div>
 
+        <!-- CHRONO DISPLAY -->
         <div class="time_display">
             {{autoVM.chrHour}}:{{autoVM.chrMin}}:{{autoVM.chrSec}}
         </div>
 
+        <!-- SIDE DISPLAY -->
+        <div class="side_display">
+            <div class="row">
+                <div class="col col-40">
+                    left side
+                </div>
+                <div class="col col-20" style="text-align:center">
+                    <label class="toggle toggle-royal">
+                        <input ng-model="item.selected" type="checkbox" ng-change="add_edtEvtVM.checkGroup(item)">
+                        <div class="track">
+                            <div class="  "></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="col col-40" style="text-align:right">
+                    right side
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RUN / PAUSE BUTTON -->
+        <div class="row button_row">
+            <!-- RUN BUTTON -->
+            <div class="col col-50">
+                <button ng-disabled="autoVM.curState != autoVM.STATE_IDLE" class="button icon-left ion-play button-outline button-block button-stable" ng-click="autoVM.run()">
+                    Run
+                </button>
+            </div>
+
+            <!-- PAUSE BUTTON -->
+            <div class="col col-50">
+                <button ng-disabled="autoVM.curState != autoVM.STATE_RUNNING" class="button icon-left ion-pause button-outline button-block button-stable" ng-click="autoVM.pause()">
+                    Pause
+                </button>
+            </div>
+        </div>
+
+        <!-- SEQUENCE DISPLAY -->
+        <div class="timerList">
+            <div class="row" ng-repeat="item in autoVM.durationRec">
+                <div class="col col-25 start_time">
+                    {{item.startTime | HourMinFromDate}}
+                </div>
+                <div class="col col-50" style="text-align:center" ng-if="item.duration != 0">
+                    duration : {{item.duration | HourMinFromSeconds}}mn
+                </div>
+                <div class="col col-50" style="text-align:center" ng-if="item.duration == 0">
+                    in progress . . . .
+                </div>
+
+                <div class="col col-25" style="text-align:right">
+                    (side) {{item.side}}
+                </div>
+            </div>
+        </div>
+
 
     </ion-content>
+
+    <!-- BUTTON BOARD (on bottom) -->
+    <div class="buttonBoard">
+
+        <!-- BOTTOM BUTTON ROW -->
+        <div class="row">
+
+            <!-- SAVE BUTTON -->
+            <div class="col col-50">
+                <button class="button button-outline button-block button-stable " ng-click="autoVM.save()">
+                    Save
+                </button>
+            </div>
+
+            <!-- CANCEL BUTTON -->
+            <div class="col col-50">
+                <button class="button button-outline button-block button-stable " ng-click="autoVM.cancel()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+    </div>
+
 </ion-view>

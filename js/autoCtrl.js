@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('autoCtrl', function ($scope, $interval) {
+.controller('autoCtrl', function ($scope, $interval, utils) {
     var vm = this;
 
     vm.curHour = null;
@@ -10,9 +10,10 @@ angular.module('app.controllers')
     vm.chrMin = "";
     vm.chrSec = "";
     vm.curState = null;
-    vm.durationTotal = new Date();
+    vm.curDuration = 0;
     vm.curRecord = {};
     vm.durationRec = [];
+
 
     /******************************      FUNCTION DECLARATION            ************************/
     vm.run = run;
@@ -20,42 +21,54 @@ angular.module('app.controllers')
     vm.save = save;
     vm.cancel = cancel;
 
+
     /******************************      DEFINE CONSTANT for HTML        ************************/
     vm.STATE_IDLE = 0x00;
     vm.STATE_PAUSED = 0x01
     vm.STATE_RUNNING = 0x02;
 
 
-
     /******************************         INITIALISATION               ************************/
-    _getTime();
-    vm.chrHour = _formatHour(0);
-    vm.chrMin = _formatMinute(0);
-    vm.chrSec = _formatSecond(0);
+    _extractHMS(new Date());
+    vm.chrHour = utils.formatHour(0);
+    vm.chrMin = utils.formatMinute(0);
+    vm.chrSec = utils.formatSecond(0);
     vm.curState = vm.STATE_IDLE;
 
 
     $interval(function () {
+            var durationTotal = 0;
+
             // get current time
-            _getTime();
+            var curTime = new Date();
 
+            // Extract current time for display
+            _extractHMS(curTime);
+
+            // compute previous duration (from run/pause event)
+            for (var i = 0; i < vm.durationRec.length; i++)
+                durationTotal += vm.durationRec[i].duration;
+
+            // add current duration (if running state)
             if (vm.curState == vm.STATE_RUNNING) {
-                // compute previous duration (from pause/resume event)
-                for (var i = 0; i < vm.durationRec.length; i++)
-                    vm.durationTotal += vm.durationRec[i].duration;
-
-                // compute current duration
                 var startTime = vm.durationRec[vm.durationRec.length - 1].startTime;
-                var curTime = new Date();
-                vm.durationTotal += curTime.getTime() - startTime.getTime();
 
-                var curDuration = vm.durationTotal.toTimeString(); // format = 23:19:34 GMT+0200 (Paris, Madrid (heure d’été))
+                vm.curDuration = (curTime.getTime() - startTime.getTime()) / 1000;
 
-                vm.chrHour = curDuration.slice(0, 2);
-                vm.chrMin = curDuration.slice(3, 5);
-                vm.chrSec = curDuration.slice(6, 8);
-
+                durationTotal += vm.curDuration;
             }
+
+            // display current HOUR duration
+            vm.chrHour = utils.formatHour(Math.floor(durationTotal / (60 * 60)));
+            var minutesLeft = durationTotal - vm.chrHour * 60 * 60;
+
+            // display current MINUTE duration
+            vm.chrMin = utils.formatMinute(Math.floor(minutesLeft / 60));
+            var secondsLeft = minutesLeft - vm.chrMin * 60;
+
+            // display current SECOND duration
+            vm.chrSec = utils.formatSecond(Math.floor(secondsLeft));
+
         },
         1000
     ); // start clock timer
@@ -70,6 +83,9 @@ angular.module('app.controllers')
     function run() {
         //switch to RUNNING state
         vm.curState = vm.STATE_RUNNING;
+
+        // initialize duration counter
+        vm.curDuration = 0;
 
         // create a new time record
         var record = {};
@@ -88,7 +104,7 @@ angular.module('app.controllers')
     /*********************                  PAUSE                               *****************/
     function pause() {
         //switch to PAUSED state
-        vm.curState = vm.STATE_PAUSED;
+        vm.curState = vm.STATE_IDLE;
 
         // get current record
         var recIndex = vm.durationRec.length - 1;
@@ -96,13 +112,14 @@ angular.module('app.controllers')
             console.warn("RECORDING CAN NOT BE PAUSED : NO RECORD IN PROGRESS");
             return;
         }
-        var curRecord = vm.durationRec[recIndex];
         //store ending time
         var date = new Date();
-        curRecord.endTime = date;
+        vm.durationRec[recIndex].endTime = date;
         //compute record duration
-        curRecord.duration = curRecord.startTime - curRecord.endTime;
+        vm.durationRec[recIndex].duration = vm.curDuration;
 
+        //reset current duration
+        vm.curDuration = 0;
     }
 
 
@@ -111,8 +128,11 @@ angular.module('app.controllers')
         // come back to IDDLE state
         vm.curState = vm.STATE_IDLE;
 
+        //reset chrono
+        _resetChrono();
+
         // delete records
-        durationRec = [];
+        vm.durationRec = [];
     }
 
 
@@ -121,8 +141,11 @@ angular.module('app.controllers')
         // come back to IDDLE state
         vm.curState = vm.STATE_IDLE;
 
+        //reset chrono
+        _resetChrono();
+
         // delete records
-        durationRec = [];
+        vm.durationRec = [];
     }
 
 
@@ -130,9 +153,8 @@ angular.module('app.controllers')
     /*                                      TOOL BOX
     /********************************************************************************************/
 
-    /*********************                  SET TIME                            *****************/
-    function _getTime() {
-        var date = new Date();
+    /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************/
+    function _extractHMS(date) {
         var curTime = date.toTimeString(); // format = 23:19:34 GMT+0200 (Paris, Madrid (heure d’été))
 
         vm.curHour = curTime.slice(0, 2);
@@ -140,35 +162,14 @@ angular.module('app.controllers')
         vm.curSec = curTime.slice(6, 8);
     }
 
-    /*********************                  FORMAT hour Display                 *****************/
-    function _formatHour(hour, pmEnable) {
-        var strHour = "";
+    /*********************                  RESET CHRONO                        *****************/
+    function _resetChrono() {
+        //reset Duration counter
+        vm.curDuration = 0
 
-        if ((pmEnable === true) && (hour > 11)) hour = hour - 12;
-
-        if (hour < 10)
-            strHour = "0";
-
-        strHour += hour.toString();
-
-        return (strHour);
+        //reset Display
+        vm.chrHour = utils.formatHour(0);
+        vm.chrMin = utils.formatMinute(0);
+        vm.chrSec = utils.formatSecond(0);
     }
-
-    /*********************                  FORMAT Minute Display               *****************/
-    function _formatMinute(min) {
-        return (_formatSecond(min));
-    }
-
-    /*********************                  FORMAT Second Display               *****************/
-    function _formatSecond(sec) {
-        var strSec = "";
-
-        if (sec < 10)
-            strSec = "0";
-
-        strSec += sec.toString();
-
-        return (strSec);
-    }
-
 })

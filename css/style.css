@@ -23,7 +23,7 @@
 
 .buttonBoard {
     padding: 10px 30px 0 30px;
-    height: 280px;
+    height: 150px;
     position: fixed;
     bottom: -1px;
     width: 100%;
@@ -31,8 +31,43 @@
     z-index: 100;
 }
 
+.button_row {
+    padding: 10px 25px 0 25px;
+}
+
+.side_display .row {
+    font-size: 16px;
+    color: darkcyan;
+    padding: 20px 30px 0 30px;
+}
+
+.timerList .row {
+    padding: 0px 30px 0 30px;
+}
+
+.timerList .col {
+    padding: 5px;
+}
+
+.start_time {
+    font-style: italic;
+    /*color: darkgray;
+    font-size: 13px*/
+    font
+}
+
 .buttonBoard .row {
     height: 70px;
+}
+
+.toggle .track {
+    background-color: darkcyan;
+    color: white;
+}
+
+.toggle .track.activated {
+    background-color: darkcyan;
+    color: white;
 }
 
 .button.button-outline.button-stable {
