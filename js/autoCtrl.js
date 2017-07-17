@@ -13,6 +13,9 @@ angular.module('app.controllers')
     vm.curDuration = 0;
     vm.curRecord = {};
     vm.durationRec = [];
+    vm.peeSlider = {};
+    vm.pooSlider = {};
+    vm.toggleSide = false;
 
 
     /******************************      FUNCTION DECLARATION            ************************/
@@ -20,12 +23,21 @@ angular.module('app.controllers')
     vm.pause = pause;
     vm.save = save;
     vm.cancel = cancel;
+    vm.updateSide = updateSide;
 
 
     /******************************      DEFINE CONSTANT for HTML        ************************/
     vm.STATE_IDLE = 0x00;
     vm.STATE_PAUSED = 0x01
     vm.STATE_RUNNING = 0x02;
+    vm.LEFT = {
+        id: 0x00,
+        string: "left"
+    };
+    vm.RIGHT = {
+        id: 0x01,
+        string: "right"
+    };
 
 
     /******************************         INITIALISATION               ************************/
@@ -34,6 +46,23 @@ angular.module('app.controllers')
     vm.chrMin = utils.formatMinute(0);
     vm.chrSec = utils.formatSecond(0);
     vm.curState = vm.STATE_IDLE;
+    vm.peeSlider = {
+        value: 0,
+        options: {
+            floor: 0,
+            ceil: 3,
+            showTicks: true
+        }
+    };
+
+    vm.pooSlider = {
+        value: 0,
+        options: {
+            floor: 0,
+            ceil: 3,
+            showTicks: true
+        }
+    };
 
 
     $interval(function () {
@@ -78,6 +107,14 @@ angular.module('app.controllers')
     /*                              PUBLIC FUNCTIONS IMPLEMENTATION
     /********************************************************************************************/
 
+    function updateSide() {
+        if (vm.curState == vm.STATE_RUNNING) {
+            if (vm.toggleSide)
+                vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
+            else
+                vm.durationRec[vm.durationRec.length - 1].side = vm.LEFT;
+        }
+    }
 
     /*********************                  RUN                               *****************/
     function run() {
@@ -95,6 +132,7 @@ angular.module('app.controllers')
         record.startTime = date;
         record.endTime = null;
         record.duration = 0;
+        record.side = (vm.toggleSide ? vm.RIGHT : vm.LEFT);
 
         // add new record to list
         vm.durationRec.push(record);
@@ -143,6 +181,10 @@ angular.module('app.controllers')
 
         //reset chrono
         _resetChrono();
+
+        // reset Pee/Poo
+        vm.peeSlider.value = 0;
+        vm.pooSlider.value = 0;
 
         // delete records
         vm.durationRec = [];

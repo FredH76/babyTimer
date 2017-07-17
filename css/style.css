@@ -1,4 +1,4 @@
-/* Empty. Add your own CSS if you like */
+/******************************             TIME HEADER (UP)         ************************/
 
 .curTime_header {
     margin: -10px -10px 0 -10px;
@@ -9,6 +9,9 @@
     text-align: center;
     background: whitesmoke;
 }
+
+
+/******************************             CHRONO TIMER           ***************************/
 
 .time_display {
     margin: 20px 30px 0 30px;
@@ -21,25 +24,24 @@
     background: whitesmoke;
 }
 
-.buttonBoard {
-    padding: 10px 30px 0 30px;
-    height: 150px;
-    position: fixed;
-    bottom: -1px;
-    width: 100%;
-    background: white;
-    z-index: 100;
-}
 
-.button_row {
-    padding: 10px 25px 0 25px;
-}
+/******************************             CHRONO TOGGLE SIDE    ***************************/
 
 .side_display .row {
     font-size: 16px;
     color: darkcyan;
     padding: 20px 30px 0 30px;
 }
+
+
+/******************************             CHRONO BUTTON         ***************************/
+
+.button_row {
+    padding: 10px 25px 0 25px;
+}
+
+
+/******************************             CHRONO LIST           ***************************/
 
 .timerList .row {
     padding: 0px 30px 0 30px;
@@ -56,27 +58,60 @@
     font
 }
 
+
+/******************************             DIAPER            ************************/
+
+.diapper {
+    padding: 0px 25px 0 25px;
+}
+
+.diapper .row {
+    padding-top: 10px;
+    font-size: 16px;
+    color: darkcyan;
+}
+
+#peeSlider {
+    margin-top: -10px;
+}
+
+#pooSlider {
+    margin-top: -10px;
+}
+
+.rz-bar-wrapper .rz-bar {
+    border-radius: 10px;
+    background: whitesmoke;
+}
+
+.rz-pointer.rz-pointer-min,
+.rz-pointer.rz-pointer-max {
+    background: darkcyan;
+}
+
+.rz-bubble {
+    margin-bottom: -25px;
+    /*z-index: 3;*/
+}
+
+rzslider .rz-ticks .rz-tick {
+    background: darkcyan;
+    opacity: 0.4;
+}
+
+
+/******************************       BUTTON BOARD (BOTTOM)          ************************/
+
+.buttonBoard {
+    padding: 0px 30px 0 30px;
+    height: 140px;
+    position: fixed;
+    bottom: -1px;
+    width: 100%;
+    background: white;
+    z-index: 100;
+}
+
 .buttonBoard .row {
     height: 70px;
-}
-
-.toggle .track {
-    background-color: darkcyan;
-    color: white;
-}
-
-.toggle .track.activated {
-    background-color: darkcyan;
-    color: white;
-}
-
-.button.button-outline.button-stable {
-    background-color: darkcyan;
-    color: white;
-}
-
-.button.button-outline.button-stable.active,
-.button.button-outline.button-stable.activated {
-    background-color: whitesmoke;
-    color: darkcyan;
 }
