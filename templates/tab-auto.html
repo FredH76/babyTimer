@@ -1,6 +1,6 @@
 <ion-view view-title="Automatic">
 
-    <ion-content class="padding">
+    <ion-content class="padding has-button-bar">
 
         <!-- CURRENT TIME DISPLAY -->
         <div class="curTime_header">
@@ -63,8 +63,8 @@
                 <div class="col col-25 start_time">
                     {{item.startTime | HourMinFromDate}}
                 </div>
-                <div class="col col-50" style="text-align:center" ng-if="item.duration != 0">
-                    duration : {{item.duration | HourMinFromSeconds}}mn
+                <div class="col col-50" style="text-align:center" ng-if="item.duration > 0">
+                    duration : {{item.duration | MinutesFromSeconds}}mn
                 </div>
                 <div class="col col-50" style="text-align:center" ng-if="item.duration == 0">
                     in progress . . . .
@@ -85,7 +85,7 @@
                     Pee level:
                 </div>
                 <div class="col col-66">
-                    <rzslider id="peeSlider" rz-slider-model="autoVM.peeSlider.value" rz-slider-tpl-url="templates/rzSlider.html" rz-slider-options="autoVM.peeSlider.options">
+                    <rzslider id="peeSlider" rz-slider-model="autoVM.peeSlider.value" rz-slider-options="autoVM.peeSlider.options">
                     </rzslider>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     Poo level:
                 </div>
                 <div class="col col-66">
-                    <rzslider id="pooSlider" rz-slider-model="autoVM.pooSlider.value" rz-slider-tpl-url="templates/rzSlider.html" rz-slider-options="autoVM.pooSlider.options">
+                    <rzslider id="pooSlider" rz-slider-model="autoVM.pooSlider.value" rz-slider-options="autoVM.pooSlider.options">
                     </rzslider>
                 </div>
             </div>
@@ -108,7 +108,7 @@
     </ion-content>
 
     <!-- BUTTON BOARD (on bottom) -->
-    <div class="buttonBoard">
+    <div class="buttonBoard" ng-show="autoVM.enableSave">
 
         <!-- BOTTOM BUTTON ROW -->
         <div class="row">

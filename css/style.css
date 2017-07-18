@@ -1,3 +1,12 @@
+:root {
+    --button-bar-height: 140px;
+}
+
+.padding.has-tabs.has-button-bar {
+    bottom: var(--button-bar-height);
+}
+
+
 /******************************             TIME HEADER (UP)         ************************/
 
 .curTime_header {
@@ -104,7 +113,7 @@ rzslider .rz-ticks .rz-tick {
 
 .buttonBoard {
     padding: 0px 30px 0 30px;
-    height: 140px;
+    height: var(--button-bar-height);
     position: fixed;
     bottom: -1px;
     width: 100%;

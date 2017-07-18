@@ -6,6 +6,7 @@ angular.module('app.services')
         formatHour: formatHour,
         formatMinute: formatMinute,
         formatSecond: formatSecond,
+        fillWithZero: fillWithZero,
     }
     return service;
 
@@ -39,4 +40,17 @@ angular.module('app.services')
 
         return (strSec);
     }
+
+    /*********************                      FILL with ZERO                     *****************/
+    function fillWithZero(str, len) {
+        var l_len = len || 2;
+
+        for (var i = 0; i < l_len; i++)
+            if (i >= str.toString().length)
+                str = "0" + str;
+
+        return str;
+    }
+
+
 })

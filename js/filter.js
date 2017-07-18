@@ -9,7 +9,7 @@ angular.module('app.filters', [])
     }
 })
 
-.filter('HourMinFromSeconds', function (utils) {
+.filter('MinutesFromSeconds', function (utils) {
     return function (secondes) {
         return (utils.formatMinute(Math.round(secondes / 60)));
     }

@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('autoCtrl', function ($scope, $interval, utils) {
+.controller('autoCtrl', function ($scope, $interval, utils, DBrecord) {
     var vm = this;
 
     vm.curHour = null;
@@ -16,7 +16,7 @@ angular.module('app.controllers')
     vm.peeSlider = {};
     vm.pooSlider = {};
     vm.toggleSide = false;
-
+    vm.enableSave = false;
 
     /******************************      FUNCTION DECLARATION            ************************/
     vm.run = run;
@@ -108,6 +108,10 @@ angular.module('app.controllers')
     /********************************************************************************************/
 
     function updateSide() {
+
+        // enable SAVE/CANCEL BUTTON
+        vm.enableSave = true;
+
         if (vm.curState == vm.STATE_RUNNING) {
             if (vm.toggleSide)
                 vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
@@ -118,6 +122,9 @@ angular.module('app.controllers')
 
     /*********************                  RUN                               *****************/
     function run() {
+        // enable SAVE/CANCEL BUTTON
+        vm.enableSave = true;
+
         //switch to RUNNING state
         vm.curState = vm.STATE_RUNNING;
 
@@ -141,6 +148,9 @@ angular.module('app.controllers')
 
     /*********************                  PAUSE                               *****************/
     function pause() {
+        // enable SAVE/CANCEL BUTTON
+        vm.enableSave = true;
+
         //switch to PAUSED state
         vm.curState = vm.STATE_IDLE;
 
@@ -163,19 +173,12 @@ angular.module('app.controllers')
 
     /*********************                  SAVE                                *****************/
     function save() {
-        // come back to IDDLE state
-        vm.curState = vm.STATE_IDLE;
 
-        //reset chrono
-        _resetChrono();
+        DBrecord.saveRec(vm.durationRec);
 
-        // delete records
-        vm.durationRec = [];
-    }
+        // disable SAVE/CANCEL BUTTON
+        vm.enableSave = false;
 
-
-    /*********************                  CANCEL                              *****************/
-    function cancel() {
         // come back to IDDLE state
         vm.curState = vm.STATE_IDLE;
 
@@ -185,6 +188,32 @@ angular.module('app.controllers')
         // reset Pee/Poo
         vm.peeSlider.value = 0;
         vm.pooSlider.value = 0;
+
+        // reset side
+        vm.toggleSide = false;
+
+        // delete records
+        vm.durationRec = [];
+    }
+
+
+    /*********************                  CANCEL                              *****************/
+    function cancel() {
+        // disable SAVE/CANCEL BUTTON
+        vm.enableSave = false;
+
+        // come back to IDDLE state
+        vm.curState = vm.STATE_IDLE;
+
+        //reset chrono
+        _resetChrono();
+
+        // reset Pee/Poo
+        vm.peeSlider.value = 0;
+        vm.pooSlider.value = 0;
+
+        // reset side
+        vm.toggleSide = false;
 
         // delete records
         vm.durationRec = [];
@@ -207,7 +236,7 @@ angular.module('app.controllers')
     /*********************                  RESET CHRONO                        *****************/
     function _resetChrono() {
         //reset Duration counter
-        vm.curDuration = 0
+        vm.curDuration = 0;
 
         //reset Display
         vm.chrHour = utils.formatHour(0);
