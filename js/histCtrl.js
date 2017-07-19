@@ -41,9 +41,9 @@ angular.module('app.controllers')
             dispItem.duration = 0;
             for (var j = 0; j < vm.recList[i].length; j++) {
                 dispItem.duration += vm.recList[i][j].duration;
-                if (vm.recList[i][j].side.id == 0)
+                if (vm.recList[i][j].side.id == LEFT.id)
                     dispItem.left = true;
-                if (vm.recList[i][j].side.id == 1)
+                if (vm.recList[i][j].side.id == RIGHT.id)
                     dispItem.right = true;
             }
             //set pee/poo : TODO

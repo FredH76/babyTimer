@@ -17,28 +17,36 @@ angular.module('app.controllers')
     vm.pooSlider = {};
     vm.toggleSide = false;
     vm.enableSave = false;
+    vm.leftSide = false;
+    vm.rightSide = false;
 
     /******************************      FUNCTION DECLARATION            ************************/
     vm.run = run;
     vm.pause = pause;
     vm.save = save;
     vm.cancel = cancel;
-    vm.updateSide = updateSide;
+    //vm.updateSide = updateSide;
+    vm.leftSideClick = leftSideClick;
+    vm.rightSideClick = rightSideClick;
 
 
     /******************************      DEFINE CONSTANT for HTML        ************************/
     vm.STATE_IDLE = 0x00;
     vm.STATE_PAUSED = 0x01
     vm.STATE_RUNNING = 0x02;
+
     vm.LEFT = {
-        id: 0x00,
+        id: 0x01,
         string: "left"
     };
     vm.RIGHT = {
-        id: 0x01,
+        id: 0x02,
         string: "right"
     };
-
+    vm.UNDEF = {
+        id: 0x00,
+        string: "no side"
+    }
 
     /******************************         INITIALISATION               ************************/
     _extractHMS(new Date());
@@ -107,7 +115,7 @@ angular.module('app.controllers')
     /*                              PUBLIC FUNCTIONS IMPLEMENTATION
     /********************************************************************************************/
 
-    function updateSide() {
+    /*function updateSide() {
 
         // enable SAVE/CANCEL BUTTON
         vm.enableSave = true;
@@ -117,6 +125,36 @@ angular.module('app.controllers')
                 vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
             else
                 vm.durationRec[vm.durationRec.length - 1].side = vm.LEFT;
+        }
+    }*/
+
+    /*********************         Click on LEFT RADIO BUTTON                *****************/
+    function leftSideClick() {
+        // update display
+        vm.leftSide = !vm.leftSide;
+        vm.rightSide = false;
+
+        // update record
+        if (vm.curState == vm.STATE_RUNNING) {
+            if (vm.leftSide)
+                vm.durationRec[vm.durationRec.length - 1].side = vm.LEFT;
+            else
+                vm.durationRec[vm.durationRec.length - 1].side = vm.UNDEF;
+        }
+    }
+
+    /*********************         Click on RIGHT RADIO BUTTON                *****************/
+    function rightSideClick() {
+        // update display
+        vm.leftSide = false;
+        vm.rightSide = !vm.rightSide;
+
+        // update record
+        if (vm.curState == vm.STATE_RUNNING) {
+            if (vm.rightSide)
+                vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
+            else
+                vm.durationRec[vm.durationRec.length - 1].side = vm.UNDEF;
         }
     }
 
@@ -139,7 +177,7 @@ angular.module('app.controllers')
         record.startTime = date;
         record.endTime = null;
         record.duration = 0;
-        record.side = (vm.toggleSide ? vm.RIGHT : vm.LEFT);
+        record.side = vm.leftSide ? vm.LEFT : vm.rightSide ? vm.RIGHT : vm.UNDEF;
 
         // add new record to list
         vm.durationRec.push(record);
