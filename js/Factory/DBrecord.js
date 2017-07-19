@@ -30,7 +30,8 @@ angular.module('app.services')
 
         // go through every property of LocalStorage
         for (var property in localStorage) {
-            if (property.startsWith(prefix)) {
+            //if (property.startsWith(prefix)) {
+            if (property.slice(0, prefix.length) == prefix) {
                 recList.push(JSON.parse(localStorage[property]))
             }
         }

@@ -111,7 +111,7 @@ rzslider .rz-ticks .rz-tick {
 
 .buttonBoard {
     padding: 0px 30px 0 30px;
-    height: var(--button-bar-height);
+    height: 140px;
     position: fixed;
     bottom: -1px;
     width: 100%;
