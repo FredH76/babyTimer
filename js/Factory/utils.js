@@ -1,6 +1,7 @@
 angular.module('app.services')
 
 .factory('utils', function () {
+
     // Might use a resource here that returns a JSON array
     var service = {
         formatHour: formatHour,

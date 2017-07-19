@@ -6,6 +6,17 @@
     bottom: var(--button-bar-height);
 }
 
+.label-text {
+    font-size: 16px;
+    color: darkcyan;
+}
+
+.icon.ion-ios-checkmark-outline,
+.icon.ion-ios-circle-outline {
+    font-size: 32px;
+    color: darkcyan;
+}
+
 
 /******************************             TIME HEADER (UP)         ************************/
 
@@ -44,7 +55,7 @@
 /******************************             CHRONO BUTTON         ***************************/
 
 .button_row {
-    padding: 10px 25px 0 25px;
+    padding: 0px 25px 0 25px;
 }
 
 
@@ -66,7 +77,16 @@
 }
 
 
-/******************************             DIAPER            ************************/
+/******************************             OPTIONS              ***************************/
+
+.item-toggle-option {
+    padding: 5px 25px 5px 25px;
+    font-size: 16px;
+    color: darkcyan;
+}
+
+
+/******************************             DIAPER               ***************************/
 
 .diapper {
     padding: 0px 25px 0 25px;
@@ -147,4 +167,6 @@ rzslider .rz-ticks .rz-tick {
 
 .state_unchecked {
     background: white;
+    color: lightgray;
+    border: solid 1px lightgray;
 }
