@@ -34,6 +34,8 @@ angular.module('app.services')
                 recList.push(JSON.parse(localStorage[property]))
             }
         }
+
+        return recList;
     }
 
     /********************************************************************************************/

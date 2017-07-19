@@ -25,6 +25,7 @@ angular.module('app.routes', [])
     })
 
     .state('tab.manual', {
+        cache: true,
         url: '/manual',
         views: {
             'tab-manual': {
@@ -35,11 +36,13 @@ angular.module('app.routes', [])
     })
 
     .state('tab.historic', {
+        cache: false,
         url: '/historic',
         views: {
             'tab-historic': {
                 templateUrl: 'templates/tab-historic.html',
-                controller: 'historicCtrl'
+                controller: 'histCtrl',
+                controllerAs: 'histVM'
             }
         }
     });

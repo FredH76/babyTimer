@@ -11,8 +11,6 @@
 
 .curTime_header {
     margin: -10px -10px 0 -10px;
-    padding-left: 10px;
-    padding-right: 10px;
     font-size: 17px;
     color: darkcyan;
     text-align: center;
@@ -123,4 +121,30 @@ rzslider .rz-ticks .rz-tick {
 
 .buttonBoard .row {
     height: 70px;
+}
+
+.item-record .row {
+    padding: 0px;
+    margin: 0px;
+}
+
+.item-record .col {
+    padding: 0px;
+    margin: 0px;
+}
+
+.side_button {
+    border: solid 1px grey;
+    border-radius: 3px;
+}
+
+.state_checked {
+    border-color: darkcyan;
+    background: darkcyan;
+    color: white;
+    opacity: 0.8;
+}
+
+.state_unchecked {
+    background: white;
 }

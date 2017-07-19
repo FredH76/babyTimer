@@ -1,5 +1,14 @@
 angular.module('app.filters', [])
 
+.filter('DayMonthFromDate', function (utils) {
+    return function (date) {
+        var timeStr = "";
+        timeStr = utils.formatHour(date.getDate()) + "/";
+        timeStr += utils.formatMinute(date.getMonth() + 1);
+        return timeStr;
+    }
+})
+
 .filter('HourMinFromDate', function (utils) {
     return function (date) {
         var timeStr = "";
@@ -11,6 +20,6 @@ angular.module('app.filters', [])
 
 .filter('MinutesFromSeconds', function (utils) {
     return function (secondes) {
-        return (utils.formatMinute(Math.round(secondes / 60)));
+        return (utils.formatMinute(Math.round(secondes / 60)) + "mn");
     }
 });

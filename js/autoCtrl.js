@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('autoCtrl', function ($scope, $interval, utils, DBrecord) {
+.controller('autoCtrl', function ($scope, $state, $interval, utils, DBrecord) {
     var vm = this;
 
     vm.curHour = null;
@@ -174,6 +174,16 @@ angular.module('app.controllers')
     /*********************                  SAVE                                *****************/
     function save() {
 
+        // save end time if still running
+        if (vm.curState == vm.STATE_RUNNING) {
+            //store ending time
+            var date = new Date();
+            vm.durationRec[vm.durationRec.length - 1].endTime = date;
+            //compute record duration
+            vm.durationRec[vm.durationRec.length - 1].duration = vm.curDuration;
+        }
+
+        // save records in DB
         DBrecord.saveRec(vm.durationRec);
 
         // disable SAVE/CANCEL BUTTON
@@ -194,6 +204,9 @@ angular.module('app.controllers')
 
         // delete records
         vm.durationRec = [];
+
+        // go to historic
+        $state.go('tab.historic', {});
     }
 
 
