@@ -6,14 +6,12 @@
     bottom: var(--button-bar-height);
 }
 
-.label-text {
-    font-size: 16px;
-    color: darkcyan;
+.nav-button {
+    margin: 20px 20px 5px 0px;
 }
 
-.icon.ion-ios-checkmark-outline,
-.icon.ion-ios-circle-outline {
-    font-size: 32px;
+.label-text {
+    font-size: 16px;
     color: darkcyan;
 }
 
@@ -49,6 +47,30 @@
     font-size: 16px;
     color: darkcyan;
     padding: 20px 30px 0 30px;
+}
+
+.side_button {
+    border: solid 1px grey;
+    border-radius: 3px;
+}
+
+.icon.ion-ios-checkmark-outline,
+.icon.ion-ios-circle-outline {
+    font-size: 32px;
+    color: darkcyan;
+}
+
+.state_checked {
+    border-color: darkcyan;
+    background: darkcyan;
+    color: white;
+    opacity: 0.8;
+}
+
+.state_unchecked {
+    background: white;
+    color: lightgray;
+    border: solid 1px lightgray;
 }
 
 
@@ -143,30 +165,40 @@ rzslider .rz-ticks .rz-tick {
     height: 70px;
 }
 
-.item-record .row {
-    padding: 0px;
-    margin: 0px;
+.item-record {
+    height: 50px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-bottom: solid 1px lightgrey;
+    -webkit-transition: 0.5s height linear;
+    transition: 0.1s height linear;
 }
 
-.item-record .col {
-    padding: 0px;
-    margin: 0px;
+.item-record.ng-leave.ng-leave-active {
+    height: 0px;
 }
 
-.side_button {
-    border: solid 1px grey;
-    border-radius: 3px;
-}
-
-.state_checked {
-    border-color: darkcyan;
-    background: darkcyan;
-    color: white;
-    opacity: 0.8;
-}
-
-.state_unchecked {
+.edit-flag {
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    right: 0px;
     background: white;
-    color: lightgray;
-    border: solid 1px lightgray;
+    transition: 0.1s margin-right linear;
+    z-index: 1000;
+    border-bottom: solid 1px lightgrey;
+}
+
+.edit-flag.ng-hide {
+    margin-right: -50px;
+}
+
+.del-flag {
+    /*margin-right: 0px;*/
+    -webkit-transition: 0.5s margin-left linear;
+    transition: 0.1s margin-left linear;
+}
+
+.del-flag.ng-hide {
+    margin-left: -30px;
 }

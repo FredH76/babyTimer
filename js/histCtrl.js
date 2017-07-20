@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($scope, utils, DBrecord) {
+.controller('histCtrl', function ($scope, $state, utils, DBrecord) {
     var vm = this;
 
     vm.recList = [];
@@ -8,18 +8,54 @@ angular.module('app.controllers')
 
     /******************************      FUNCTION DECLARATION            ************************/
     vm.doRefresh = doRefresh;
+    vm.switchEditMode = switchEditMode;
+    vm.delRec = delRec;
+    vm.editRec = editRec;
 
     /******************************         INITIALISATION               ************************/
     refreshRecList();
+    vm.editMode = false;
 
     /********************************************************************************************/
     /*                              PUBLIC FUNCTIONS IMPLEMENTATION
     /********************************************************************************************/
+
+    /******************************     REFRESH RECORD LIST              ************************/
     function doRefresh() {
         refreshRecList();
 
         $scope.$broadcast('scroll.refreshComplete');
     }
+
+
+    /******************************         SWITCH EDIT MODE             ************************/
+    function switchEditMode() {
+        vm.editMode = !vm.editMode;
+    }
+
+
+    /******************************         DELETE RECORD                ************************/
+    function delRec(dispRecord) {
+        // remove from DB
+        DBrecord.delRec(dispRecord.UID);
+
+        // remove from display list
+        for (var i = 0; i < vm.dispList.length; i++) {
+            if (vm.dispList[i].UID == dispRecord.UID) {
+                vm.dispList.splice(i, 1);
+            }
+        }
+    }
+
+
+    /******************************         SWITCH EDIT MODE             ************************/
+    function editRec(dispRecord) {
+
+        // go to manual 
+        $state.go('tab.manual', {recUID : dispRecord.UID});
+    }
+
+
 
     /********************************************************************************************/
     /*                                      TOOL BOX
@@ -30,6 +66,8 @@ angular.module('app.controllers')
 
         for (var i = 0; i < vm.recList.length; i++) {
             var dispItem = {};
+
+            dispItem.UID = vm.recList[i].UID;
 
             // set time
             dispItem.time = new Date(vm.recList[i][0].startTime);

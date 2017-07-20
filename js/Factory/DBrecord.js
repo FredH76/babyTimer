@@ -5,6 +5,7 @@ angular.module('app.services')
 
     var service = {
         saveRec: saveRec,
+        delRec: delRec,
         getRecList: getRecList,
     }
     return service;
@@ -14,6 +15,11 @@ angular.module('app.services')
     /*********************                  SAVE RECORD UID                     *****************/
     function saveRec(record) {
         localStorage[_createUID(record)] = JSON.stringify(record);
+    }
+
+    /*********************                  DELETE RECORD                       *****************/
+    function delRec(UID) {
+        localStorage.removeItem(UID);
     }
 
     /*********************                  GET REC LIST                       *****************/
@@ -32,7 +38,11 @@ angular.module('app.services')
         for (var property in localStorage) {
             //if (property.startsWith(prefix)) {
             if (property.slice(0, prefix.length) == prefix) {
-                recList.push(JSON.parse(localStorage[property]))
+                var rec = {};
+                rec = JSON.parse(localStorage[property]);
+                rec.UID = property;
+                //recList.push(JSON.parse(localStorage[property]))
+                recList.push(rec);
             }
         }
 
@@ -43,16 +53,16 @@ angular.module('app.services')
     /*********************                      TOOL BOX                        *****************/
     /********************************************************************************************/
     function _createUID(record) {
-        var uid = RECORD_PREFIX;
+        var UID = RECORD_PREFIX;
 
         // add year/month/day_
-        uid += record[0].startTime.getFullYear() + "/";
-        uid += utils.fillWithZero(record[0].startTime.getMonth()) + "/";
-        uid += utils.fillWithZero(record[0].startTime.getDay()) + "_";
+        UID += record[0].startTime.getFullYear() + "/";
+        UID += utils.fillWithZero(record[0].startTime.getMonth()) + "/";
+        UID += utils.fillWithZero(record[0].startTime.getDay()) + "_";
 
         // add time
-        uid += record[0].startTime.toTimeString().slice(0, 8);
+        UID += record[0].startTime.toTimeString().slice(0, 8);
 
-        return (uid);
+        return (UID);
     }
 })
