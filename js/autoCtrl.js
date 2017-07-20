@@ -238,7 +238,8 @@ angular.module('app.controllers')
         vm.pooSlider.value = 0;
 
         // reset side
-        vm.toggleSide = false;
+        vm.leftSide = false;
+        vm.rightSide = false;
 
         // delete records
         vm.durationRec = [];
@@ -264,7 +265,8 @@ angular.module('app.controllers')
         vm.pooSlider.value = 0;
 
         // reset side
-        vm.toggleSide = false;
+        vm.leftSide = false;
+        vm.rightSide = false;
 
         // delete records
         vm.durationRec = [];
