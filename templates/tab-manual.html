@@ -1,4 +1,78 @@
 <ion-view view-title="Manual">
     <ion-content>
+
+        <!-- DAY DISPLAY -->
+        <div class="day_display" ng-click="manVM.openDatePicker()">
+            {{manVM.selDayStr}}
+        </div>
+
+        <!-- ADD BREAST / BOTTLE BUTTON -->
+        <div class=" row button_row ">
+            <!-- ADD BREAST BUTTON -->
+            <div class="col col-50 ">
+                <button class="button button-outline button-block button-positive ">
+                    Add Breast
+                </button>
+            </div>
+
+            <!-- ADD BOOTLE BUTTON -->
+            <div class="col col-50">
+                <button class="button button-outline button-block button-positive" ng-click="autoVM.addBootle()">
+                    Add Bottle
+                </button>
+            </div>
+        </div>
+
+        <!-- TIME DISPLAY -->
+        <input name="time" type="time" class="time_display" ng-model="manVM.day">
     </ion-content>
+
+    <!-- BUTTON BOARD (on bottom) -->
+    <div class="buttonBoard" ng-show="manVM.enableSave">
+
+        <!-- BOTTOM BUTTON ROW 
+        <div class="row">
+
+            <!-- ADD BREAST BUTTON --
+        <div class="col col-33">
+            <button class="button button-block button-positive button-small button-outline" ng-click="manVM.addBreast()">
+                Add Breast
+            </button>
+        </div>
+
+        <!-- ADD BOTTLE BUTTON --
+        <div class="col col-33">
+            <button class="button button-block button-positive button-small button-outline" ng-click="manVM.addBottle()">
+                Add Bottle
+            </button>
+        </div>
+
+        <!-- REMOVE BUTTON --
+        <div class="col col-33">
+            <button class="button button-block button-positive button-small button-outline" ng-click="manVM.delMode()">
+                Del Mode
+            </button>
+        </div>
+
+    </div>-->
+
+        <div class="row">
+
+            <!-- SAVE BUTTON -->
+            <div class="col col-50">
+                <button class="button button-block button-positive " ng-click="manVM.save()">
+                    Save
+                </button>
+            </div>
+
+            <!-- CANCEL BUTTON -->
+            <div class="col col-50">
+                <button class="button button-block button-positive " ng-click="manVM.cancel()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+    </div>
+
 </ion-view>

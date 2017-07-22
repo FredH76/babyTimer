@@ -31,6 +31,7 @@ angular.module('app.routes', [])
             'tab-manual': {
                 templateUrl: 'templates/tab-manual.html',
                 controller: 'manualCtrl',
+                controllerAs: 'manVM',
                 params: {
                     recUID: null
                 }
@@ -51,6 +52,6 @@ angular.module('app.routes', [])
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/historic');
+    $urlRouterProvider.otherwise('/tab/manual');
 
   }]);
