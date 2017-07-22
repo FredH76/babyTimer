@@ -50,6 +50,7 @@ angular.module('app.controllers')
 
     /******************************         INITIALISATION               ************************/
     _extractHMS(new Date());
+    //_squeezScroll(false);
     vm.chrHour = utils.formatHour(0);
     vm.chrMin = utils.formatMinute(0);
     vm.chrSec = utils.formatSecond(0);
@@ -296,4 +297,16 @@ angular.module('app.controllers')
         vm.chrMin = utils.formatMinute(0);
         vm.chrSec = utils.formatSecond(0);
     }
+
+    /*********************                  FORMAT ION-SCROLL                   *****************/
+    function _squeezScroll(squeeze) {
+        var elt = document.getElementById("auto-content");
+        if (squeeze)
+            elt.setAttribute("bottom", "140px");
+        else
+            elt.setAttribute("bottom", "68px");
+    }
+
+
+
 })

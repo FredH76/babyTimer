@@ -34,7 +34,7 @@
     padding: 30px;
     border: solid 2px darkcyan;
     border-radius: 10px;
-    font-size: 50px;
+    font-size: 30px;
     color: darkcyan;
     text-align: center;
     background: whitesmoke;
@@ -197,6 +197,7 @@ rzslider .rz-ticks .rz-tick {
     /*margin-right: 0px;*/
     -webkit-transition: 0.5s margin-left linear;
     transition: 0.1s margin-left linear;
+    z-index: 100;
 }
 
 .del-flag.ng-hide {
