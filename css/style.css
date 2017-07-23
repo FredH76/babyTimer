@@ -1,8 +1,9 @@
 :root {
     --button-bar-height: 140px;
+    font-family: sans-serif;
 }
 
-.padding.has-tabs.has-button-bar {
+.has-tabs.has-button-bar {
     bottom: var(--button-bar-height);
 }
 
@@ -10,9 +11,30 @@
     margin: 20px 20px 5px 0px;
 }
 
-.label-text {
-    font-size: 16px;
+.text-label {
+    font-size: 17px;
     color: darkcyan;
+}
+
+.text-infos {
+    font-size: 12px;
+    font-weight: normal;
+    color: darkgrey;
+}
+
+.item-divider {
+    height: 50px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.item-divider .row {
+    height: 100%
+}
+
+.row {
+    padding: 0px;
+    margin: 0px;
 }
 
 
@@ -21,42 +43,38 @@
 /********************************************************************************************/
 
 
-/******************************             TIME HEADER (UP)         ************************/
+/******************************             CHRONO TIMER           **************************/
 
-.curTime_header {
-    margin: -10px -10px 0 -10px;
-    font-size: 17px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+@media screen and (max-width: 320px) {
+    .time_display {
+        font-size: 10px;
+    }
 }
 
+@media screen and (max-width: 540px) {
+    .time_display {
+        font-size: 45px;
+    }
+}
 
-/******************************             CHRONO TIMER           ***************************/
+.chrono-row {
+    padding: 5px 15px 10px 15px;
+}
 
 .time_display {
-    margin: 20px 30px 0 30px;
     padding: 30px;
     border: solid 2px darkcyan;
     border-radius: 10px;
-    font-size: 30px;
     color: darkcyan;
     text-align: center;
     background: whitesmoke;
 }
 
 
-/******************************             CHRONO TOGGLE SIDE    ***************************/
+/******************************             CHRONO SIDE ROW        **************************/
 
-.side_display .row {
-    font-size: 16px;
-    color: darkcyan;
-    padding: 20px 30px 0 30px;
-}
-
-.side_button {
-    border: solid 1px grey;
-    border-radius: 3px;
+.side-row {
+    padding: 10px 15px 0 15px;
 }
 
 .icon.ion-ios-checkmark-outline,
@@ -82,17 +100,39 @@
 /******************************             CHRONO BUTTON         ***************************/
 
 .button_row {
-    padding: 0px 25px 0 25px;
+    padding: 0px 15px 0 15px;
 }
 
 
 /******************************             CHRONO LIST           ***************************/
 
-.timerList .row {
-    padding: 0px 30px 0 30px;
+.item.recItem-row {
+    padding: 0px 20px 0px 20px;
+    border: solid 0px;
 }
 
-.timerList .col {
+.item.recItem-row.ng-enter {
+    height: 0px;
+    -webkit-transition: 0.2s height linear;
+    transition: 0.2s height linear;
+}
+
+.item.recItem-row.ng-enter.ng-enter-active {
+    height: 30px;
+}
+
+.item.recItem-row.ng-leave {
+    height: 30px;
+    -webkit-transition: 0.2s height linear;
+    transition: 0.2s height linear;
+}
+
+.item.recItem-row.ng-leave.ng-leave-active {
+    height: 0px;
+}
+
+.recItem-row .row {
+    background: whitesmoke;
     padding: 5px;
 }
 
@@ -107,7 +147,7 @@
 /******************************             OPTIONS              ***************************/
 
 .item-toggle-option {
-    padding: 5px 25px 5px 25px;
+    padding: 5px 20px 5px 20px;
     font-size: 16px;
     color: darkcyan;
 }
@@ -115,11 +155,55 @@
 
 /******************************             DIAPER               ***************************/
 
-.diapper {
-    padding: 0px 25px 0 25px;
+@keyframes example {
+    0% {
+        background-color: red;
+        left: 0px;
+        top: 0px;
+    }
+    25% {
+        background-color: yellow;
+        left: 200px;
+        top: 0px;
+    }
+    50% {
+        background-color: blue;
+        left: 200px;
+        top: 200px;
+    }
+    75% {
+        background-color: green;
+        left: 0px;
+        top: 200px;
+    }
+    100% {
+        background-color: red;
+        left: 0px;
+        top: 0px;
+    }
 }
 
-.diapper .row {
+
+/*.diapper-item {
+    animation-name: example;
+    animation-duration: 4s;
+}*/
+
+.diapper-item.ng-enter {
+    background: red;
+    -webkit-transition: 1s all linear;
+    transition: 1s all linear;
+}
+
+.diapper-item.ng-enter.ng-enter-active {
+    background: blue;
+}
+
+.diapper-item {
+    padding: 0px 25px 20px 25px;
+}
+
+.diapper-item .row {
     padding-top: 10px;
     font-size: 16px;
     color: darkcyan;
@@ -204,6 +288,12 @@ rzslider .rz-ticks .rz-tick {
     height: 0px;
 }
 
+.side_button {
+    padding: 10px 15px 0 15px;
+    border: solid 1px grey;
+    border-radius: 3px;
+}
+
 .edit-flag {
     height: 50px;
     width: 50px;
@@ -228,4 +318,27 @@ rzslider .rz-ticks .rz-tick {
 
 .del-flag.ng-hide {
     margin-left: -30px;
+}
+
+
+/*-------------------------------------------OLD--------------------------------------------*/
+
+
+/******************************             TIME HEADER (UP)         ************************/
+
+.curTime_header {
+    margin: -10px -10px 0 -10px;
+    font-size: 17px;
+    color: darkcyan;
+    text-align: center;
+    background: whitesmoke;
+}
+
+.timerList .row {
+    padding: 0px 20px 0 20px;
+    background: whitesmoke;
+}
+
+.timerList .col {
+    padding: 5px;
 }

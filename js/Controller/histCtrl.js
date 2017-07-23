@@ -52,7 +52,9 @@ angular.module('app.controllers')
     function editRec(dispRecord) {
 
         // go to manual 
-        $state.go('tab.manual', {recUID : dispRecord.UID});
+        $state.go('tab.manual', {
+            recUID: dispRecord.UID
+        });
     }
 
 
@@ -88,6 +90,10 @@ angular.module('app.controllers')
 
             vm.dispList[i] = dispItem;
         }
+        vm.dispList.sort(function (a, b) {
+            return (a.time.getTime() > b.time.getTime());
+        })
+
     };
 
 })

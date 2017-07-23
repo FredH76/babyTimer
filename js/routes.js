@@ -17,9 +17,9 @@ angular.module('app.routes', [])
         url: '/auto',
         views: {
             'tab-auto': {
-                templateUrl: 'templates/tab-auto.html',
-                controller: 'autoCtrl',
-                controllerAs: 'autoVM'
+                templateUrl: 'templates/tab-input.html',
+                controller: 'inputCtrl',
+                controllerAs: 'inVM'
             }
         }
     })
@@ -52,6 +52,6 @@ angular.module('app.routes', [])
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/manual');
+    $urlRouterProvider.otherwise('/tab/auto');
 
   }]);

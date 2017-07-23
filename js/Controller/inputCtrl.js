@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('autoCtrl', function ($scope, $state, $interval, utils, DBrecord) {
+.controller('inputCtrl', function ($scope, $state, $interval, utils, DBrecord) {
     var vm = this;
 
     vm.curHour = null;
