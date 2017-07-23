@@ -31,7 +31,7 @@ angular.module('app.services')
         if (date !== null && date !== undefined) {
             prefix += date.getYear() + "/";
             prefix += date.getMonth() + "/";
-            prefix += date.getDay() + "_";
+            prefix += date.getDate() + "_";
         }
 
         // go through every property of LocalStorage
@@ -58,7 +58,7 @@ angular.module('app.services')
         // add year/month/day_
         UID += record[0].startTime.getFullYear() + "/";
         UID += utils.fillWithZero(record[0].startTime.getMonth()) + "/";
-        UID += utils.fillWithZero(record[0].startTime.getDay()) + "_";
+        UID += utils.fillWithZero(record[0].startTime.getDate()) + "_";
 
         // add time
         UID += record[0].startTime.toTimeString().slice(0, 8);
