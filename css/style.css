@@ -194,7 +194,8 @@
 }
  */
 
-.diapper-item.ng-hide,.diapper-item.ng-hide .row-diapper,
+.diapper-item.ng-hide,
+.diapper-item.ng-hide .row-diapper,
 .diapper-item.ng-hide .row-diapper .col {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -303,7 +304,7 @@ rzslider .rz-ticks .rz-tick {
 }
 
 .side_button {
-  padding: 10px 15px 0 15px;
+  padding: 5px 15px 5px 15px;
   border: solid 1px grey;
   border-radius: 3px;
 }
