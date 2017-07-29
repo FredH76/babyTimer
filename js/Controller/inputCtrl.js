@@ -20,6 +20,11 @@ angular.module('app.controllers')
     vm.leftSide = false;
     vm.rightSide = false;
 
+    vm.test = function () {
+        /*var elt = document.getElementById("test");
+        elt.setAttribute("style", "height:200px");*/
+    }
+
     /******************************      FUNCTION DECLARATION            ************************/
     vm.run = run;
     vm.pause = pause;

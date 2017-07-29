@@ -1,40 +1,40 @@
 :root {
-    --button-bar-height: 140px;
-    font-family: sans-serif;
+  --button-bar-height: 140px;
+  font-family: sans-serif;
 }
 
 .has-tabs.has-button-bar {
-    bottom: var(--button-bar-height);
+  bottom: var(--button-bar-height);
 }
 
 .nav-button {
-    margin: 20px 20px 5px 0px;
+  margin: 20px 20px 5px 0px;
 }
 
 .text-label {
-    font-size: 17px;
-    color: darkcyan;
+  font-size: 17px;
+  color: darkcyan;
 }
 
 .text-infos {
-    font-size: 12px;
-    font-weight: normal;
-    color: darkgrey;
+  font-size: 12px;
+  font-weight: normal;
+  color: darkgrey;
 }
 
 .item-divider {
-    height: 50px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+  height: 50px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .item-divider .row {
-    height: 100%
+  height: 100%
 }
 
 .row {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 
@@ -46,141 +46,122 @@
 /******************************             CHRONO TIMER           **************************/
 
 @media screen and (max-width: 320px) {
-    .time_display {
-        font-size: 10px;
-    }
+  .time_display {
+    font-size: 10px;
+  }
 }
 
 @media screen and (max-width: 540px) {
-    .time_display {
-        font-size: 45px;
-    }
+  .time_display {
+    font-size: 45px;
+  }
 }
 
 .chrono-row {
-    padding: 5px 15px 10px 15px;
+  padding: 5px 15px 10px 15px;
 }
 
 .time_display {
-    padding: 30px;
-    border: solid 2px darkcyan;
-    border-radius: 10px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+  padding: 30px;
+  border: solid 2px darkcyan;
+  border-radius: 10px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
 }
 
 
 /******************************             CHRONO SIDE ROW        **************************/
 
 .side-row {
-    padding: 10px 15px 0 15px;
+  padding: 10px 15px 0 15px;
 }
 
 .icon.ion-ios-checkmark-outline,
 .icon.ion-ios-circle-outline {
-    font-size: 32px;
-    color: darkcyan;
+  font-size: 32px;
+  color: darkcyan;
 }
 
 .state_checked {
-    border-color: darkcyan;
-    background: darkcyan;
-    color: white;
-    opacity: 0.8;
+  border-color: darkcyan;
+  background: darkcyan;
+  color: white;
+  opacity: 0.8;
 }
 
 .state_unchecked {
-    background: white;
-    color: lightgray;
-    border: solid 1px lightgray;
+  background: white;
+  color: lightgray;
+  border: solid 1px lightgray;
 }
 
 
 /******************************             CHRONO BUTTON         ***************************/
 
-.button_row {
-    padding: 0px 15px 0 15px;
+.button-row {
+  padding: 0px 15px 0 15px;
 }
 
 
 /******************************             CHRONO LIST           ***************************/
 
-.item.recItem-row {
-    padding: 0px 20px 0px 20px;
-    border: solid 0px;
+.recItem-row {
+  padding: 0px 20px 0px 20px;
+  border: solid 0px;
 }
 
-.item.recItem-row.ng-enter {
-    height: 0px;
-    -webkit-transition: 0.2s height linear;
-    transition: 0.2s height linear;
+.recItem-row.ng-enter {
+  height: 0px;
+  -webkit-transition: 0.2s height linear;
+  transition: 0.2s height linear;
 }
 
-.item.recItem-row.ng-enter.ng-enter-active {
-    height: 30px;
+.recItem-row.ng-enter.ng-enter-active {
+  height: 30px;
 }
 
-.item.recItem-row.ng-leave {
-    height: 30px;
-    -webkit-transition: 0.2s height linear;
-    transition: 0.2s height linear;
+.recItem-row.ng-leave {
+  height: 30px;
+  -webkit-transition: 0.2s height linear;
+  transition: 0.2s height linear;
 }
 
-.item.recItem-row.ng-leave.ng-leave-active {
-    height: 0px;
+.recItem-row.ng-leave.ng-leave-active {
+  height: 0px;
 }
 
 .recItem-row .row {
-    background: whitesmoke;
-    padding: 5px;
+  background: whitesmoke;
+  padding: 5px;
 }
 
 .start_time {
-    font-style: italic;
-    /*color: darkgray;
+  font-style: italic;
+  /*color: darkgray;
     font-size: 13px*/
-    font
+  font
 }
 
 
 /******************************             OPTIONS              ***************************/
 
 .item-toggle-option {
-    padding: 5px 20px 5px 20px;
-    font-size: 16px;
-    color: darkcyan;
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+  color: darkcyan;
 }
 
 
 /******************************             DIAPER               ***************************/
 
 @keyframes example {
-    0% {
-        background-color: red;
-        left: 0px;
-        top: 0px;
-    }
-    25% {
-        background-color: yellow;
-        left: 200px;
-        top: 0px;
-    }
-    50% {
-        background-color: blue;
-        left: 200px;
-        top: 200px;
-    }
-    75% {
-        background-color: green;
-        left: 0px;
-        top: 200px;
-    }
-    100% {
-        background-color: red;
-        left: 0px;
-        top: 0px;
-    }
+  0% {
+    height: 0px;
+  }
+  100% {
+    height: 250px;
+  }
 }
 
 
@@ -189,69 +170,102 @@
     animation-duration: 4s;
 }*/
 
-.diapper-item.ng-enter {
-    background: red;
-    -webkit-transition: 1s all linear;
-    transition: 1s all linear;
-}
-
-.diapper-item.ng-enter.ng-enter-active {
-    background: blue;
-}
-
 .diapper-item {
-    padding: 0px 25px 20px 25px;
+  padding: 10px 20px 20px 20px;
 }
+
+
+/** this work perfect
+.diapper-item.ng-hide,
+.diapper-item.ng-hide .row-diapper,
+.diapper-item.ng-hide .row-diapper .col {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 0px;
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+.diapper-item.ng-hide-remove,
+.diapper-item.ng-hide-remove .row-diapper,
+.diapper-item.ng-hide-remove .row-diapper .col {
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+ */
+
+.diapper-item.ng-hide,.diapper-item.ng-hide .row-diapper,
+.diapper-item.ng-hide .row-diapper .col {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 0px;
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+.diapper-item.ng-hide-remove,
+.diapper-item.ng-hide-remove .row-diapper,
+.diapper-item.ng-hide-remove .row-diapper .col {
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+
+/*
+.icon-left-animated.ng-hide-add,
+.icon-left-animated.ng-hide-remove {
+    display: block !important;
+}*/
 
 .diapper-item .row {
-    padding-top: 10px;
-    font-size: 16px;
-    color: darkcyan;
+  padding-top: 10px;
+  font-size: 16px;
+  color: darkcyan;
 }
 
 #peeSlider {
-    margin-top: -10px;
+  margin-top: -10px;
 }
 
 #pooSlider {
-    margin-top: -10px;
+  margin-top: -10px;
 }
 
 .rz-bar-wrapper .rz-bar {
-    border-radius: 10px;
-    background: whitesmoke;
+  border-radius: 10px;
+  background: whitesmoke;
 }
 
 .rz-pointer.rz-pointer-min,
 .rz-pointer.rz-pointer-max {
-    background: darkcyan;
+  background: darkcyan;
 }
 
 .rz-bubble {
-    margin-bottom: -25px;
-    /*z-index: 3;*/
+  margin-bottom: -25px;
+  /*z-index: 3;*/
 }
 
 rzslider .rz-ticks .rz-tick {
-    background: darkcyan;
-    opacity: 0.4;
+  background: darkcyan;
+  opacity: 0.4;
 }
 
 
 /******************************       BUTTON BOARD (BOTTOM)          ************************/
 
 .buttonBoard {
-    padding: 0px 30px 0 30px;
-    height: 140px;
-    position: fixed;
-    bottom: -1px;
-    width: 100%;
-    background: white;
-    z-index: 100;
+  padding: 0px 30px 0 30px;
+  height: 140px;
+  position: fixed;
+  bottom: -1px;
+  width: 100%;
+  background: white;
+  z-index: 100;
 }
 
 .buttonBoard .row {
-    height: 70px;
+  height: 70px;
 }
 
 
@@ -260,14 +274,14 @@ rzslider .rz-ticks .rz-tick {
 /********************************************************************************************/
 
 .day_display {
-    margin: 20px 30px 0 30px;
-    padding: 30px;
-    border: solid 2px darkcyan;
-    border-radius: 10px;
-    font-size: 30px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+  margin: 20px 30px 0 30px;
+  padding: 30px;
+  border: solid 2px darkcyan;
+  border-radius: 10px;
+  font-size: 30px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
 }
 
 
@@ -276,48 +290,48 @@ rzslider .rz-ticks .rz-tick {
 /********************************************************************************************/
 
 .item-record {
-    height: 50px;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-bottom: solid 1px lightgrey;
-    -webkit-transition: 0.5s height linear;
-    transition: 0.1s height linear;
+  height: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px lightgrey;
+  -webkit-transition: 0.5s height linear;
+  transition: 0.1s height linear;
 }
 
 .item-record.ng-leave.ng-leave-active {
-    height: 0px;
+  height: 0px;
 }
 
 .side_button {
-    padding: 10px 15px 0 15px;
-    border: solid 1px grey;
-    border-radius: 3px;
+  padding: 10px 15px 0 15px;
+  border: solid 1px grey;
+  border-radius: 3px;
 }
 
 .edit-flag {
-    height: 50px;
-    width: 50px;
-    position: fixed;
-    right: 0px;
-    background: white;
-    transition: 0.1s margin-right linear;
-    z-index: 1000;
-    border-bottom: solid 1px lightgrey;
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  right: 0px;
+  background: white;
+  transition: 0.1s margin-right linear;
+  z-index: 1000;
+  border-bottom: solid 1px lightgrey;
 }
 
 .edit-flag.ng-hide {
-    margin-right: -50px;
+  margin-right: -50px;
 }
 
 .del-flag {
-    /*margin-right: 0px;*/
-    -webkit-transition: 0.5s margin-left linear;
-    transition: 0.1s margin-left linear;
-    z-index: 100;
+  /*margin-right: 0px;*/
+  -webkit-transition: 0.5s margin-left linear;
+  transition: 0.1s margin-left linear;
+  z-index: 100;
 }
 
 .del-flag.ng-hide {
-    margin-left: -30px;
+  margin-left: -30px;
 }
 
 
@@ -327,18 +341,18 @@ rzslider .rz-ticks .rz-tick {
 /******************************             TIME HEADER (UP)         ************************/
 
 .curTime_header {
-    margin: -10px -10px 0 -10px;
-    font-size: 17px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+  margin: -10px -10px 0 -10px;
+  font-size: 17px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
 }
 
 .timerList .row {
-    padding: 0px 20px 0 20px;
-    background: whitesmoke;
+  padding: 0px 20px 0 20px;
+  background: whitesmoke;
 }
 
 .timerList .col {
-    padding: 5px;
+  padding: 5px;
 }
