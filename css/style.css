@@ -303,6 +303,8 @@ rzslider .rz-ticks .rz-tick {
   right: 0px;
 }
 
+
+/*
 .item-record {
   height: 50px;
   padding-right: 10px;
@@ -314,6 +316,22 @@ rzslider .rz-ticks .rz-tick {
 
 .item-record.ng-leave.ng-leave-active {
   height: 0px;
+}*/
+
+.item-record {
+  height: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px lightgrey;
+  -webkit-transition: 0.5s height linear;
+  transition: 0.1s height linear;
+}
+
+.item-record.ng-leave,
+.item-record.ng-leave.ng-leave-active {
+  height: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .side_button {
