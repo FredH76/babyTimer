@@ -290,6 +290,19 @@ rzslider .rz-ticks .rz-tick {
 /******************************             HISTORIC TAB             *************************
 /********************************************************************************************/
 
+.has-tabs.has-fixed-header {
+  top: 93px;
+}
+
+.has-fixed-header {}
+
+.fixed-header {
+  position: fixed;
+  top: 43px;
+  left: 0px;
+  right: 0px;
+}
+
 .item-record {
   height: 50px;
   padding-right: 10px;

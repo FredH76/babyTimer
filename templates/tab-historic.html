@@ -7,7 +7,23 @@
     </button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <!-- DURATION BREAK HEADER 
+  <div class="item item-divider fixed-header text-label">
+    <div class="row row-center">
+      <div class="col">TIME SINCE LAST FEEDING : </div>
+      <div class="col " style="text-align:right;vertical-align:middel">
+        <span ng-if="histVM.durDay!=0">{{histVM.durDay}}d</span>
+        <span ng-if="histVM.durHour!=0">{{histVM.durHour}}h</span>
+        <span ng-if="histVM.durMin!=0">{{histVM.durMin}}mn</span>
+      </div>
+    </div>
+  </div>
+
+  <ion-content class="has-fixed-header">
+-->
+
+  <ion-content class="">
+
     <!-- REFRESHER -->
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="histVM.doRefresh()">
     </ion-refresher>
@@ -48,6 +64,17 @@
         </div>
 
       </div>
+      <div class="item item-divider text-label">
+        <div class="row row-center">
+          <div class="col">TIME SINCE LAST FEEDING : </div>
+          <div class="col " style="text-align:right;vertical-align:middel">
+            <span ng-if="histVM.durDay!=0">{{histVM.durDay}}d</span>
+            <span ng-if="histVM.durHour!=0">{{histVM.durHour}}h</span>
+            <span ng-if="histVM.durMin!=0">{{histVM.durMin}}mn</span>
+          </div>
+        </div>
+      </div>
+
     </list>
   </ion-content>
 </ion-view>
