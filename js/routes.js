@@ -14,25 +14,30 @@ angular.module('app.routes', [])
   // Each tab has its own nav history stack:
 
   .state('tab.auto', {
-    url: '/auto',
+    cache: true,
+    url: '/auto/:mode',
     views: {
       'tab-auto': {
         templateUrl: 'templates/tab-input.html',
         controller: 'inputCtrl',
-        controllerAs: 'inVM'
+        controllerAs: 'inVM',
+        params: {
+          mode: 'auto'
+        }
       }
     }
   })
 
   .state('tab.manual', {
     cache: true,
-    url: '/manual',
+    url: '/manual/:mode/:recUID',
     views: {
       'tab-manual': {
-        templateUrl: 'templates/tab-manual.html',
-        controller: 'manualCtrl',
-        controllerAs: 'manVM',
+        templateUrl: 'templates/tab-input.html',
+        controller: 'inputCtrl',
+        controllerAs: 'inVM',
         params: {
+          mode: 'manual',
           recUID: null
         }
       }
@@ -52,6 +57,6 @@ angular.module('app.routes', [])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/historic');
+  $urlRouterProvider.otherwise('/tab/auto/auto');
 
 }]);

@@ -4,81 +4,137 @@
 
     <div class="list">
 
-      <!-- CHRONOMETER HEADER -->
-      <div class="item item-divider text-label">
-        <div class="row row-center">
-          <div class="col">CHRONOMETER</div>
+      <!-- CHRONOMETER PANEL -->
+      <div ng-if="inVM.autoMode">
+
+        <!-- CHRONOMETER HEADER -->
+        <div class="row row-center item-divider text-label">
+          <div class="col col-center">CHRONOMETER</div>
           <div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>
         </div>
+
+        <!-- TIME ROW -->
+        <div class="item">
+          <div class="row chrono-row" ng-if="inVM.autoMode">
+            <div class="col">
+              <div class="time_display">
+                {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
+              </div>
+            </div>
+          </div>
+
+          <!-- SIDE DISPLAY -->
+          <div class="row row-center side-row">
+
+            <!-- LEFT side radio button -->
+            <div class="col col-10 col-center" ng-click="inVM.leftSideClick()">
+              <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.leftSideClick()">
+              left side
+            </div>
+
+            <!-- RIGHT side radio button -->
+            <div class="col col-10" ng-click="inVM.rightSideClick()">
+              <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.rightSideClick()">
+              right side
+            </div>
+          </div>
+
+
+          <!-- RUN / PAUSE BUTTON -->
+          <div class="row button-row">
+            <!-- RUN BUTTON -->
+            <div class="col col-50">
+              <button ng-disabled="inVM.curState != inVM.STATE_IDLE" class="button icon-left ion-play button-outline button-block button-positive" ng-click="inVM.run()">
+                Run
+              </button>
+            </div>
+
+            <!-- PAUSE BUTTON -->
+            <div class="col col-50">
+              <button ng-disabled="inVM.curState != inVM.STATE_RUNNING" class="button icon-left ion-pause button-outline button-block button-positive" ng-click="inVM.pause()">
+                Pause
+              </button>
+            </div>
+          </div>
+
+          <!-- SEQUENCE DISPLAY -->
+          <div class="item recItem-row" ng-repeat="item in inVM.durationRec">
+            <div class="row">
+              <div class="col col-25 start_time">
+                {{item.startTime | HourMinFromDate}}
+              </div>
+              <div class="col col-50" style="text-align:center" ng-if="item.duration > 0">
+                duration : {{item.duration | MinutesFromSeconds}}
+              </div>
+              <div class="col col-50" style="text-align:center" ng-if="item.duration == 0">
+                in progress . . . .
+              </div>
+
+              <div class="col col-25" style="text-align:right">
+                ({{item.side.string}})
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END OF CHRONOMETER PANEL -->
+
+
+      <!-- MANUAL PANEL -->
+      <div ng-if="inVM.manualMode">
+
+        <!-- MANUAL HEADER -->
+        <div class="row row-center item-divider text-label">
+          <div class="col col-center">MANUAL EDIT</div>
+          <div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>
+        </div>
+
+        <!-- DATE ROW -->
+        <div class="item">
+
+          <!-- DAY DISPLAY -->
+          <div class="day_display" ng-click="inVM.openDatePicker()">
+            {{inVM.selDayStr}}
+          </div>
+
+
+          <div class="row chrono-row" ng-if="inVM.autoMode">
+            <div class="col">
+              <div class="time_display">
+                {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
+              </div>
+            </div>
+          </div>
+
+
+          <!-- SIDE DISPLAY -->
+          <div class="row row-center side-row">
+
+            <!-- LEFT side radio button -->
+            <div class="col col-10 col-center" ng-click="inVM.leftSideClick()">
+              <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.leftSideClick()">
+              left side
+            </div>
+
+            <!-- RIGHT side radio button -->
+            <div class="col col-10" ng-click="inVM.rightSideClick()">
+              <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.rightSideClick()">
+              right side
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- CHRONOMETER -->
-      <div class="item">
-        <div class="row chrono-row">
-          <div class="col">
-            <div class="time_display">
-              {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
-            </div>
-          </div>
-        </div>
 
-        <!-- SIDE DISPLAY -->
-        <div class="row row-center side-row">
-
-          <!-- LEFT side radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.leftSideClick()">
-            <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.leftSideClick()">
-            left side
-          </div>
-
-          <!-- RIGHT side radio button -->
-          <div class="col col-10" ng-click="inVM.rightSideClick()">
-            <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.rightSideClick()">
-            right side
-          </div>
-        </div>
-
-
-        <!-- RUN / PAUSE BUTTON -->
-        <div class="row button-row">
-          <!-- RUN BUTTON -->
-          <div class="col col-50">
-            <button ng-disabled="inVM.curState != inVM.STATE_IDLE" class="button icon-left ion-play button-outline button-block button-positive" ng-click="inVM.run()">
-              Run
-            </button>
-          </div>
-
-          <!-- PAUSE BUTTON -->
-          <div class="col col-50">
-            <button ng-disabled="inVM.curState != inVM.STATE_RUNNING" class="button icon-left ion-pause button-outline button-block button-positive" ng-click="inVM.pause()">
-              Pause
-            </button>
-          </div>
-        </div>
-
-        <!-- SEQUENCE DISPLAY -->
-        <div class="item recItem-row" ng-repeat="item in inVM.durationRec">
-          <div class="row">
-            <div class="col col-25 start_time">
-              {{item.startTime | HourMinFromDate}}
-            </div>
-            <div class="col col-50" style="text-align:center" ng-if="item.duration > 0">
-              duration : {{item.duration | MinutesFromSeconds}}
-            </div>
-            <div class="col col-50" style="text-align:center" ng-if="item.duration == 0">
-              in progress . . . .
-            </div>
-
-            <div class="col col-25" style="text-align:right">
-              ({{item.side.string}})
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- DIAPER HEADER -->
       <div class="item item-divider text-label">
@@ -95,7 +151,7 @@
         </div>
       </div>
 
-      <div class="item diapper-item" ng-show="inVM.enableDiaper">
+      <div class="item diapper-item ng-hide" ng-show="inVM.enableDiaper">
         <!-- PEE MEASUREMENT -->
         <div class="row row-diapper">
           <div class="col col-33 col-bottom">

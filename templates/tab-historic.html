@@ -28,7 +28,62 @@
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="histVM.doRefresh()">
     </ion-refresher>
 
-    <list show-delete="histVM.editMode">
+    <list>
+
+      <!-- SHOW DAY LIST 
+      <div ng-repeat="day in histVM.dayList">
+        <div class="item item-divider">
+          <div class="row row-center text-label" ng-dblclick="histVM.showHideDayRec(day)">
+            <div class="col">{{day.toLocaleDateString()}}
+            </div>
+          </div>
+        </div>
+        coucou
+
+        <div class="item" ng-repeat="item in histVM.getDayRec(day)">
+          <div class="edit-flag" ng-show="histVM.editMode" ng-click="histVM.editRec(item)">
+            <div class="row row-center" style="height:100%">
+              <div class="col col-10 col-center del-flag " ng-show="histVM.editMode" ng-click="histVM.delRec(item)">
+                <i class="ion-minus-circled" style="color:red;font-size:25px;padding:0px;margin:0px"></i>
+              </div>
+
+              <div class="col col-20">
+                {{item.time | DayMonthFromDate}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--
+          <div class="row row-center" style="height:100%">
+
+            <div class="col col-10 col-center del-flag " ng-show="histVM.editMode" ng-click="histVM.delRec(item)">
+              <i class="ion-minus-circled" style="color:red;font-size:25px;padding:0px;margin:0px"></i>
+            </div>
+
+            <div class="col col-20">
+              {{item.time | DayMonthFromDate}}
+            </div>
+            <div class="col col-20">
+              {{item.time | HourMinFromDate}}
+            </div>
+            <div class="col col-10" style="text-align:right">
+              <i class="ion-ios-stopwatch-outline" style="color:darkcyan;font-size:25px;padding:0px;margin:0px"></i>
+            </div>
+            <div class="col col-25 side_display " style="text-align:left">
+              {{item.duration | MinutesFromSeconds}}
+            </div>
+            <!--
+            <div class="col col-33">
+              <button class="side_button" disabled ng-class="item.left?'state_checked':'state_unchecked'">G</button>
+              <button class="side_button" disabled ng-class="item.right?'state_checked':'state_unchecked'">D</button>
+            </div>
+            --
+          </div>
+
+        </div>-->
+
+
       <div class="item-record" ng-repeat="item in histVM.dispList">
 
         <div class="edit-flag" ng-show="histVM.editMode" ng-click="histVM.editRec(item)">
@@ -62,6 +117,7 @@
             <button class="side_button" disabled ng-class="item.right?'state_checked':'state_unchecked'">D</button>
           </div>
         </div>
+
 
       </div>
       <div class="item item-divider text-label">

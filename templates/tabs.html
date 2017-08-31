@@ -5,20 +5,22 @@ navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-    <!-- Automatic Tab -->
-    <ion-tab title="Automatic" icon="ion-clock" href="#/tab/auto">
-        <ion-nav-view name="tab-auto"></ion-nav-view>
-    </ion-tab>
+  <!-- Automatic Tab -->
+  <!--<ion-tab title="Automatic" icon="ion-clock" href="#/tab/auto">-->
+  <ion-tab title="Automatic" icon="ion-clock" ui-sref="tab.auto({mode :'auto'})">
+    <ion-nav-view name="tab-auto"></ion-nav-view>
+  </ion-tab>
 
-    <!-- Manual Tab -->
-    <ion-tab title="Manual" icon="ion-edit" href="#/tab/manual">
-        <ion-nav-view name="tab-manual"></ion-nav-view>
-    </ion-tab>
+  <!-- Manual Tab -->
+  <!--<ion-tab title="Manual" icon="ion-edit" href="#/tab/input">-->
+  <ion-tab title="Manual" icon="ion-edit" ui-sref="tab.manual({mode :'manual'})">
+    <ion-nav-view name="tab-manual"></ion-nav-view>
+  </ion-tab>
 
-    <!-- Historic Tab -->
-    <ion-tab title="Historic" icon="ion-calendar" href="#/tab/historic">
-        <ion-nav-view name="tab-historic"></ion-nav-view>
-    </ion-tab>
+  <!-- Historic Tab -->
+  <ion-tab title="Historic" icon="ion-calendar" href="#/tab/historic">
+    <ion-nav-view name="tab-historic"></ion-nav-view>
+  </ion-tab>
 
 
 </ion-tabs>

@@ -29,9 +29,9 @@ angular.module('app.services')
 
     // if a date is provided: set filter on this day
     if (date !== null && date !== undefined) {
-      prefix += date.getYear() + "/";
-      prefix += date.getMonth() + "/";
-      prefix += date.getDate() + "_";
+      prefix += date.getFullYear() + "/";
+      prefix += utils.fillWithZero(date.getMonth()) + "/";
+      prefix += utils.fillWithZero(date.getDate()) + "_";
     }
 
     // go through every property of LocalStorage
