@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('DBrecord', function(utils) {
+.factory('DBrecord', function (utils) {
   var RECORD_PREFIX = "rec_";
 
   var service = {
@@ -52,9 +52,8 @@ angular.module('app.services')
     for (var i = 1; i < recList.length; i++) {
       var j;
       for (j = 0; j < sortedRecList.length; j++) {
-        var recTime = new Date(recList[i][0].startTime);
-        var sortRecTime = new Date(sortedRecList[j][0].startTime);
-        //if (recList[i][0].startTime.getTime() < sortedRecList[j][0].startTime.getTime())
+        var recTime = new Date(recList[i].duration[0].startTime);
+        var sortRecTime = new Date(sortedRecList[j].duration[0].startTime);
         if (recTime.getTime() < sortRecTime.getTime())
           break
       }
@@ -72,12 +71,12 @@ angular.module('app.services')
     var UID = RECORD_PREFIX;
 
     // add year/month/day_
-    UID += record[0].startTime.getFullYear() + "/";
-    UID += utils.fillWithZero(record[0].startTime.getMonth()) + "/";
-    UID += utils.fillWithZero(record[0].startTime.getDate()) + "_";
+    UID += record.duration[0].startTime.getFullYear() + "/";
+    UID += utils.fillWithZero(record.duration[0].startTime.getMonth()) + "/";
+    UID += utils.fillWithZero(record.duration[0].startTime.getDate()) + "_";
 
     // add time
-    UID += record[0].startTime.toTimeString().slice(0, 8);
+    UID += record.duration[0].startTime.toTimeString().slice(0, 8);
 
     return (UID);
   }

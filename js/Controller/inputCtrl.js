@@ -1,27 +1,31 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($scope, $state, $stateParams, $interval, ionicDatePicker, utils, DBrecord) {
+.controller('inputCtrl', function($scope, $state, $stateParams, $interval, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.autoMode = false;
   vm.manualMode = false;
-  vm.curHour = null;
-  vm.curMin = null;
-  vm.curSec = null;
+  //vm.curHour = null;
+  //vm.curMin = null;
+  //vm.curSec = null;
   vm.chrHour = "";
   vm.chrMin = "";
   vm.chrSec = "";
+  vm.leftSide = false;
+  vm.rightSide = false;
   vm.curState = null;
   vm.curDuration = 0;
   vm.curRecord = {};
   vm.durationRec = [];
   vm.selDayStr = "";
+  vm.selHour = "";
+  vm.selMin = "";
+  vm.enableDiaper = false;
+  vm.enableBath = false;
   vm.peeSlider = {};
   vm.pooSlider = {};
-  vm.toggleSide = false;
+  vm.durationSlider = {};
   vm.enableSave = false;
-  vm.leftSide = false;
-  vm.rightSide = false;
 
   vm.test = function() {
     /*var elt = document.getElementById("test");
@@ -29,15 +33,16 @@ angular.module('app.controllers')
   }
 
   /******************************      FUNCTION DECLARATION            ************************/
+  vm.openDatePicker = openDatePicker;
+  vm.openTimePicker = openTimePicker;
+  vm.onLeftSideClick = onLeftSideClick;
+  vm.onRightSideClick = onRightSideClick;
+  vm.onToggleDiapper = onToggleDiapper;
+  vm.onToggleBath = onToggleBath;
   vm.run = run;
   vm.pause = pause;
   vm.save = save;
   vm.cancel = cancel;
-  //vm.updateSide = updateSide;
-  vm.leftSideClick = leftSideClick;
-  vm.rightSideClick = rightSideClick;
-  vm.openDatePicker = openDatePicker;
-  vm.onDatePicked = onDatePicked;
 
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
@@ -59,7 +64,7 @@ angular.module('app.controllers')
   }
 
   /******************************         INITIALISATION               ************************/
-  _extractHMS(new Date());
+  //_extractHMS(new Date());
   if ($stateParams.mode === "auto")
     vm.autoMode = true;
   else {
@@ -71,29 +76,13 @@ angular.module('app.controllers')
   vm.chrSec = utils.formatSecond(0);
   vm.curState = vm.STATE_IDLE;
   vm.selDayStr = (new Date()).toDateString();
-
-  datePickerConf = {
-    callback: vm.onDatePicked, //WARNING: callback is Mandatory!
-    inputDate: new Date(),
-    titleLabel: 'Select a Date',
-    setLabel: 'Set',
-    todayLabel: 'Today',
-    closeLabel: 'Close',
-    mondayFirst: true,
-    weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-    monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-    templateType: 'popup',
-    from: new Date(2012, 8, 1),
-    to: new Date(2018, 8, 1),
-    showTodayButton: true,
-    dateFormat: 'dd MMMM yyyy',
-    closeOnSelect: false,
-    disableWeekdays: []
-  }
+  vm.selHour = utils.formatHour((new Date()).getHours());
+  vm.selMin = utils.formatMinute(parseInt(new Date().getMinutes() / 5) * 5);
 
   vm.peeSlider = {
     value: 0,
     options: {
+      onEnd: _onSliderPee,
       floor: 0,
       ceil: 3,
       showTicks: true
@@ -103,12 +92,27 @@ angular.module('app.controllers')
   vm.pooSlider = {
     value: 0,
     options: {
+      onEnd: _onSliderPoo,
       floor: 0,
       ceil: 3,
       showTicks: true
     }
   };
 
+  vm.durationSlider = {
+    value: 0,
+    options: {
+      onEnd: _onSliderDuration,
+      floor: 0,
+      ceil: 40,
+      ceilLabel: '40 mn',
+      step: 5,
+      //autoHideLimitLabels: false,
+      ticksArray: [0, 2],
+      //showTicks: true,
+      showTicksValues: true,
+    }
+  };
 
   $interval(function() {
       var durationTotal = 0;
@@ -117,7 +121,7 @@ angular.module('app.controllers')
       var curTime = new Date();
 
       // Extract current time for display
-      _extractHMS(curTime);
+      //_extractHMS(curTime);
 
       // compute previous duration (from run/pause event)
       for (var i = 0; i < vm.durationRec.length; i++)
@@ -152,24 +156,15 @@ angular.module('app.controllers')
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
   /********************************************************************************************/
 
-  /*function updateSide() {
-
-      // enable SAVE/CANCEL BUTTON
-      vm.enableSave = true;
-
-      if (vm.curState == vm.STATE_RUNNING) {
-          if (vm.toggleSide)
-              vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
-          else
-              vm.durationRec[vm.durationRec.length - 1].side = vm.LEFT;
-      }
-  }*/
-
   /*********************         Click on LEFT RADIO BUTTON                *****************/
-  function leftSideClick() {
+  function onLeftSideClick() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
     // update display
     vm.leftSide = !vm.leftSide;
-    vm.rightSide = false;
+    if (vm.autoMode)
+      vm.rightSide = false;
 
     // update record
     if (vm.curState == vm.STATE_RUNNING) {
@@ -181,9 +176,13 @@ angular.module('app.controllers')
   }
 
   /*********************         Click on RIGHT RADIO BUTTON                *****************/
-  function rightSideClick() {
+  function onRightSideClick() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
     // update display
-    vm.leftSide = false;
+    if (vm.autoMode)
+      vm.leftSide = false;
     vm.rightSide = !vm.rightSide;
 
     // update record
@@ -193,6 +192,50 @@ angular.module('app.controllers')
       else
         vm.durationRec[vm.durationRec.length - 1].side = vm.UNDEF;
     }
+  }
+
+
+  /*********************         Change Manual DURATION SLIDER              *****************/
+  function _onSliderDuration() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    // TODO : update vm.durationRec[0] ...
+  }
+
+
+  /*********************           Click on DIAPPER BUTTON                  *****************/
+  function onToggleDiapper() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    // update display
+    vm.enableDiaper = !vm.enableDiaper;
+  }
+
+  /*********************            Change PEE DIAPPER SLIDER               *****************/
+  function _onSliderPee() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    // TODO : update vm.diapper ...
+  }
+
+  /*********************            Change POO DIAPPER SLIDER               *****************/
+  function _onSliderPoo() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    // TODO : update vm.diapper ...
+  }
+
+  /*********************            Click on BATH BUTTON                    *****************/
+  function onToggleBath() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    // update display
+    vm.enableBath = !vm.enableBath;
   }
 
   /*********************                  RUN                               *****************/
@@ -248,22 +291,82 @@ angular.module('app.controllers')
 
   /*********************               OPEN DATE PICKER                     *******************/
   function openDatePicker() {
+    var datePickerConf = {
+      callback: _onDatePicked, //WARNING: callback is Mandatory!
+      inputDate: new Date(vm.selDayStr),
+      titleLabel: 'Select a Date',
+      setLabel: 'Set',
+      todayLabel: 'Today',
+      closeLabel: 'Close',
+      mondayFirst: true,
+      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      templateType: 'popup',
+      from: new Date(2012, 8, 1),
+      to: new Date(2018, 8, 1),
+      showTodayButton: true,
+      dateFormat: 'dd MMMM yyyy',
+      closeOnSelect: false,
+      disableWeekdays: []
+    };
     ionicDatePicker.openDatePicker(datePickerConf);
   };
 
-  function onDatePicked(val) { //Mandatory
+  function _onDatePicked(val) { //Mandatory
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
+
     var selDate = new Date(val);
     console.log('Return value from the datepicker popup is : ' + val, selDate);
     vm.selDayStr = selDate.toDateString();
   }
+  openTimePicker
 
+  /*********************               OPEN TIME PICKER                     *******************/
+  function openTimePicker() {
+    var timePickerConf = {
+      callback: _onTimePicked, //WARNING: callback is Mandatory!
+      inputTime: vm.selHour * 60 * 60 + vm.selMin * 60,
+      format: 24,
+      step: 5,
+      setLabel: 'Set',
+      closeLabel: 'Cancel'
+    };
+    ionicTimePicker.openTimePicker(timePickerConf);
+  };
+
+  function _onTimePicked(val) { //Mandatory
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+
+    var selTime = new Date(val * 1000);
+    console.log('Return value from the datepicker popup is : ' + val, selTime);
+    vm.selHour = utils.formatHour(selTime.getUTCHours());
+    vm.selMin = utils.formatMinute(selTime.getUTCMinutes());
+  }
 
   /*********************                  SAVE                                *****************/
+  /*  update and save current record according to foloowing format
+  /*  rec.duration = [] : array of duration rec
+  /*  
+  /*  rec.side
+  /*  rec.diapper
+  /*  rec.bath
+  /********************************************************************************************/
   function save() {
 
-    // save end time if still running
+    if (vm.enableSave === false)
+      return;
+
+    var l_rec = {};
+
+    // set default start time if not 
+    if (vm.durationRec.length === 0) {
+      vm.durationRec[0] = {};
+      vm.durationRec[0].startTime = new Date();
+    }
+
+    // set end time if still running
     if (vm.curState == vm.STATE_RUNNING) {
       //store ending time
       var date = new Date();
@@ -272,8 +375,20 @@ angular.module('app.controllers')
       vm.durationRec[vm.durationRec.length - 1].duration = vm.curDuration;
     }
 
+    l_rec.duration = vm.durationRec;
+
+    // add pee/poo info
+    l_rec.diapper = {};
+    if (vm.enableDiaper) {
+      l_rec.diapper.peeLevel = vm.peeSlider.value;
+      l_rec.diapper.pooLevel = vm.pooSlider.value;
+    }
+
+    // add bath info
+    l_rec.bath = vm.enableBath;
+
     // save records in DB
-    DBrecord.saveRec(vm.durationRec);
+    DBrecord.saveRec(l_rec);
 
     // disable SAVE/CANCEL BUTTON
     vm.enableSave = false;
@@ -328,14 +443,14 @@ angular.module('app.controllers')
   /*                                      TOOL BOX
   /********************************************************************************************/
 
-  /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************/
+  /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************
   function _extractHMS(date) {
     var curTime = date.toTimeString(); // format = 23:19:34 GMT+0200 (Paris, Madrid (heure d’été))
 
     vm.curHour = curTime.slice(0, 2);
     vm.curMin = curTime.slice(3, 5);
     vm.curSec = curTime.slice(6, 8);
-  }
+  }*/
 
   /*********************                  RESET CHRONO                        *****************/
   function _resetChrono() {

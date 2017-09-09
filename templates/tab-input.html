@@ -1,6 +1,18 @@
-<ion-view view-title="Automatic">
+<ion-view view-title="{{inVM.autoMode?'Automatic':'Manual'}}">
 
-  <ion-content class="" ng-class="inVM.enableSave?'has-button-bar':''">
+  <!--
+  <ion-nav-buttons side="secondary">
+    <div>
+      <div>
+        <i class="icon ion-android-checkbox-outline nav-icon-left" ng-class="inVM.enableSave?'':'disabled'" ng-click="inVM.save()"></i>
+        <!--<img ng-src="img/save-active.png" class="nav-icon-left">--
+      </div>
+    </div>
+  </ion-nav-buttons>-->
+
+
+  <!--<ion-content class="" ng-class="inVM.enableSave?'has-button-bar':''">-->
+  <ion-content>
 
     <div class="list">
 
@@ -9,14 +21,16 @@
 
         <!-- CHRONOMETER HEADER -->
         <div class="row row-center item-divider text-label">
-          <div class="col col-center">CHRONOMETER</div>
-          <div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>
+          <div class="col col-center">BREAST CHRONOMETER</div>
+          <!--<div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>-->
         </div>
 
-        <!-- TIME ROW -->
+        <!-- DATE ROW -->
         <div class="item">
-          <div class="row chrono-row" ng-if="inVM.autoMode">
+          <div class="row date-row" ng-if="inVM.autoMode">
             <div class="col">
+
+
               <div class="time_display">
                 {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
               </div>
@@ -27,18 +41,18 @@
           <div class="row row-center side-row">
 
             <!-- LEFT side radio button -->
-            <div class="col col-10 col-center" ng-click="inVM.leftSideClick()">
+            <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
               <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
             </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.leftSideClick()">
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
               left side
             </div>
 
             <!-- RIGHT side radio button -->
-            <div class="col col-10" ng-click="inVM.rightSideClick()">
+            <div class="col col-10" ng-click="inVM.onRightSideClick()">
               <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
             </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.rightSideClick()">
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
               right side
             </div>
           </div>
@@ -84,52 +98,63 @@
       <!-- END OF CHRONOMETER PANEL -->
 
 
-      <!-- MANUAL PANEL -->
+      <!-- MANUAL EDIT PANEL -->
       <div ng-if="inVM.manualMode">
 
         <!-- MANUAL HEADER -->
         <div class="row row-center item-divider text-label">
-          <div class="col col-center">MANUAL EDIT</div>
-          <div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>
+          <div class="col col-center">BREAST MANUAL EDIT</div>
+          <!--<div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>-->
         </div>
 
-        <!-- DATE ROW -->
         <div class="item">
 
           <!-- DAY DISPLAY -->
-          <div class="day_display" ng-click="inVM.openDatePicker()">
-            {{inVM.selDayStr}}
-          </div>
-
-
-          <div class="row chrono-row" ng-if="inVM.autoMode">
+          <div class="row date-row">
             <div class="col">
-              <div class="time_display">
-                {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
+              <div class="time_display_sm" ng-click="inVM.openDatePicker()">
+                {{inVM.selDayStr}}
               </div>
             </div>
           </div>
 
+          <!-- TIME DISPLAY -->
+          <div class="row date-row">
+            <div class="col">
+              <div class="time_display_sm" ng-click="inVM.openTimePicker()">
+                {{inVM.selHour}}:{{inVM.selMin}}
+              </div>
+            </div>
+          </div>
 
           <!-- SIDE DISPLAY -->
-          <div class="row row-center side-row">
+          <div class="row row-center side-row" style="padding-top:10px">
 
             <!-- LEFT side radio button -->
-            <div class="col col-10 col-center" ng-click="inVM.leftSideClick()">
+            <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
               <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
             </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.leftSideClick()">
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
               left side
             </div>
 
             <!-- RIGHT side radio button -->
-            <div class="col col-10" ng-click="inVM.rightSideClick()">
+            <div class="col col-10" ng-click="inVM.onRightSideClick()">
               <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
             </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.rightSideClick()">
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
               right side
             </div>
           </div>
+
+          <div class="row duration-row">
+            <div class="col">
+              <rzslider id="durationSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.durationSlider.value" rz-slider-options="inVM.durationSlider.options">
+              </rzslider>
+            </div>
+          </div>
+
+
         </div>
 
       </div>
@@ -142,7 +167,7 @@
           <div class="col">DIAPER</div>
           <div class="col" style="text-align:right">
             <label class="toggle toggle-positive">
-              <input ng-model="inVM.enableDiaper" type="checkbox">
+              <input type="checkbox" ng-click="inVM.onToggleDiapper()">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -181,7 +206,7 @@
           <div class="col">BATH</div>
           <div class="col" style="text-align:right">
             <label class="toggle toggle-positive">
-              <input ng-model="inVM.enablBath" type="checkbox">
+              <input type="checkbox" ng-click="inVM.onToggleBath()">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -190,31 +215,41 @@
         </div>
       </div>
     </div>
+    <!-- END OF LIST -->
 
 
-  </ion-content>
+    <!-- BOTTOM BUTTON -->
+    <div>
+      <div class="row bottom-button-row">
+        <!-- SAVE BUTTON -->
+        <div class="col col-50">
+          <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+            Save
+          </button>
+        </div>
 
-  <!-- BUTTON BOARD (on bottom) -->
-  <div class="buttonBoard" ng-show="inVM.enableSave">
+        <!-- CANCEL BUTTON -->
+        <div class="col col-50">
+          <button class="button button-block button-positive button-outline" ng-click="inVM.cancel()">
+            Reset
+          </button>
+        </div>
 
-    <!-- BOTTOM BUTTON ROW -->
-    <div class="row">
-
-      <!-- SAVE BUTTON -->
-      <div class="col col-50">
-        <button class="button button-block button-positive " ng-click="inVM.save()">
-          Save
-        </button>
-      </div>
-
-      <!-- CANCEL BUTTON -->
-      <div class="col col-50">
-        <button class="button button-block button-positive " ng-click="inVM.cancel()">
-          Cancel
-        </button>
       </div>
     </div>
 
+  </ion-content>
+
+  <!-- BUTTON BOARD (on bottom) 
+  <div class="buttonBoard" ng-show="inVM.enableSave">
+
+    <!-- SAVE BUTTON --
+    <div class="col col-50">
+      <button class="button button-block button-positive " ng-click="inVM.save()">
+        Save
+      </button>
+    </div>
   </div>
+  -->
 
 </ion-view>
