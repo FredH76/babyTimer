@@ -1,6 +1,6 @@
 angular.module('app.routes', [])
 
-.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
 
@@ -22,7 +22,7 @@ angular.module('app.routes', [])
         controller: 'inputCtrl',
         controllerAs: 'inVM',
         params: {
-          mode: 'auto'
+          mode: MODE_AUTO
         }
       }
     }
@@ -37,10 +37,22 @@ angular.module('app.routes', [])
         controller: 'inputCtrl',
         controllerAs: 'inVM',
         params: {
-          mode: 'manual',
+          mode: MODE_MANUAL,
           recUID: null
         }
       }
+    }
+  })
+
+  .state('edit_record', {
+    cache: false,
+    url: '/edit/:mode/:recUID',
+    templateUrl: 'templates/tab-input.html',
+    controller: 'inputCtrl',
+    controllerAs: 'inVM',
+    params: {
+      mode: MODE_EDIT,
+      recUID: null
     }
   })
 
@@ -57,6 +69,6 @@ angular.module('app.routes', [])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/manual/manual/null');
+  $urlRouterProvider.otherwise('/tab/manual/1/null');
 
 }]);

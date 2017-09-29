@@ -1,13 +1,15 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($scope, $state, $stateParams, $interval, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
+  vm.curMode = 0;
   vm.autoMode = false;
   vm.manualMode = false;
   //vm.curHour = null;
   //vm.curMin = null;
   //vm.curSec = null;
+  var startRunTime = null;
   vm.chrHour = "";
   vm.chrMin = "";
   vm.chrSec = "";
@@ -16,12 +18,12 @@ angular.module('app.controllers')
   vm.curState = null;
   vm.curDuration = 0;
   vm.curRecord = {};
-  vm.durationRec = [];
+  vm.startTime = null;
   vm.selDayStr = "";
   vm.selHour = "";
   vm.selMin = "";
-  vm.enableDiaper = false;
-  vm.enableBath = false;
+  vm.diapper = false;
+  vm.bath = false;
   vm.peeSlider = {};
   vm.pooSlider = {};
   vm.durationSlider = {};
@@ -33,6 +35,7 @@ angular.module('app.controllers')
   }
 
   /******************************      FUNCTION DECLARATION            ************************/
+  vm.goBack = goBack;
   vm.openDatePicker = openDatePicker;
   vm.openTimePicker = openTimePicker;
   vm.onLeftSideClick = onLeftSideClick;
@@ -42,13 +45,17 @@ angular.module('app.controllers')
   vm.run = run;
   vm.pause = pause;
   vm.save = save;
+  vm.reset = reset;
   vm.cancel = cancel;
-
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.STATE_IDLE = 0x00;
   vm.STATE_PAUSED = 0x01
   vm.STATE_RUNNING = 0x02;
+
+  vm.MODE_AUTO = MODE_AUTO;
+  vm.MODE_MANUAL = MODE_MANUAL;
+  vm.MODE_EDIT = MODE_EDIT;
 
   vm.LEFT = {
     id: 0x01,
@@ -64,23 +71,20 @@ angular.module('app.controllers')
   }
 
   /******************************         INITIALISATION               ************************/
-  //_extractHMS(new Date());
-  if ($stateParams.mode === "auto")
-    vm.autoMode = true;
-  else {
-    vm.manualMode = true;
-    /// TODO : initialize date and value from record parameter (if so)
+  // set up current mode (AUTO/EDIT/MANUAL)
+  switch (parseInt($stateParams.mode)) {
+    case MODE_AUTO:
+      vm.curMode = MODE_AUTO;
+      break;
+    case MODE_EDIT:
+      vm.curMode = MODE_EDIT;
+      break;
+    default:
+      vm.curMode = MODE_MANUAL;
   }
-  vm.chrHour = utils.formatHour(0);
-  vm.chrMin = utils.formatMinute(0);
-  vm.chrSec = utils.formatSecond(0);
-  vm.curState = vm.STATE_IDLE;
-  vm.selDayStr = (new Date()).toDateString();
-  vm.selHour = utils.formatHour((new Date()).getHours());
-  vm.selMin = utils.formatMinute(parseInt(new Date().getMinutes() / 5) * 5);
 
   vm.peeSlider = {
-    value: 0,
+    value: 2,
     options: {
       onEnd: _onSliderPee,
       floor: 0,
@@ -90,7 +94,7 @@ angular.module('app.controllers')
   };
 
   vm.pooSlider = {
-    value: 0,
+    value: 3,
     options: {
       onEnd: _onSliderPoo,
       floor: 0,
@@ -114,84 +118,70 @@ angular.module('app.controllers')
     }
   };
 
+  // init displayed data
+  _initData();
+
+  // start timer for each second
   $interval(function() {
-      var durationTotal = 0;
-
-      // get current time
-      var curTime = new Date();
-
-      // Extract current time for display
-      //_extractHMS(curTime);
-
-      // compute previous duration (from run/pause event)
-      for (var i = 0; i < vm.durationRec.length; i++)
-        durationTotal += vm.durationRec[i].duration;
-
-      // add current duration (if running state)
+      // if running state
       if (vm.curState == vm.STATE_RUNNING) {
-        var startTime = vm.durationRec[vm.durationRec.length - 1].startTime;
 
-        vm.curDuration = (curTime.getTime() - startTime.getTime()) / 1000;
+        // init time data
+        var l_durationTotal = vm.duration; // init total with already stored duration
+        var l_elapsedTime = 0;
 
-        durationTotal += vm.curDuration;
+        // compute elapsed time
+        l_elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
+        l_durationTotal += l_elapsedTime;
+
+        // display current HOUR duration
+        vm.chrHour = utils.formatHour(Math.floor(l_durationTotal / (60 * 60)));
+        var minutesLeft = l_durationTotal - vm.chrHour * 60 * 60;
+
+        // display current MINUTE duration
+        vm.chrMin = utils.formatMinute(Math.floor(minutesLeft / 60));
+        var secondsLeft = minutesLeft - vm.chrMin * 60;
+
+        // display current SECOND duration
+        vm.chrSec = utils.formatSecond(Math.floor(secondsLeft));
       }
-
-      // display current HOUR duration
-      vm.chrHour = utils.formatHour(Math.floor(durationTotal / (60 * 60)));
-      var minutesLeft = durationTotal - vm.chrHour * 60 * 60;
-
-      // display current MINUTE duration
-      vm.chrMin = utils.formatMinute(Math.floor(minutesLeft / 60));
-      var secondsLeft = minutesLeft - vm.chrMin * 60;
-
-      // display current SECOND duration
-      vm.chrSec = utils.formatSecond(Math.floor(secondsLeft));
-
     },
     1000
-  ); // start clock timer
+  );
 
+  // update diapper slider after the DOM is loaded
+  $document.ready(function() {
+    $timeout(function() {
+      $scope.$broadcast('rzSliderForceRender');
+    }, 10);
+  });
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
   /********************************************************************************************/
 
-  /*********************         Click on LEFT RADIO BUTTON                *****************/
+  /****************************        GO back         ****************************************/
+  function goBack() {
+    var backView = $ionicHistory.backView();
+    backView.go();
+  }
+
+  /*********************          Click on LEFT SIDE  BUTTON                  *****************/
   function onLeftSideClick() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
 
     // update display
     vm.leftSide = !vm.leftSide;
-    if (vm.autoMode)
-      vm.rightSide = false;
-
-    // update record
-    if (vm.curState == vm.STATE_RUNNING) {
-      if (vm.leftSide)
-        vm.durationRec[vm.durationRec.length - 1].side = vm.LEFT;
-      else
-        vm.durationRec[vm.durationRec.length - 1].side = vm.UNDEF;
-    }
   }
 
-  /*********************         Click on RIGHT RADIO BUTTON                *****************/
+  /*********************          Click on RIGHT SIDE BUTTON                  *****************/
   function onRightSideClick() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
 
     // update display
-    if (vm.autoMode)
-      vm.leftSide = false;
     vm.rightSide = !vm.rightSide;
-
-    // update record
-    if (vm.curState == vm.STATE_RUNNING) {
-      if (vm.rightSide)
-        vm.durationRec[vm.durationRec.length - 1].side = vm.RIGHT;
-      else
-        vm.durationRec[vm.durationRec.length - 1].side = vm.UNDEF;
-    }
   }
 
 
@@ -199,8 +189,6 @@ angular.module('app.controllers')
   function _onSliderDuration() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-
-    // TODO : update vm.durationRec[0] ...
   }
 
 
@@ -208,34 +196,24 @@ angular.module('app.controllers')
   function onToggleDiapper() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-
-    // update display
-    vm.enableDiaper = !vm.enableDiaper;
   }
 
   /*********************            Change PEE DIAPPER SLIDER               *****************/
   function _onSliderPee() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-
-    // TODO : update vm.diapper ...
   }
 
   /*********************            Change POO DIAPPER SLIDER               *****************/
   function _onSliderPoo() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-
-    // TODO : update vm.diapper ...
   }
 
   /*********************            Click on BATH BUTTON                    *****************/
   function onToggleBath() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-
-    // update display
-    vm.enableBath = !vm.enableBath;
   }
 
   /*********************                  RUN                               *****************/
@@ -243,24 +221,12 @@ angular.module('app.controllers')
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
 
-    //switch to RUNNING state
+    // switch to RUNNING state
     vm.curState = vm.STATE_RUNNING;
 
-    // initialize duration counter
-    vm.curDuration = 0;
-
-    // create a new time record
-    var record = {};
-
-    // store start time
-    var date = new Date();
-    record.startTime = date;
-    record.endTime = null;
-    record.duration = 0;
-    record.side = vm.leftSide ? vm.LEFT : vm.rightSide ? vm.RIGHT : vm.UNDEF;
-
-    // add new record to list
-    vm.durationRec.push(record);
+    // store run time start
+    if (startRunTime === null)
+      startRunTime = new Date();
   }
 
 
@@ -269,23 +235,15 @@ angular.module('app.controllers')
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
 
-    //switch to PAUSED state
+    // switch to PAUSED state
     vm.curState = vm.STATE_IDLE;
 
-    // get current record
-    var recIndex = vm.durationRec.length - 1;
-    if (recIndex < 0) {
-      console.warn("RECORDING CAN NOT BE PAUSED : NO RECORD IN PROGRESS");
-      return;
-    }
-    //store ending time
-    var date = new Date();
-    vm.durationRec[recIndex].endTime = date;
-    //compute record duration
-    vm.durationRec[recIndex].duration = vm.curDuration;
+    // add elapsed time to stored duration
+    var elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
+    vm.duration += elapsedTime;
 
-    //reset current duration
-    vm.curDuration = 0;
+    // reset run time start
+    startRunTime = null;
   }
 
 
@@ -322,6 +280,7 @@ angular.module('app.controllers')
   }
   openTimePicker
 
+
   /*********************               OPEN TIME PICKER                     *******************/
   function openTimePicker() {
     var timePickerConf = {
@@ -346,46 +305,46 @@ angular.module('app.controllers')
   }
 
   /*********************                  SAVE                                *****************/
-  /*  update and save current record according to foloowing format
-  /*  rec.duration = [] : array of duration rec
-  /*  
-  /*  rec.side
+  /*  update and save current record according to following format
+  /*  rec.startTime
+  /*  rec.duration
+  /*  rec.leftSide
+  /*  rec.rightSide
   /*  rec.diapper
+  /*  rec.peeLevel
+  /*  rec.pooLevel
   /*  rec.bath
   /********************************************************************************************/
   function save() {
-
-    if (vm.enableSave === false)
-      return;
-
     var l_rec = {};
 
-    // set default start time if not 
-    if (vm.durationRec.length === 0) {
-      vm.durationRec[0] = {};
-      vm.durationRec[0].startTime = new Date();
+    // add START TIME info
+    l_rec.startTime = vm.startTime;
+
+    // add DURATION info
+    if (vm.curMode == MODE_AUTO) {
+      //if still running : compute elapsed time and add it to duration
+      if (vm.curState == vm.STATE_RUNNING) {
+        var elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
+        vm.duration += elapsedTime;
+      }
+      l_rec.duration = vm.duration;
     }
+    // else get duration slider value
+    else
+      l_rec.duration = vm.durationSlider.value;
 
-    // set end time if still running
-    if (vm.curState == vm.STATE_RUNNING) {
-      //store ending time
-      var date = new Date();
-      vm.durationRec[vm.durationRec.length - 1].endTime = date;
-      //compute record duration
-      vm.durationRec[vm.durationRec.length - 1].duration = vm.curDuration;
-    }
+    // add SIDE info
+    l_rec.leftSide = vm.leftSide;
+    l_rec.rightSide = vm.rightSide;
 
-    l_rec.duration = vm.durationRec;
+    // add DIAPPER/PEE/POO info
+    l_rec.diapper = vm.diapper;
+    l_rec.peeLevel = vm.peeSlider.value;
+    l_rec.pooLevel = vm.pooSlider.value;
 
-    // add pee/poo info
-    l_rec.diapper = {};
-    if (vm.enableDiaper) {
-      l_rec.diapper.peeLevel = vm.peeSlider.value;
-      l_rec.diapper.pooLevel = vm.pooSlider.value;
-    }
-
-    // add bath info
-    l_rec.bath = vm.enableBath;
+    // add BATH info
+    l_rec.bath = vm.bath;
 
     // save records in DB
     DBrecord.saveRec(l_rec);
@@ -393,55 +352,108 @@ angular.module('app.controllers')
     // disable SAVE/CANCEL BUTTON
     vm.enableSave = false;
 
-    // come back to IDDLE state
-    vm.curState = vm.STATE_IDLE;
-
-    //reset chrono
-    _resetChrono();
-
-    // reset Pee/Poo
-    vm.peeSlider.value = 0;
-    vm.pooSlider.value = 0;
-
-    // reset side
-    vm.leftSide = false;
-    vm.rightSide = false;
-
-    // delete records
-    vm.durationRec = [];
+    // reset data
+    _initData();
 
     // go to historic
     $state.go('tab.historic', {});
   }
 
-
   /*********************                  CANCEL                              *****************/
   function cancel() {
-    // disable SAVE/CANCEL BUTTON
-    vm.enableSave = false;
+    //TODO : define cancel behavior
+  }
 
-    // come back to IDDLE state
-    vm.curState = vm.STATE_IDLE;
-
-    //reset chrono
-    _resetChrono();
-
-    // reset Pee/Poo
-    vm.peeSlider.value = 0;
-    vm.pooSlider.value = 0;
-
-    // reset side
-    vm.leftSide = false;
-    vm.rightSide = false;
-
-    // delete records
-    vm.durationRec = [];
+  /*********************                  RESET                              *****************/
+  function reset() {
+    _initData();
   }
 
 
   /********************************************************************************************/
   /*                                      TOOL BOX
   /********************************************************************************************/
+
+  function _initData() {
+
+    // if mode AUTO
+    if (vm.curMode === MODE_AUTO) {
+      // day
+      vm.startTime = new Date();
+      // chrono
+      startRunTime = null;
+      vm.chrHour = utils.formatHour(0);
+      vm.chrMin = utils.formatMinute(0);
+      vm.chrSec = utils.formatSecond(0);
+      // side 
+      vm.leftSide = false;
+      vm.rightSide = false;
+      // state
+      vm.curState = vm.STATE_IDLE;
+      // duration
+      vm.duration = 0;
+      // diapper
+      vm.diapper = false;
+      vm.peeSlider.value = null;
+      vm.pooSlider.value = null;
+      // bath
+      vm.bath = false;
+    }
+
+    //if mode MANUAL
+    if (vm.curMode === MODE_MANUAL) {
+      // day
+      vm.startTime = new Date();
+      // side 
+      vm.leftSide = false;
+      vm.rightSide = false;
+      // duration
+      vm.durationSlider.value = 0;
+      // diapper
+      vm.diapper = false;
+      vm.peeSlider.value = null;
+      vm.pooSlider.value = null;
+      // bath :
+      vm.bath = false;
+    }
+
+    //if mode EDIT
+    if (vm.curMode === MODE_EDIT) {
+      // control that recUID is linked to a valid record in DB
+      var loaded_rec = DBrecord.loadRec($stateParams.recUID);
+      if (loaded_rec === null) {
+        //TODO : display warning popup
+        // go back to historic
+        $state.go('tab.historic', {});
+        return;
+      }
+      // day
+      vm.startTime = new Date(loaded_rec.startTime);
+      // side
+      vm.leftSide = loaded_rec.leftSide;
+      vm.rightSide = loaded_rec.rightSide;
+      // duration
+      vm.durationSlider.value = loaded_rec.duration;
+      // diapper
+      vm.diapper = loaded_rec.diapper;
+      vm.peeSlider.value = loaded_rec.peeLevel;
+      vm.pooSlider.value = loaded_rec.pooLevel;
+      // bath 
+      vm.bath = loaded_rec.bath;
+    }
+
+    // string day
+    vm.selDayStr = vm.startTime.toDateString();
+
+    // hour and minute
+    vm.selHour = utils.formatHour(vm.startTime.getHours());
+    vm.selMin = utils.formatMinute(vm.startTime.getMinutes());
+    //vm.selMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
+
+    // disable save button
+    vm.enableSave = false;
+
+  }
 
   /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************
   function _extractHMS(date) {
@@ -451,16 +463,5 @@ angular.module('app.controllers')
     vm.curMin = curTime.slice(3, 5);
     vm.curSec = curTime.slice(6, 8);
   }*/
-
-  /*********************                  RESET CHRONO                        *****************/
-  function _resetChrono() {
-    //reset Duration counter
-    vm.curDuration = 0;
-
-    //reset Display
-    vm.chrHour = utils.formatHour(0);
-    vm.chrMin = utils.formatMinute(0);
-    vm.chrSec = utils.formatSecond(0);
-  }
 
 })

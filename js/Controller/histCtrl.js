@@ -106,10 +106,9 @@ angular.module('app.controllers')
 
   /******************************         EDIT RECORD                  ************************/
   function editRec(dispRecord) {
-
-    // go to manual 
-    $state.go('tab.manual', {
-      mode: "manual",
+    // go to edit 
+    $state.go('edit_record', {
+      mode: MODE_EDIT,
       recUID: dispRecord.UID
     });
   }
@@ -132,7 +131,7 @@ angular.module('app.controllers')
       dispItem.UID = vm.recList[i].UID;
 
       // set time
-      dispItem.time = new Date(vm.recList[i].duration[0].startTime);
+      dispItem.time = new Date(vm.recList[i].startTime);
       var test = dispItem.time.getTime();
 
       // set duration and side
@@ -184,7 +183,7 @@ angular.module('app.controllers')
     var curTime = new Date();
 
     // get last starting time
-    var lastFeedTime = new Date(vm.recList[vm.recList.length - 1].duration[0].startTime);
+    var lastFeedTime = new Date(vm.recList[vm.recList.length - 1].startTime);
 
     durationTotal = (curTime.getTime() - lastFeedTime.getTime()) / 1000;
 

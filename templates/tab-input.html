@@ -1,4 +1,10 @@
-<ion-view view-title="{{inVM.autoMode?'Automatic':'Manual'}}">
+<ion-view view-title="{{inVM.curMode==inVM.MODE_AUTO?'Automatic':inVM.curMode==inVM.MODE_EDIT?'Edit':'Manual'}}">
+
+  <!-- BACK BUTTON -->
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="inVM.goBack()" ng-if="inVM.curMode === inVM.MODE_EDIT">
+    </button>
+  </ion-nav-buttons>
 
   <!--
   <ion-nav-buttons side="secondary">
@@ -15,9 +21,29 @@
   <ion-content>
 
     <div class="list">
+      <div class="item">
+
+        <!-- DAY DISPLAY -->
+        <div class="row date-row">
+          <div class="col">
+            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openDatePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
+              {{inVM.selDayStr}}
+            </div>
+          </div>
+        </div>
+
+        <!-- TIME DISPLAY -->
+        <div class="row date-row">
+          <div class="col">
+            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openTimePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
+              {{inVM.selHour}}:{{inVM.selMin}}
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- CHRONOMETER PANEL -->
-      <div ng-if="inVM.autoMode">
+      <div ng-if="inVM.curMode===inVM.MODE_AUTO">
 
         <!-- CHRONOMETER HEADER -->
         <div class="row row-center item-divider text-label">
@@ -27,10 +53,9 @@
 
         <!-- DATE ROW -->
         <div class="item">
-          <div class="row date-row" ng-if="inVM.autoMode">
+          <!--<div class="row date-row" ng-if="inVM.autoMode">-->
+          <div class="row date-row">
             <div class="col">
-
-
               <div class="time_display">
                 {{inVM.chrHour}}:{{inVM.chrMin}}:{{inVM.chrSec}}
               </div>
@@ -98,8 +123,8 @@
       <!-- END OF CHRONOMETER PANEL -->
 
 
-      <!-- MANUAL EDIT PANEL -->
-      <div ng-if="inVM.manualMode">
+      <!-- MANUAL and EDIT SPECIFIC OPTION -->
+      <div ng-if="inVM.curMode === inVM.MODE_EDIT || inVM.curMode === inVM.MODE_MANUAL ">
 
         <!-- MANUAL HEADER -->
         <div class="row row-center item-divider text-label">
@@ -108,24 +133,6 @@
         </div>
 
         <div class="item">
-
-          <!-- DAY DISPLAY -->
-          <div class="row date-row">
-            <div class="col">
-              <div class="time_display_sm" ng-click="inVM.openDatePicker()">
-                {{inVM.selDayStr}}
-              </div>
-            </div>
-          </div>
-
-          <!-- TIME DISPLAY -->
-          <div class="row date-row">
-            <div class="col">
-              <div class="time_display_sm" ng-click="inVM.openTimePicker()">
-                {{inVM.selHour}}:{{inVM.selMin}}
-              </div>
-            </div>
-          </div>
 
           <!-- SIDE DISPLAY -->
           <div class="row row-center side-row" style="padding-top:10px">
@@ -167,7 +174,7 @@
           <div class="col">DIAPER</div>
           <div class="col" style="text-align:right">
             <label class="toggle toggle-positive">
-              <input type="checkbox" ng-click="inVM.onToggleDiapper()">
+              <input type="checkbox" ng-model="inVM.diapper" ng-click="inVM.onToggleDiapper()">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -176,7 +183,7 @@
         </div>
       </div>
 
-      <div class="item diapper-item ng-hide" ng-show="inVM.enableDiaper">
+      <div class="item diapper-item ng-hide" ng-show="inVM.diapper">
         <!-- PEE MEASUREMENT -->
         <div class="row row-diapper">
           <div class="col col-33 col-bottom">
@@ -206,7 +213,7 @@
           <div class="col">BATH</div>
           <div class="col" style="text-align:right">
             <label class="toggle toggle-positive">
-              <input type="checkbox" ng-click="inVM.onToggleBath()">
+              <input type="checkbox" ng-model="inVM.bath" ng-click="inVM.onToggleBath()">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -228,9 +235,9 @@
           </button>
         </div>
 
-        <!-- CANCEL BUTTON -->
+        <!-- RESET BUTTON -->
         <div class="col col-50">
-          <button class="button button-block button-positive button-outline" ng-click="inVM.cancel()">
+          <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
             Reset
           </button>
         </div>

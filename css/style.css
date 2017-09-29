@@ -66,6 +66,16 @@
   background: whitesmoke;
 }
 
+.time_display_sm.disabled {
+  padding: 10px;
+  border: solid 1px grey;
+  border-radius: 10px;
+  font-size: 20px;
+  color: grey;
+  text-align: center;
+  background: whitesmoke;
+}
+
 
 /*********************************************************************************************
 /******************************             AUTOMATIC TAB            *************************
@@ -356,15 +366,18 @@ rzslider .rz-ticks .rz-tick {
 }
 
 .edit-flag {
-  height: 49px;
-  width: 50px;
-  margin-top: 1px;
+  height: 50px;
+  width: 60px;
+  margin-top: 0px;
   position: fixed;
   right: 0px;
   background: white;
   transition: 0.1s margin-right linear;
-  z-index: 1000;
+  z-index: 10;
   border-bottom: solid 1px lightgrey;
+  border-left: solid 1px lightgrey;
+  border-radius: 5px 0 0 5px;
+  padding-left: 10px;
 }
 
 .edit-flag.ng-hide {
