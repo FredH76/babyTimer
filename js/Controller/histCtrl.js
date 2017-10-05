@@ -135,17 +135,13 @@ angular.module('app.controllers')
       var test = dispItem.time.getTime();
 
       // set duration and side
-      dispItem.left = false;
-      dispItem.right = false;
-      dispItem.duration = 0;
-      for (var j = 0; j < vm.recList[i].length; j++) {
-        dispItem.duration += vm.recList[i][j].duration;
-        if (vm.recList[i][j].side.id == LEFT.id)
-          dispItem.left = true;
-        if (vm.recList[i][j].side.id == RIGHT.id)
-          dispItem.right = true;
-      }
-      //set pee/poo : TODO
+      dispItem.leftSide = vm.recList[i].leftSide;
+      dispItem.rightSide = vm.recList[i].rightSide;
+      dispItem.duration = vm.recList[i].duration;
+      dispItem.diapper = vm.recList[i].diapper;
+      dispItem.peeLevel = vm.recList[i].peeLevel;
+      dispItem.pooLevel = vm.recList[i].pooLevel;
+      dispItem.bath = vm.recList[i].bath;
 
       vm.dispList[i] = dispItem;
     }

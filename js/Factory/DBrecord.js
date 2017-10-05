@@ -8,6 +8,7 @@ angular.module('app.services')
     saveRec: saveRec,
     delRec: delRec,
     getRecList: getRecList,
+    _createUID: _createUID,
   }
   return service;
 

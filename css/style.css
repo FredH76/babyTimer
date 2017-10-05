@@ -267,7 +267,7 @@
 #durationSlider .rz-ceiling-label {
   opacity: 1 !important;
   top: -21px;
-  padding: 1px 0px 0px 2px;
+  padding: 1px 1px 0px 2px;
   font-weight: bold !important;
   color: darkcyan !important;
   background: white;

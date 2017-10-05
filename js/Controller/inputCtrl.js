@@ -318,21 +318,33 @@ angular.module('app.controllers')
   function save() {
     var l_rec = {};
 
-    // add START TIME info
-    l_rec.startTime = vm.startTime;
-
-    // add DURATION info
+    // if mode AUTO
     if (vm.curMode == MODE_AUTO) {
+      // add START TIME info
+      var truncMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
+      vm.startTime.setMinutes(truncMin);
+      l_rec.startTime = vm.startTime;
+
+      // add DURATION info
       //if still running : compute elapsed time and add it to duration
       if (vm.curState == vm.STATE_RUNNING) {
         var elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
         vm.duration += elapsedTime;
       }
-      l_rec.duration = vm.duration;
+      l_rec.duration = vm.duration; // in secondes
     }
-    // else get duration slider value
-    else
-      l_rec.duration = vm.durationSlider.value;
+
+    // if mode MANUAL or EDIT
+    if (vm.curMode == MODE_MANUAL || vm.curMode == MODE_EDIT) {
+      // add START TIME info
+      var l_startTime = new Date(vm.selDayStr);
+      l_startTime.setHours(vm.selHour);
+      l_startTime.setMinutes(vm.selMin);
+      l_rec.startTime = l_startTime;
+
+      // add DURATION info
+      l_rec.duration = vm.durationSlider.value * 60; // in secondes
+    }
 
     // add SIDE info
     l_rec.leftSide = vm.leftSide;
@@ -345,6 +357,12 @@ angular.module('app.controllers')
 
     // add BATH info
     l_rec.bath = vm.bath;
+
+    // if MODE_EDIT : delete original record
+    if (vm.curMode == MODE_EDIT) {
+      DBrecord.delRec($stateParams.recUID);
+      $stateParams.recUID = DBrecord._createUID(l_rec);
+    }
 
     // save records in DB
     DBrecord.saveRec(l_rec);
@@ -433,7 +451,7 @@ angular.module('app.controllers')
       vm.leftSide = loaded_rec.leftSide;
       vm.rightSide = loaded_rec.rightSide;
       // duration
-      vm.durationSlider.value = loaded_rec.duration;
+      vm.durationSlider.value = loaded_rec.duration / 60;
       // diapper
       vm.diapper = loaded_rec.diapper;
       vm.peeSlider.value = loaded_rec.peeLevel;
@@ -447,8 +465,8 @@ angular.module('app.controllers')
 
     // hour and minute
     vm.selHour = utils.formatHour(vm.startTime.getHours());
-    vm.selMin = utils.formatMinute(vm.startTime.getMinutes());
-    //vm.selMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
+    //vm.selMin = utils.formatMinute(vm.startTime.getMinutes());
+    vm.selMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
 
     // disable save button
     vm.enableSave = false;
