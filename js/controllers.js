@@ -1,1 +1,1 @@
-angular.module('app.controllers', ['rzModule', 'ionic-datepicker'])
+angular.module('app.controllers', ['rzModule', 'ionic-datepicker', 'ionic-timepicker'])

@@ -1,18 +1,79 @@
 :root {
-    --button-bar-height: 140px;
+  --button-bar-height: 140px;
+  font-family: sans-serif;
 }
 
-.padding.has-tabs.has-button-bar {
-    bottom: var(--button-bar-height);
+.has-tabs.has-button-bar {
+  bottom: var(--button-bar-height);
 }
 
 .nav-button {
-    margin: 20px 20px 5px 0px;
+  margin: 20px 20px 5px 0px;
 }
 
-.label-text {
-    font-size: 16px;
-    color: darkcyan;
+.nav-icon-left {
+  font-size: 30px;
+  margin-right: 15px;
+  color: darkcyan;
+}
+
+.nav-icon-left.disabled {
+  color: lightgrey;
+}
+
+.text-label {
+  font-size: 17px;
+  color: darkcyan;
+}
+
+.text-infos {
+  font-size: 12px;
+  font-weight: normal;
+  color: darkgrey;
+}
+
+.row {
+  padding: 0px;
+  margin: 0px;
+}
+
+.list {
+  margin-top: -1px
+}
+
+.item-divider {
+  height: 63px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.time_display {
+  padding: 30px;
+  border: solid 2px darkcyan;
+  border-radius: 10px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.time_display_sm {
+  padding: 10px;
+  border: solid 1px darkcyan;
+  border-radius: 10px;
+  font-size: 20px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.time_display_sm.disabled {
+  padding: 10px;
+  border: solid 1px grey;
+  border-radius: 10px;
+  font-size: 20px;
+  color: grey;
+  text-align: center;
+  background: whitesmoke;
 }
 
 
@@ -21,169 +82,232 @@
 /********************************************************************************************/
 
 
-/******************************             TIME HEADER (UP)         ************************/
+/******************************             CHRONO TIMER           **************************/
 
-.curTime_header {
-    margin: -10px -10px 0 -10px;
-    font-size: 17px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+@media screen and (max-width: 320px) {
+  .time_display {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .time_display {
+    font-size: 45px;
+  }
+}
+
+.date-row {
+  padding: 5px 15px 10px 15px;
 }
 
 
-/******************************             CHRONO TIMER           ***************************/
+/******************************             CHRONO SIDE ROW        **************************/
 
-.time_display {
-    margin: 20px 30px 0 30px;
-    padding: 30px;
-    border: solid 2px darkcyan;
-    border-radius: 10px;
-    font-size: 30px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
-}
-
-
-/******************************             CHRONO TOGGLE SIDE    ***************************/
-
-.side_display .row {
-    font-size: 16px;
-    color: darkcyan;
-    padding: 20px 30px 0 30px;
-}
-
-.side_button {
-    border: solid 1px grey;
-    border-radius: 3px;
+.side-row {
+  padding: 10px 15px 0 15px;
 }
 
 .icon.ion-ios-checkmark-outline,
 .icon.ion-ios-circle-outline {
-    font-size: 32px;
-    color: darkcyan;
+  font-size: 32px;
+  color: darkcyan;
 }
 
 .state_checked {
-    border-color: darkcyan;
-    background: darkcyan;
-    color: white;
-    opacity: 0.8;
+  border-color: darkcyan;
+  background: darkcyan;
+  color: white;
+  opacity: 0.8;
 }
 
 .state_unchecked {
-    background: white;
-    color: lightgray;
-    border: solid 1px lightgray;
+  background: white;
+  color: lightgray;
+  border: solid 1px lightgray;
 }
 
 
 /******************************             CHRONO BUTTON         ***************************/
 
-.button_row {
-    padding: 0px 25px 0 25px;
+.button-row {
+  padding: 0px 15px 0 15px;
 }
 
 
 /******************************             CHRONO LIST           ***************************/
 
-.timerList .row {
-    padding: 0px 30px 0 30px;
+.recItem-row {
+  padding: 0px 20px 0px 20px;
+  border: solid 0px;
 }
 
-.timerList .col {
-    padding: 5px;
+.recItem-row.ng-enter {
+  height: 0px;
+  -webkit-transition: 0.2s height linear;
+  transition: 0.2s height linear;
+}
+
+.recItem-row.ng-enter.ng-enter-active {
+  height: 30px;
+}
+
+.recItem-row.ng-leave {
+  height: 30px;
+  -webkit-transition: 0.2s height linear;
+  transition: 0.2s height linear;
+}
+
+.recItem-row.ng-leave.ng-leave-active {
+  height: 0px;
+}
+
+.recItem-row .row {
+  background: whitesmoke;
+  padding: 5px;
 }
 
 .start_time {
-    font-style: italic;
-    /*color: darkgray;
+  font-style: italic;
+  /*color: darkgray;
     font-size: 13px*/
-    font
+  font
 }
 
 
 /******************************             OPTIONS              ***************************/
 
 .item-toggle-option {
-    padding: 5px 25px 5px 25px;
-    font-size: 16px;
-    color: darkcyan;
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+  color: darkcyan;
 }
 
 
 /******************************             DIAPER               ***************************/
 
-.diapper {
-    padding: 0px 25px 0 25px;
+@keyframes example {
+  0% {
+    height: 0px;
+  }
+  100% {
+    height: 250px;
+  }
 }
 
-.diapper .row {
-    padding-top: 10px;
-    font-size: 16px;
-    color: darkcyan;
+
+/*.diapper-item {
+    animation-name: example;
+    animation-duration: 4s;
+}*/
+
+.diapper-item {
+  padding: 10px 20px 20px 20px;
+}
+
+.diapper-item.ng-hide,
+.diapper-item.ng-hide .row-diapper,
+.diapper-item.ng-hide .row-diapper .col {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 0px;
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+.diapper-item.ng-hide-remove,
+.diapper-item.ng-hide-remove .row-diapper,
+.diapper-item.ng-hide-remove .row-diapper .col {
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+
+/*
+.icon-left-animated.ng-hide-add,
+.icon-left-animated.ng-hide-remove {
+    display: block !important;
+}*/
+
+.diapper-item .row {
+  padding-top: 10px;
+  font-size: 16px;
+  color: darkcyan;
 }
 
 #peeSlider {
-    margin-top: -10px;
+  margin-top: -10px;
 }
 
 #pooSlider {
-    margin-top: -10px;
+  margin-top: -10px;
+}
+
+
+/******************************             MANUAL TAB               *************************/
+
+.duration-row {
+  padding: 5px 15px 10px 15px;
 }
 
 .rz-bar-wrapper .rz-bar {
-    border-radius: 10px;
-    background: whitesmoke;
+  border-radius: 20px;
+  background: whitesmoke;
 }
 
 .rz-pointer.rz-pointer-min,
 .rz-pointer.rz-pointer-max {
-    background: darkcyan;
+  background: darkcyan;
 }
 
-.rz-bubble {
-    margin-bottom: -25px;
-    /*z-index: 3;*/
+#durationSlider .rz-bubble {
+  bottom: 10px !important;
+  /*z-index: 3;*/
+}
+
+#durationSlider .rz-ceiling-label {
+  opacity: 1 !important;
+  top: -21px;
+  padding: 1px 1px 0px 2px;
+  font-weight: bold !important;
+  color: darkcyan !important;
+  background: white;
+  height: 20px;
+  z-index: 10;
+}
+
+
+/* CHANGE HERE FOR CURSOR LABEL */
+
+#pooSlider .rz-bubble {
+  opacity: 0 !important;
+  margin-bottom: 20px;
+  /*z-index: 3;*/
 }
 
 rzslider .rz-ticks .rz-tick {
-    background: darkcyan;
-    opacity: 0.4;
+  background: darkcyan;
+  opacity: 0.4;
 }
 
 
 /******************************       BUTTON BOARD (BOTTOM)          ************************/
 
 .buttonBoard {
-    padding: 0px 30px 0 30px;
-    height: 140px;
-    position: fixed;
-    bottom: -1px;
-    width: 100%;
-    background: white;
-    z-index: 100;
+  padding: 0px 30px 0 30px;
+  height: 140px;
+  position: fixed;
+  bottom: -1px;
+  width: 100%;
+  background: white;
+  z-index: 100;
 }
 
 .buttonBoard .row {
-    height: 70px;
+  height: 70px;
 }
 
-
-/*********************************************************************************************
-/******************************             MANUAL TAB               *************************
-/********************************************************************************************/
-
-.day_display {
-    margin: 20px 30px 0 30px;
-    padding: 30px;
-    border: solid 2px darkcyan;
-    border-radius: 10px;
-    font-size: 30px;
-    color: darkcyan;
-    text-align: center;
-    background: whitesmoke;
+.bottom-button-row {
+  padding: 0px 30px 0 30px;
 }
 
 
@@ -191,41 +315,105 @@ rzslider .rz-ticks .rz-tick {
 /******************************             HISTORIC TAB             *************************
 /********************************************************************************************/
 
+.has-tabs.has-fixed-header {
+  top: 93px;
+}
+
+.has-fixed-header {}
+
+.fixed-header {
+  position: fixed;
+  top: 43px;
+  left: 0px;
+  right: 0px;
+}
+
+
+/*
 .item-record {
-    height: 50px;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-bottom: solid 1px lightgrey;
-    -webkit-transition: 0.5s height linear;
-    transition: 0.1s height linear;
+  height: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px lightgrey;
+  -webkit-transition: 0.5s height linear;
+  transition: 0.1s height linear;
 }
 
 .item-record.ng-leave.ng-leave-active {
-    height: 0px;
+  height: 0px;
+}*/
+
+.item-record {
+  height: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-bottom: solid 1px lightgrey;
+  /*  -webkit-transition: 0.2s height linear;
+  transition: 0.2s height linear;*/
+}
+
+
+/*.item-record.ng-leave.ng-leave-active:not(.js-scrolling.active.refreshing-tail) {*/
+
+.item-record.ng-leave.ng-leave-active {
+  height: 0px;
+}
+
+.side_button {
+  padding: 5px 15px 5px 15px;
+  border: solid 1px grey;
+  border-radius: 3px;
 }
 
 .edit-flag {
-    height: 50px;
-    width: 50px;
-    position: fixed;
-    right: 0px;
-    background: white;
-    transition: 0.1s margin-right linear;
-    z-index: 1000;
-    border-bottom: solid 1px lightgrey;
+  height: 50px;
+  width: 60px;
+  margin-top: 0px;
+  position: fixed;
+  right: 0px;
+  background: white;
+  transition: 0.1s margin-right linear;
+  z-index: 10;
+  border-bottom: solid 1px lightgrey;
+  border-left: solid 1px lightgrey;
+  border-radius: 5px 0 0 5px;
+  padding-left: 10px;
 }
 
 .edit-flag.ng-hide {
-    margin-right: -50px;
+  margin-right: -50px;
 }
 
 .del-flag {
-    /*margin-right: 0px;*/
-    -webkit-transition: 0.5s margin-left linear;
-    transition: 0.1s margin-left linear;
-    z-index: 100;
+  /*margin-right: 0px;*/
+  -webkit-transition: 0.5s margin-left linear;
+  transition: 0.1s margin-left linear;
+  z-index: 100;
 }
 
 .del-flag.ng-hide {
-    margin-left: -30px;
+  margin-left: -30px;
+}
+
+
+/*-------------------------------------------OLD--------------------------------------------*/
+
+
+/******************************             TIME HEADER (UP)         ************************/
+
+.curTime_header {
+  margin: -10px -10px 0 -10px;
+  font-size: 17px;
+  color: darkcyan;
+  text-align: center;
+  background: whitesmoke;
+}
+
+.timerList .row {
+  padding: 0px 20px 0 20px;
+  background: whitesmoke;
+}
+
+.timerList .col {
+  padding: 5px;
 }

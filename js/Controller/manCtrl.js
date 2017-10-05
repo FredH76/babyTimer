@@ -15,8 +15,8 @@ angular.module('app.controllers')
     vm.onDatePicked = onDatePicked;
     vm.addBreast = addBreast;
     vm.addBottle = addBottle;
-    //vm.leftSideClick = leftSideClick;
-    //vm.rightSideClick = rightSideClick;
+    //vm.onLeftSideClick = onLeftSideClick;
+    //vm.onRightSideClick = onRightSideClick;
     vm.save = save;
     vm.cancel = cancel;
 
@@ -107,14 +107,14 @@ angular.module('app.controllers')
     }
 
     /*********************         Click on LEFT RADIO BUTTON                *****************
-    function leftSideClick() {
+    function onLeftSideClick() {
             // enable SAVE/CANCEL BUTTON
             vm.enableSave = true;
 
     }*/
 
     /*********************         Click on RIGHT RADIO BUTTON                *****************
-    function rightSideClick() {
+    function onRightSideClick() {
             // enable SAVE/CANCEL BUTTON
             vm.enableSave = true;
 
