@@ -14,7 +14,6 @@ angular.module('app.controllers')
   vm.doRefresh = doRefresh;
   vm.switchEditMode = switchEditMode;
   vm.showHideDayRec = showHideDayRec;
-  //vm.getDayRec = getDayRec;
   vm.delRec = delRec;
   vm.editRec = editRec;
 
@@ -33,47 +32,8 @@ angular.module('app.controllers')
 
   /******************************     SHOW/HIDE DAY RECORD             ************************/
   function showHideDayRec(item) {
-    vm.showHideDay = !vm.showHideDay;
+    item.show = !item.show;
   }
-
-
-  /******************************     GET DAY RECORDS             ************************
-  function getDayRec(day) {
-    var l_dispList = [];
-    var dayRecList = DBrecord.getRecList(day);
-
-    if (dayRecList.length === 0)
-      return;
-
-
-    for (var i = 0; i < 3; i++) {
-      var dispItem = {};
-
-      dispItem.UID = dayRecList[i].UID;
-
-      // set time
-      dispItem.time = new Date(dayRecList[i][0].startTime);
-      var test = dispItem.time.getTime();
-
-      // set duration and side
-      dispItem.left = false;
-      dispItem.right = false;
-      dispItem.duration = 0;
-      /*
-      for (var j = 0; j < dayRecList[i].length; j++) {
-        dispItem.duration += dayRecList[i][j].duration;
-        if (dayRecList[i][j].side.id == LEFT.id)
-          dispItem.left = true;
-        if (dayRecList[i][j].side.id == RIGHT.id)
-          dispItem.right = true;
-      }
-      //set pee/poo : TODO
-
-      l_dispList.push(dispItem);
-    }
-
-    return l_dispList;
-  }*/
 
 
   /******************************       REFRESH RECORD LIST            ************************/
@@ -151,10 +111,10 @@ angular.module('app.controllers')
       return (a.time.getTime() > b.time.getTime());
     })
 
-    //_refreshDayList();
+    _refreshDayList();
   };
 
-  /*
+
   function _refreshDayList() {
     vm.dayList = [];
     for (var i = 0; i < vm.dispList.length; i++) {
@@ -170,7 +130,7 @@ angular.module('app.controllers')
       if (alreadyInList === false)
         vm.dayList.push(recTime);
     }
-  }*/
+  }
 
   function _updateInterval() {
     var durationTotal = 0;
