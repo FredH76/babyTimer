@@ -30,9 +30,19 @@
     Min Value: <input type="number" ng-model="rangeSlider.minValue"/><br/>
     Max Value: <input type="number" ng-model="rangeSlider.maxValue"/><br/>
     <rzslider
-      rz-slider-model="rangeSlider.minValue"
-      rz-slider-high="rangeSlider.maxValue"
-      rz-slider-options="rangeSlider.options"
+      data-rz-slider-model="rangeSlider.minValue"
+      data-rz-slider-high="rangeSlider.maxValue"
+      data-rz-slider-options="rangeSlider.options"
+    ></rzslider>
+  </article>
+
+  <article>
+    <h2>Slider with custom style</h2>
+    <rzslider
+      class="custom-slider"
+      data-rz-slider-model="customSlider.minValue"
+      data-rz-slider-high="customSlider.maxValue"
+      data-rz-slider-options="customSlider.options"
     ></rzslider>
   </article>
 
@@ -63,6 +73,24 @@
   </article>
 
   <article>
+    <h2>Range slider with minimum range of 10 and pushRange option</h2>
+    <rzslider
+      rz-slider-model="minPushRangeSlider.minValue"
+      rz-slider-high="minPushRangeSlider.maxValue"
+      rz-slider-options="minPushRangeSlider.options"
+    ></rzslider>
+  </article>
+
+  <article>
+     <h2>Range slider with coloured bars outside the selected range</h2>
+     <rzslider
+       rz-slider-model="outerBarsRangeSlider.minValue"
+       rz-slider-high="outerBarsRangeSlider.maxValue"
+       rz-slider-options="outerBarsRangeSlider.options"
+     ></rzslider>
+  </article>
+
+  <article>
     <h2>Slider with visible selection bar</h2>
     <rzslider
       rz-slider-model="slider_visible_bar.value"
@@ -87,6 +115,15 @@
   </article>
 
   <article>
+    <h2>Slider with selection bar gradient</h2>
+    <rzslider
+            rz-slider-model="gradient_slider_bar.minValue"
+            rz-slider-high="gradient_slider_bar.maxValue"
+            rz-slider-options="gradient_slider_bar.options"
+    ></rzslider>
+  </article>
+
+  <article>
     <h2>Slider with dynamic selection bar colors</h2>
     <rzslider
       rz-slider-model="color_slider_bar.value"
@@ -107,6 +144,22 @@
     <rzslider
       rz-slider-model="slider_floor_ceil.value"
       rz-slider-options="slider_floor_ceil.options"
+    ></rzslider>
+  </article>
+
+  <article>
+    <h2>Slider with logarithmic scale</h2>
+    <rzslider
+      rz-slider-model="slider_log.value"
+      rz-slider-options="slider_log.options"
+    ></rzslider>
+  </article>
+
+  <article>
+    <h2>Slider with custom scale</h2>
+    <rzslider
+      rz-slider-model="slider_custom_scale.value"
+      rz-slider-options="slider_custom_scale.options"
     ></rzslider>
   </article>
 
@@ -150,6 +203,7 @@
 
   <article>
     <h2>Slider with Alphabet</h2>
+    Current letter: {{ slider_alphabet.value }}
     <rzslider
       rz-slider-model="slider_alphabet.value"
       rz-slider-options="slider_alphabet.options"
@@ -161,6 +215,14 @@
     <rzslider
       rz-slider-model="slider_ticks.value"
       rz-slider-options="slider_ticks.options"
+    ></rzslider>
+  </article>
+
+  <article>
+    <h2>Slider with ticks at specific positions</h2>
+    <rzslider
+      rz-slider-model="slider_ticks_array.value"
+      rz-slider-options="slider_ticks_array.options"
     ></rzslider>
   </article>
 
@@ -215,6 +277,22 @@
   </article>
 
   <article>
+    <h2>Slider with dynamic tick color</h2>
+    <rzslider
+      rz-slider-model="slider_tick_color.value"
+      rz-slider-options="slider_tick_color.options"
+    ></rzslider>
+  </article>
+
+  <article>
+    <h2>Slider with date values</h2>
+    <rzslider
+      rz-slider-model="slider_dates.value"
+      rz-slider-options="slider_dates.options"
+    ></rzslider>
+  </article>
+
+  <article>
     <h2>Slider with draggable range</h2>
     <rzslider
       rz-slider-model="slider_draggable_range.minValue"
@@ -262,7 +340,8 @@
     <h2>Disabled slider</h2>
     <label>Disabled <input type="checkbox" ng-model="disabled_slider.options.disabled"></label>
     <rzslider
-      rz-slider-model="disabled_slider.value"
+      rz-slider-model="disabled_slider.minValue"
+      rz-slider-high="disabled_slider.maxValue"
       rz-slider-options="disabled_slider.options"
     ></rzslider>
   </article>
@@ -300,14 +379,24 @@
     <h2>Sliders inside tabs</h2>
     <p>Price 1: {{tabSliders.slider1.value}}</p>
     <p>Price 2: {{tabSliders.slider2.value}}</p>
-    <tabset>
-      <tab heading="Slider 1" select="refreshSlider()">
+    <uib-tabset>
+      <uib-tab heading="Slider 1" select="refreshSlider()">
         <rzslider rz-slider-model="tabSliders.slider1.value"></rzslider>
-      </tab>
-      <tab heading="Slider 2" select="refreshSlider()">
+      </uib-tab>
+      <uib-tab heading="Slider 2" select="refreshSlider()">
         <rzslider rz-slider-model="tabSliders.slider2.value"></rzslider>
-      </tab>
-    </tabset>
+      </uib-tab>
+    </uib-tabset>
+  </article>
+
+  <article>
+    <h2>Slider with angular directive inside custom template</h2>
+    <rzslider
+      rz-slider-model="slider_custom_directive_inside_template.minValue"
+      rz-slider-high="slider_custom_directive_inside_template.maxValue"
+      rz-slider-options="slider_custom_directive_inside_template.options"
+      rz-slider-tpl-url="directiveInCustomTemplate.html"
+    ></rzslider>
   </article>
 
   <article>

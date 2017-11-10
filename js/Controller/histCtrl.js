@@ -97,7 +97,10 @@ angular.module('app.controllers')
       // set duration and side
       dispItem.leftSide = vm.recList[i].leftSide;
       dispItem.rightSide = vm.recList[i].rightSide;
+      dispItem.breast = vm.recList[i].breast;
       dispItem.duration = vm.recList[i].duration;
+      dispItem.bottle = vm.recList[i].bottle;
+      dispItem.bottleContent = vm.recList[i].bottleContent;
       dispItem.diapper = vm.recList[i].diapper;
       dispItem.peeLevel = vm.recList[i].peeLevel;
       dispItem.pooLevel = vm.recList[i].pooLevel;
@@ -127,8 +130,12 @@ angular.module('app.controllers')
           break;
         }
       }
-      if (alreadyInList === false)
+      if (alreadyInList === false) {
+        // set show state
+        // if (recTime.getDate() == (new Date()).getDate())
+        recTime.show = true;
         vm.dayList.push(recTime);
+      }
     }
   }
 
@@ -139,10 +146,11 @@ angular.module('app.controllers')
     var curTime = new Date();
 
     // get last starting time
-    var lastFeedTime = new Date(vm.recList[vm.recList.length - 1].startTime);
-
-    durationTotal = (curTime.getTime() - lastFeedTime.getTime()) / 1000;
-
+    var lastFeedTime;
+    if (vm.recList.length > 0) {
+      lastFeedTime = new Date(vm.recList[vm.recList.length - 1].startTime);
+      durationTotal = (curTime.getTime() - lastFeedTime.getTime()) / 1000;
+    }
     //display DAY duration
     vm.durDay = Math.floor(durationTotal / (60 * 60 * 24));
 

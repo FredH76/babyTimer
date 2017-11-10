@@ -56,9 +56,11 @@ angular.module('app.services')
       }
     }
 
-    // manually sort records (to fix iphone4S limitation on Array.sort() function)
+
+    /* manually sort records (to fix iphone4S limitation on Array.sort() function)
     var sortedRecList = [];
-    sortedRecList[0] = recList[0]; // init sortedRecList with one record
+    if(recList.length > 0)
+      sortedRecList[0] = recList[0]; // init sortedRecList with one record
     for (var i = 1; i < recList.length; i++) {
       var j;
       for (j = 0; j < sortedRecList.length; j++) {
@@ -70,7 +72,8 @@ angular.module('app.services')
       sortedRecList.splice(j, 0, recList[i]);
     }
 
-    return sortedRecList;
+    return sortedRecList;*/
+    return recList;
 
   }
 

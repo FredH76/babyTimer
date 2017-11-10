@@ -21,7 +21,7 @@
   <ion-content>
 
     <div class="list">
-      <div class="item">
+      <div class="item" ng-if="inVM.curMode != inVM.MODE_AUTO">
 
         <!-- DAY DISPLAY -->
         <div class="row date-row">
@@ -126,13 +126,22 @@
       <!-- MANUAL and EDIT SPECIFIC OPTION -->
       <div ng-if="inVM.curMode === inVM.MODE_EDIT || inVM.curMode === inVM.MODE_MANUAL ">
 
-        <!-- MANUAL HEADER -->
-        <div class="row row-center item-divider text-label">
-          <div class="col col-center">BREAST MANUAL EDIT</div>
-          <!--<div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>-->
+        <!-- MANUAL HEADER-->
+        <div class="item item-divider text-label">
+          <div class="row row-center">
+            <div class="col">BREAST MANUAL EDIT</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.breast" ng-click="inVM.onToggleBreast()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <div class="item">
+        <div class="item" ng-show="inVM.breast">
 
           <!-- SIDE DISPLAY -->
           <div class="row row-center side-row" style="padding-top:10px">
@@ -156,16 +165,38 @@
 
           <div class="row duration-row">
             <div class="col">
-              <rzslider id="durationSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.durationSlider.value" rz-slider-options="inVM.durationSlider.options">
+              <rzslider id="breastSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.breastSlider.value" rz-slider-options="inVM.breastSlider.options">
               </rzslider>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- BOTTLE HEADER -->
+      <div class="item item-divider text-label">
+        <div class="row row-center">
+          <div class="col">BABY'S BOTTLE</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.bottle" ng-click="inVM.onToggleBottle()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
 
+      <div class="item" ng-show="inVM.bottle">
+        <!-- CONTENT -->
+        <div class="row bottle-row">
+          <div class="col">
+            <rzslider id="bottleSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.bottleSlider.value" rz-slider-options="inVM.bottleSlider.options">
+            </rzslider>
+          </div>
         </div>
 
       </div>
-
 
 
       <!-- DIAPER HEADER -->
@@ -186,7 +217,7 @@
       <div class="item diapper-item ng-hide" ng-show="inVM.diapper">
         <!-- PEE MEASUREMENT -->
         <div class="row row-diapper">
-          <div class="col col-33 col-bottom">
+          <div class="col col-33 col-top">
             Pee level:
           </div>
           <div class="col col-66">
@@ -197,7 +228,7 @@
 
         <!-- POO MEASUREMENT -->
         <div class="row row-diapper">
-          <div class="col col-33 col-bottom">
+          <div class="col col-33 col-top">
             Poo level:
           </div>
           <div class="col col-66">

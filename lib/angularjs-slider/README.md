@@ -1,9 +1,10 @@
-## AngularJS slider directive with no external dependencies
+## AngularJS 1.X slider directive with no external dependencies
 
 Status:
+![Maintenance](https://img.shields.io/maintenance/no/2016.svg?style=flat-square)
 [![npm version](https://img.shields.io/npm/v/angularjs-slider.svg?style=flat-square)](https://www.npmjs.com/package/angularjs-slider)
 [![npm downloads](https://img.shields.io/npm/dm/angularjs-slider.svg?style=flat-square)](http://npm-stat.com/charts.html?package=angularjs-slider&from=2015-01-01)
-[![Build Status](https://img.shields.io/travis/angular-slider/angularjs-slider.svg?style=flat-square)](https://travis-ci.org/angular-slider/angularjs-slider)
+[![Build Status](https://img.shields.io/travis/angular-slider/angularjs-slider/master.svg?style=flat-square)](https://travis-ci.org/angular-slider/angularjs-slider)
 [![codecov.io](https://img.shields.io/codecov/c/github/angular-slider/angularjs-slider.svg?style=flat-square)](https://codecov.io/github/angular-slider/angularjs-slider?branch=master)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)
 
@@ -11,7 +12,9 @@ Links:
 [![Join the chat at https://gitter.im/rzajac/angularjs-slider](https://img.shields.io/badge/GITTER-join%20chat-1dce73.svg?style=flat-square)](https://gitter.im/rzajac/angularjs-slider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Slider directive implementation for AngularJS, without any dependencies: [http://angular-slider.github.io/angularjs-slider](http://angular-slider.github.io/angularjs-slider/index.html).
+> I'm looking for a maintainer for this project. I have lost my [Open Source Stamina](https://medium.com/@kentcdodds/open-source-stamina-dafd063f9932#.sfay5wlzp) for this project and I will probably not push any code to this project anymore (unless, I find some motivation later). I will try to merge pull requests if some are submitted, but only if they are really clean.
+
+Slider directive implementation for AngularJS 1.X, without any dependencies: [http://angular-slider.github.io/angularjs-slider](http://angular-slider.github.io/angularjs-slider/index.html).
 
 - Mobile friendly
 - Fast
@@ -29,6 +32,9 @@ Slider directive implementation for AngularJS, without any dependencies: [http:/
 **Vertical**
 
 ![image](https://cloud.githubusercontent.com/assets/2678610/11419099/7f4c0e76-9425-11e5-98c6-615412291df1.png)
+
+**Custom style**
+![image](https://cloud.githubusercontent.com/assets/2678610/21595997/df0bb468-d134-11e6-8272-008baffedccd.png)
 
 ## Examples
 
@@ -173,7 +179,18 @@ $scope.slider = {
 
 **rz-slider-tpl-url**
 
-> If for some reason you need to use a custom template, you can do so by providing a template URL to the `rz-slider-tpl-url` attribute. The default template is [this one](https://github.com/angular-slider/angularjs-slider/blob/master/src/rzSliderTpl.html).
+> If you need to use a custom template, you can do so by providing a template URL to the `rz-slider-tpl-url` attribute. The default template is [this one](https://github.com/angular-slider/angularjs-slider/blob/master/src/rzSliderTpl.html).
+
+The following variables are available in the template as scope variables.
+- `floorLabel`: The value set to `floor` in `rz-slider-options`
+- `ceilLabel`: The value set to `ceil` in `rz-slider-options`
+- `modelLabel`: The value set to `rz-slider-model`
+- `highLabel`: The value set to `rz-slider-high`
+- `cmbLabel`: The text shown when the two handlers are close to each other. (e.g. "30-40")
+
+The library replaces the HTML contents of label elements in the template by default, if you want to stop this behaviour and tweak label HTML on your own, you need to set `no-label-injection` class on the elements you're customizing.
+
+See the [Custom template to use angular directive for label](./demo/directiveInCustomTemplate.html) for an example.
 
 **rz-slider-options**
 
@@ -190,26 +207,32 @@ The default options are:
     maxLimit: null,
     minRange: null,
     maxRange: null,
+    pushRange: false,
     id: null,
     translate: null,
     getLegend: null,
     stepsArray: null,
+    bindIndexForStepsArray: false,
     draggableRange: false,
     draggableRangeOnly: false,
     showSelectionBar: false,
     showSelectionBarEnd: false,
+    showOuterSelectionBars: false,
     showSelectionBarFromValue: null,
     hidePointerLabels: false,
     hideLimitLabels: false,
+    autoHideLimitLabels: true,
     readOnly: false,
     disabled: false,
     interval: 350,
     showTicks: false,
     showTicksValues: false,
+    ticksArray: null,
     ticksTooltip: null,
     ticksValuesTooltip: null,
     vertical: false,
     getSelectionBarColor: null,
+    getTickColor: null,
     getPointerColor: null,
     keyboardSupport: true,
     scale: 1,
@@ -220,7 +243,18 @@ The default options are:
     onStart: null,
     onChange: null,
     onEnd: null,
-    rightToLeft: false
+    rightToLeft: false,
+    boundPointerLabels: true,
+    mergeRangeLabelsIfSame: false,
+    customTemplateScope: null,
+    logScale: false,
+    customValueToPosition: null,
+    customPositionToValue: null,
+    selectionBarGradient: null,
+    ariaLabel: null,
+    ariaLabelledBy: null,
+    ariaLabelHigh: null,
+    ariaLabelledByHigh: null
 }
 ````
 
@@ -239,6 +273,8 @@ The default options are:
 **minRange** - _Number (defaults to null)_: The minimum range authorized on the slider. *Applies to range slider only.*
 
 **maxRange** - _Number (defaults to null)_: The maximum range authorized on the slider. *Applies to range slider only.*
+
+**pushRange** - _Boolean (defaults to false)_: Set to true to have a push behavior. When the min handle goes above the max, the max is moved as well (and vice-versa). The range between min and max is defined by the `step` option (defaults to 1) and can also be override by the `minRange` option. *Applies to range slider only.*
 
 **translate** - _Function(value, sliderId, label)_: Custom translate function. Use this if you want to translate values displayed on the slider.
 `sliderId` can be used to determine the slider for which we are translating the value. `label` is a string that can take the following values:
@@ -269,22 +305,26 @@ $scope.slider = {
 };
 ```
 
-**getLegend** - _Function(value, sliderId)_: Use to display legend under ticks. The function will be called with each tick value and returned content will be displayed under the tick as a legend. If the returned value is null, then no legend is displayed under the corresponding tick.
+**getLegend** - _Function(value, sliderId)_: Use to display legend under ticks (thus, it needs to be used along with `showTicks` or `showTicksValues`). The function will be called with each tick value and returned content will be displayed under the tick as a legend. If the returned value is null, then no legend is displayed under the corresponding tick.You can also directly provide the legend values in the `stepsArray` option.
 > In order to get enough space to display legends under the slider, you need to add the `with-legend` class to the slider component. The default margin-bottom is then 40px which is enough for legends that are displayed on 2 lines. If you need more, simply override the style for the class.
 
 **id** - _Any (defaults to null)_: If you want to use the same `translate` function for several sliders, just set the `id` to anything you want, and it will be passed to the `translate(value, sliderId)` function as a second argument.
 
 **stepsArray** - _Array_: If you want to display a slider with non linear/number steps.
-Just pass an array with each slider value and that's it; the floor, ceil and step settings of the slider will be computed automatically. The `rz-slider-model` value will be the index of the selected item in the stepsArray.
+Just pass an array with each slider value and that's it; the floor, ceil and step settings of the slider will be computed automatically. By default, the `rz-slider-model` and `rz-slider-high` values will be the value of the selected item in the stepsArray. They can also be bound to the index of the selected item by setting the `bindIndexForStepsArray` option to `true`.
 
-`stepsArray` can also be an array of objects like:
+`stepsArray` can also be an array of objects or Dates like:
 
 ```js
 [
   {value: 'A'}, // the display value will be *A*
-  {value: 10, legend: 'Legend for 10'} // the display value will be 10 and a legend will be displayed under the corresponding tick.
+  {value: 10, legend: 'Legend for 10'}, // the display value will be 10 and a legend will be displayed under the corresponding tick.
+  new Date(2016, 7, 12), // the display value will be the default format of Date. To customize it, use the `translate` option
+  {value: new Date(2016, 7, 12), legend: 'Legend for 10'} // same as above but with a legend
 ]
-```
+````
+
+**bindIndexForStepsArray** - _Boolean (defaults to false)_: Set to true to bind the index of the selected item to `rz-slider-model` and `rz-slider-high`. (This was the default behavior prior to 4.0).
 
 **draggableRange** - _Boolean (defaults to false)_: When set to true and using a range slider, the range can be dragged by the selection bar. *Applies to range slider only.*
 
@@ -294,15 +334,21 @@ Just pass an array with each slider value and that's it; the floor, ceil and ste
 
 **showSelectionBarEnd** - _Boolean (defaults to false)_: Set to true to always show the selection bar after the slider handle.
 
+**showOuterSelectionBars** - _Boolean (defaults to false)_: Only for range slider. Set to true to visualize in different colour the areas on the left/right (top/bottom for vertical range slider) of selection bar between the handles.
+
 **showSelectionBarFromValue** - _Number (defaults to null)_: Set a number to draw the selection bar between this value and the slider handle.
 
-**getSelectionBarColor** - _Function(value) or Function(minVal, maxVal) (defaults to null)_: Function that returns the current color of the selection bar. If the returned color depends on a model value (either `rzScopeModel`or `'rzSliderHigh`), you should use the argument passed to the function. Indeed, when the function is called, there is no certainty that the model has already been updated.
+**getSelectionBarColor** - _Function(value) or Function(minVal, maxVal) (defaults to null)_: Function that returns the current color of the selection bar. *If your color won't changed, don't use this option but set it through CSS.* If the returned color depends on a model value (either `rzScopeModel`or `'rzSliderHigh`), you should use the argument passed to the function. Indeed, when the function is called, there is no certainty that the model has already been updated.
 
-**getPointerColor** - _Function(value, pointerType) (defaults to null)_: Function that returns the current color of a pointer. If the returned color depends on a model value (either `rzScopeModel`or `'rzSliderHigh`), you should use the argument passed to the function. Indeed, when the function is called, there is no certainty that the model has already been updated. To handle range slider pointers independently, you should evaluate pointerType within the given function where "min" stands for `rzScopeModel` and "max" for `rzScopeHigh` values.
+**getTickColor** - _Function(value) (defaults to null)_: Function that returns the color of a tick. showTicks must be enabled.
+
+**getPointerColor** - _Function(value, pointerType) (defaults to null)_: Function that returns the current color of a pointer. *If your color won't changed, don't use this option but set it through CSS.* If the returned color depends on a model value (either `rzScopeModel`or `'rzSliderHigh`), you should use the argument passed to the function. Indeed, when the function is called, there is no certainty that the model has already been updated. To handle range slider pointers independently, you should evaluate pointerType within the given function where "min" stands for `rzScopeModel` and "max" for `rzScopeHigh` values.
 
 **hidePointerLabels** - _Boolean (defaults to false)_: Set to true to hide pointer labels
 
 **hideLimitLabels** - _Boolean (defaults to false)_: Set to true to hide min / max labels
+
+**autoHideLimitLabels** - _Boolean (defaults to true)_: Set to false to disable the auto-hiding behavior of the limit labels.
 
 **readOnly** - _Boolean (defaults to false)_: Set to true to make the slider read-only.
 
@@ -310,9 +356,11 @@ Just pass an array with each slider value and that's it; the floor, ceil and ste
 
 **interval** - _Number in ms (defaults to 350)_: Internally, a `throttle` function (See http://underscorejs.org/#throttle) is used when the model or high values of the slider are changed from outside the slider. This is to prevent from re-rendering the slider too many times in a row. `interval` is the number of milliseconds to wait between two updates of the slider.
 
-**showTicks** - _Boolean or Number (defaults to false)_: Set to true to display a tick for each step of the slider. Set an integer to display ticks at intermediate positions.
+**showTicks** - _Boolean or Number (defaults to false)_: Set to true to display a tick for each step of the slider. Set a number to display ticks at intermediate positions. This number corresponds to the step between each tick.
 
-**showTicksValues** - _Boolean or Number (defaults to false)_: Set to true to display a tick and the step value for each step of the slider. Set an integer to display ticks and the step value at intermediate positions.
+**showTicksValues** - _Boolean or Number (defaults to false)_: Set to true to display a tick and the step value for each step of the slider. Set a number to display ticks and the step value at intermediate positions. This number corresponds to the step between each tick.
+
+**ticksArray** - _Array (defaults to null)_: Use to display ticks at specific positions. The array contains the index of the ticks that should be displayed. For example, [0, 1, 5] will display a tick for the first, second and sixth values.
 
 **ticksTooltip** - _Function(value) (defaults to null)_: (requires angular-ui bootstrap) Used to display a tooltip when a tick is hovered. Set to a function that returns the tooltip content for a given value.
 
@@ -328,11 +376,15 @@ Just pass an array with each slider value and that's it; the floor, ceil and ste
 
 **onlyBindHandles** - _Boolean (defaults to false)_: Set to true to only bind events on slider handles.
 
-**onStart** - _Function(sliderId, modelValue, highValue)_: Function to be called when a slider update is started. If an id was set in the options, then it's passed to this callback. This callback is called before any update on the model.
+**boundPointerLabels** - _Boolean (defaults to true)_: Set to true to keep the slider labels inside the slider bounds.
 
-**onChange** - _Function(sliderId, modelValue, highValue)_: Function to be called when rz-slider-model or rz-slider-high change. If an id was set in the options, then it's passed to this callback.
+**mergeRangeLabelsIfSame** - _Boolean (defaults to false)_: Set to true to merge the range labels if they are the same. For instance, if min and max are 50, the label will be "50 - 50" if `mergeRangeLabelsIfSame: false`, else "50".
 
-**onEnd** - _Function(sliderId, modelValue, highValue)_: Function to be called when a slider update is ended. If an id was set in the options, then it's passed to this callback.
+**onStart** - _Function(sliderId, modelValue, highValue, pointerType)_: Function to be called when a slider update is started. If an id was set in the options, then it's passed to this callback. This callback is called before any update on the model. `pointerType` is either 'min' or 'max' depending on which handle is used.
+
+**onChange** - _Function(sliderId, modelValue, highValue, pointerType)_: Function to be called when rz-slider-model or rz-slider-high change. If an id was set in the options, then it's passed to this callback. `pointerType` is either 'min' or 'max' depending on which handle is used.
+
+**onEnd** - _Function(sliderId, modelValue, highValue, pointerType)_: Function to be called when a slider update is ended. If an id was set in the options, then it's passed to this callback. `pointerType` is either 'min' or 'max' depending on which handle is used.
 
 **rightToLeft** - _Boolean (defaults to false)_: Set to true to show graphs right to left. If **vertical** is true it will be from top to bottom and left / right arrow functions reversed.
 
@@ -346,6 +398,22 @@ _Changing this value at runtime is not currently supported._
   - Page-up: +10%
   - Home: minimum value
   - End: maximum value
+
+**customTemplateScope** - _Object (default to null)_: The properties defined in this object will be exposed in the slider template under `custom.X`.
+
+**logScale** - _Boolean (defaults to false)_: Set to true to use a logarithmic scale to display the slider.
+
+For custom scales:
+
+**customValueToPosition** - _Function(val, minVal, maxVal): percent_: Function that returns the position on the slider for a given value. The position must be a percentage between 0 and 1.
+
+**customPositionToValue** - _Function(percent, minVal, maxVal): value_: Function that returns the value for a given position on the slider. The position is a percentage between 0 and 1.
+
+**selectionBarGradient** - _Object (default to null)_: Use to display the selection bar as a gradient. The given object must contain `from` and `to` properties which are colors.
+
+**ariaLabel and ariaLabelHigh** - _String (default to null)_: Use to add a label directly to the slider(s) for accessibility. Adds the `aria-label` attribute.
+
+**ariaLabelledBy and ariaLabelledByHigh** - _String (default to null)_: Use instead of ariaLabel and ariaLabelHigh to reference the id of an element which will be used to label the slider(s). Adds the `aria-labelledby` attribute.
 
 ## Change default options
 If you want the change the default options for all the sliders displayed in your application, you can set them using the `RzSliderOptions.options()` method:

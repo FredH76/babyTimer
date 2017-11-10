@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function ($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.curMode = 0;
@@ -24,12 +24,13 @@ angular.module('app.controllers')
   vm.selMin = "";
   vm.diapper = false;
   vm.bath = false;
+  vm.bottleSlider = {};
+  vm.breastSlider = {};
   vm.peeSlider = {};
   vm.pooSlider = {};
-  vm.durationSlider = {};
   vm.enableSave = false;
 
-  vm.test = function() {
+  vm.test = function () {
     /*var elt = document.getElementById("test");
     elt.setAttribute("style", "height:200px");*/
   }
@@ -40,6 +41,8 @@ angular.module('app.controllers')
   vm.openTimePicker = openTimePicker;
   vm.onLeftSideClick = onLeftSideClick;
   vm.onRightSideClick = onRightSideClick;
+  vm.onToggleBreast = onToggleBreast;
+  vm.onToggleBottle = onToggleBottle;
   vm.onToggleDiapper = onToggleDiapper;
   vm.onToggleBath = onToggleBath;
   vm.run = run;
@@ -73,14 +76,14 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
-    case MODE_AUTO:
-      vm.curMode = MODE_AUTO;
-      break;
-    case MODE_EDIT:
-      vm.curMode = MODE_EDIT;
-      break;
-    default:
-      vm.curMode = MODE_MANUAL;
+  case MODE_AUTO:
+    vm.curMode = MODE_AUTO;
+    break;
+  case MODE_EDIT:
+    vm.curMode = MODE_EDIT;
+    break;
+  default:
+    vm.curMode = MODE_MANUAL;
   }
 
   vm.peeSlider = {
@@ -99,22 +102,30 @@ angular.module('app.controllers')
       onEnd: _onSliderPoo,
       floor: 0,
       ceil: 3,
+      step: 1,
       showTicks: true
     }
   };
 
-  vm.durationSlider = {
+  vm.breastSlider = {
     value: 0,
     options: {
-      onEnd: _onSliderDuration,
+      onEnd: _onSliderBreast,
       floor: 0,
       ceil: 40,
-      ceilLabel: '40 mn',
       step: 5,
-      //autoHideLimitLabels: false,
-      ticksArray: [0, 2],
-      //showTicks: true,
-      showTicksValues: true,
+      showTicks: true,
+    }
+  };
+
+  vm.bottleSlider = {
+    value: 0,
+    options: {
+      onEnd: _onSliderBottle,
+      floor: 0,
+      ceil: 200,
+      step: 10,
+      ticksArray: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
     }
   };
 
@@ -122,7 +133,7 @@ angular.module('app.controllers')
   _initData();
 
   // start timer for each second
-  $interval(function() {
+  $interval(function () {
       // if running state
       if (vm.curState == vm.STATE_RUNNING) {
 
@@ -150,8 +161,8 @@ angular.module('app.controllers')
   );
 
   // update diapper slider after the DOM is loaded
-  $document.ready(function() {
-    $timeout(function() {
+  $document.ready(function () {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
@@ -185,8 +196,33 @@ angular.module('app.controllers')
   }
 
 
-  /*********************         Change Manual DURATION SLIDER              *****************/
-  function _onSliderDuration() {
+  /*********************           Click on BREAST BUTTON                   *****************/
+  function onToggleBreast() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+    $timeout(function () {
+      $scope.$broadcast('rzSliderForceRender');
+    }, 10);
+  }
+
+  /*********************         Change Manual BREAST SLIDER                *****************/
+  function _onSliderBreast() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+
+  /*********************           Click on BOTTLE BUTTON                   *****************/
+  function onToggleBottle() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+    $timeout(function () {
+      $scope.$broadcast('rzSliderForceRender');
+    }, 10);
+  }
+
+  /*********************            Change BOTTLE SLIDER                    *****************/
+  function _onSliderBottle() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
   }
@@ -196,6 +232,9 @@ angular.module('app.controllers')
   function onToggleDiapper() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
+    $timeout(function () {
+      $scope.$broadcast('rzSliderForceRender');
+    }, 10);
   }
 
   /*********************            Change PEE DIAPPER SLIDER               *****************/
@@ -331,6 +370,7 @@ angular.module('app.controllers')
         var elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
         vm.duration += elapsedTime;
       }
+      l_rec.breast = true;
       l_rec.duration = vm.duration; // in secondes
     }
 
@@ -342,9 +382,15 @@ angular.module('app.controllers')
       l_startTime.setMinutes(vm.selMin);
       l_rec.startTime = l_startTime;
 
-      // add DURATION info
-      l_rec.duration = vm.durationSlider.value * 60; // in secondes
+      // add BREAST info
+      // breast
+      l_rec.breast = vm.breast;
+      l_rec.duration = vm.breastSlider.value * 60; // in secondes
     }
+
+    // add BOTTLE info
+    l_rec.bottle = vm.bottle;
+    l_rec.bottleContent = vm.bottleSlider.value;
 
     // add SIDE info
     l_rec.leftSide = vm.leftSide;
@@ -410,6 +456,9 @@ angular.module('app.controllers')
       vm.curState = vm.STATE_IDLE;
       // duration
       vm.duration = 0;
+      // bootle
+      vm.bottle = false;
+      vm.bottleSlider.value = 0;
       // diapper
       vm.diapper = false;
       vm.peeSlider.value = null;
@@ -425,8 +474,12 @@ angular.module('app.controllers')
       // side 
       vm.leftSide = false;
       vm.rightSide = false;
-      // duration
-      vm.durationSlider.value = 0;
+      // breast
+      vm.breast = false;
+      vm.breastSlider.value = 0;
+      // bootle
+      vm.bottle = false;
+      vm.bottleSlider.value = 0;
       // diapper
       vm.diapper = false;
       vm.peeSlider.value = null;
@@ -450,8 +503,12 @@ angular.module('app.controllers')
       // side
       vm.leftSide = loaded_rec.leftSide;
       vm.rightSide = loaded_rec.rightSide;
-      // duration
-      vm.durationSlider.value = loaded_rec.duration / 60;
+      // breast
+      vm.breast = loaded_rec.breast;
+      vm.breastSlider.value = loaded_rec.duration / 60;
+      // bootle
+      vm.bottle = loaded_rec.bottle;
+      vm.bottleSlider.value = loaded_rec.bottleContent;
       // diapper
       vm.diapper = loaded_rec.diapper;
       vm.peeSlider.value = loaded_rec.peeLevel;

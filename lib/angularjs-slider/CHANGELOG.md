@@ -1,3 +1,224 @@
+# 6.4.0 (2017-08-12)
+## Feature
+- Add the `showOuterSelectionBars` option (#553).
+
+# 6.3.0 (2017-08-07)
+## Feature
+- Handle different values for `showTicks` and `showTicksValues` (#550).
+
+# 6.2.3 (2017-07-08)
+## Tooling
+- Add Typescript definition file.
+
+# 6.2.2 (2017-05-16)
+## Fixes
+- Fix (again) onEnd event de-registration.
+
+# 6.2.1 (2017-05-15)
+## Fixes
+- Fix onEnd event being sent several times on non-mobiles devices (#536)
+
+# 6.2.0 (2017-05-25)
+## New Feature
+- Handle multi touch events on separate sliders (#535). Thanks @daniela-mateescu :)
+
+# 6.1.2 (2017-05-15)
+## Fixes
+- Fix ticks and values at intermediate positions on IE (#531)
+
+# 6.1.1 (2017-03-29)
+## Fixes
+- Add vendor prefixes for transform property in JS code (#518)
+
+# 6.1.0 (2017-03-06)
+## Features
+- Add labelling options for a11y (#505)
+
+# 6.0.2 (2017-03-02)
+## Fixes
+- Update the combined labels on separation (#502)
+
+# 6.0.1 (2017-02-14)
+## Fixes
+- Ensure model value is current when custom translate function runs for tick values
+
+# 6.0.0 (2017-01-02)
+## Refactoring
+- Refactor/simplify the css rules to ease the customisation.
+
+**You might want to check that all your custom styles are still correctly applied...**
+
+# 5.9.0 (2016-12-12)
+## Features
+- Add selectionBarGradient option to customize the selection bar (#473)
+
+# 5.8.9 (2016-12-11)
+## Improvement
+- Add autoprefixer for CSS builds (#472)
+
+# 5.8.8 (2016-12-11)
+## Fix
+- Prevent angular being loaded twice when using with browserify (#474)
+
+# 5.8.7 (2016-11-09)
+## Fix
+- Add Math.round for positions and dimensions - thanks to @DmitryKrekota (#454)
+
+# 5.8.6 (2016-11-08)
+## Fix
+- Apply the pushRange with maxRange - thanks to @GuilloOme (#456)
+
+# 5.8.5 (2016-11-05)
+## Fix
+- Fix overlapping max and ceil labels in some cases (#396)
+
+# 5.8.4 (2016-11-05)
+## Improvement
+- Refactor autoHiding algorithm for labels (fix #446)
+
+# 5.8.3 (2016-11-03)
+## Improvement
+- Generate a SCSS file (simple copy of the css file) in the dist folder so it can be imported (#449)
+
+# 5.8.2 (2016-11-03)
+## Fix
+- Fix ceil label positioning (#448)
+
+# 5.8.1 (2016-10-27)
+## Fix
+- Enable using with Browserify (#436)
+
+# 5.8.0 (2016-10-22)
+## Features
+- Handle Date object in stepsArray (#424 )
+
+## Fixes
+- Fix style for disabled range slider and ticks (#394)
+- Fix slider goes back when moved and scaled (#346)
+
+# 5.7.0 (2016-10-16)
+## Features
+- Add a `logScale` option to display the slider using a logarithmic scale (#280).
+- Add `customValueToPosition` and `customPositionToValue` options to display the slider using a custom scale (#280).
+
+# 5.6.0 (2016-10-16)
+## Features
+- Add a `ticksArray` option to display ticks at specific positions (#426).
+
+To enable this new feature, the way the ticks are rendered has been changed. Now each tick is positioned absolutely using a `transform: translate()` instruction.
+
+# 5.5.1 (2016-09-22)
+## Fix
+- Prevent losing focus when slider is rerendered (#415).
+
+# 5.5.0 (2016-09-06)
+## Features
+- Add an `autoHideLimitLabels` to disable the auto-hiding of limit labels (#405).
+
+# 5.4.3 (2016-08-07)
+## Fix
+- Fix minLimit/maxLimit bugged for draggableRange (#384).
+
+# 5.4.2 (2016-08-02)
+## Fix
+- Fix minimum value goes below floor when using maxRange (#377).
+
+# 5.4.1 (2016-07-17)
+## Fix
+- Fix showing limit labels when pointer labels are always hidden (#373).
+
+# 5.4.0 (2016-07-13)
+## Features
+- Add function to customize color of ticks (#372).
+
+# 5.3.0 (2016-07-11)
+## Features
+- Expose labels on scope in template (#358).
+
+# 5.2.0 (2016-07-07)
+## Features
+- Add a `customTemplateScope` option (#354).
+
+# 5.1.1 (2016-07-06)
+## Fix
+- Fix the way to check when event properties are undefined (#365).
+
+# 5.1.0 (2016-07-02)
+## Features
+- Add a `pushRange` option (#341).
+
+# 5.0.1 (2016-07-01)
+## Fix
+- Switch from using opacity to visibility to show/hide elements (#362).
+
+# 5.0.0 (2016-06-30)
+## Fix
+- AMD/CommonJS exported module: export module name instead of module (#360).
+
+## Breaking change
+Code that relies on the module object to be exported (accessing the name via .name for example) will break, since the name is now directly returned.
+
+# 4.1.0 (2016-06-30)
+## Improvement
+- Add a `bindIndexForStepsArray` option that enable to use `stepsArray` with the same behavior as before 4.0 (#345).
+
+## Fix
+- Hide floor/ceil label when overlapped on combo label (#357).
+- Fix switching from steps array to regular steps (#361).
+
+# 4.0.2 (2016-06-07)
+## Improvement
+- Add a `mergeRangeLabelsIfSame` option (#245).
+
+# 4.0.1 (2016-06-04)
+## Improvement
+- Add a pointerType arg for the callbacks (onStart, onChange and onEnd) to identify which handle is used (#339).
+
+# 4.0.0 (2016-06-04)
+## Improvement
+- `stepsArray`: Bind rzSliderModel and rzSliderHigh to the actual value (#335).
+
+## Breaking changes
+- From now on, when using the `stepsArray` feature, you should directly provide the actual value to rzSliderModel and rzSliderHigh instead of passing the index of this value.
+Thus, you need to update your config like in the following example:
+```js
+/* before 4.0 version */
+vm.slider = {
+    value: 4, // index of the 'E' value in the array
+    options: {
+        stepsArray: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+    }
+}
+
+/* from 4.0 version */
+vm.slider = {
+    value: 'E',
+    options: {
+        stepsArray: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+    }
+}
+```
+
+# 3.0.0 (2016-06-02)
+## Features
+- Add IE8 support (#314).
+- Consolidate onStart, onChange and onEnd for keyboard (#319).
+- Added `rz-floor` and `rz-ceil` classes to floor and ceil label to allow styling (#337).
+
+## Breaking changes
+- From now on, to allow the IE8 support, the directive is configured with `replace: true`. Thus, you need to update your custom CSS rules like in the following example:
+```css
+/* before 3.0 version */
+rzslider {
+  color: red;
+}
+
+/* from 3.0 version */
+.rzslider {
+  color: red;
+}
+```
+
 # 2.14.0 (2016-05-22)
 ## Features
 - Add `minLimit` and `maxLimit` options (#332).
