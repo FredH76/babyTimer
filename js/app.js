@@ -5,7 +5,13 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.routes', 'app.controllers', 'app.services', 'app.filters'])
+angular.module('app', [
+  'ionic', 
+  'pascalprecht.translate',
+  'app.routes', 
+  'app.controllers', 
+  'app.services', 
+  'app.filters'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,7 +29,14 @@ angular.module('app', ['ionic', 'app.routes', 'app.controllers', 'app.services',
   });
 })
 
-.config(function($ionicConfigProvider) {
+.config(function($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
+  
+  // add translation table
+  $translateProvider.translations('en', translationsEN);
+  $translateProvider.translations('fr', translationsFR);
+  $translateProvider.determinePreferredLanguage();
+  $translateProvider.fallbackLanguage('en');
+  
 });
