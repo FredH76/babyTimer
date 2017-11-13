@@ -450,9 +450,9 @@ rzslider .rz-ticks .rz-tick {
 }
 
 .edit-flag {
-  height: 50px;
+  height: 49px;
   width: 60px;
-  margin-top: 0px;
+  margin-top: 1px;
   position: fixed;
   right: 0px;
   background: white;
