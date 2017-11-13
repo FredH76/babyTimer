@@ -1,51 +1,3 @@
-/*var translations = {
-  BUTTON: {
-    EDIT: "",
-    SAVE: "",
-    RESET: "",
-    CANCEL: "",
-    OK: "",
-    TODAY: "",
-  },
-  TAB_TITLE: {
-    AUTOMATIC: "",
-    MANUAL: "",
-    EDIT: "",
-    HISTORIC: "",
-  },
-  INPUT: {
-    BREAST_CHRONO_HEADER: "",
-    BREAST_MANUAL_HEADER: "",
-    BREAST_LEFT_SIDE: "",
-    BREAST_RIGHT_SIDE: "",
-    BREAST_DURATION: "",
-    BREAST_RUN:"",
-    BREAST_PAUSE:"",
-    BOTTLE_HEADER: "",
-    DIAPPER_HEADER: "",
-    DIAPPER_PEE_LEVEL: "",
-    DIAPPER_POO_LEVEL: "",
-    BATH_HEADER: "",
-    BATH_MESSAGE: "",
-    VITAMIN_HEADER: "",
-    VITAMIN_MESSAGE: "",
-    MESSAGE_HEADER: "",
-  },
-  HISTORIC: {
-    BREAK_HEADER: "",
-  },
-  MENU: {},
-  SETTING: {},
-  ACCRONYM: {
-    DAY: "",
-    HOUR: "",
-    MINUTE: "",
-    SECOND: "",
-    LEFT: "",
-    RIGHT: "",
-  }
-};*/
-
 var translationsEN = {
   BUTTON: {
     EDIT: "Edit",
@@ -60,6 +12,7 @@ var translationsEN = {
     MANUAL: "Manual",
     EDIT: "Edit",
     HISTORIC: "Historic",
+    SETTINGS: "Settings"
   },
   PAGE_TITLE: {
     AUTOMATIC: "Auto Mode",
@@ -114,6 +67,7 @@ var translationsFR = {
     MANUAL: "Manuel",
     EDIT: "Edition",
     HISTORIC: "Historique",
+    SETTINGS: "Configuration",
   },
   PAGE_TITLE: {
     AUTOMATIC: "Mode automatique",

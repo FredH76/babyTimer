@@ -2,9 +2,16 @@
                       :inVM.curMode==inVM.MODE_EDIT?('PAGE_TITLE.EDIT' | translate)
                       :('PAGE_TITLE.MANUAL' | translate)}}">
 
-  <!-- BACK BUTTON -->
+  <!-- BACK BUTTON (LEFT)-->
   <ion-nav-buttons side="left">
     <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="inVM.goBack()" ng-if="inVM.curMode === inVM.MODE_EDIT">
+    </button>
+  </ion-nav-buttons>
+
+  <!-- CONFIG BUTTON (RIGHT)-->
+  <ion-nav-buttons side="secondary">
+    <button class="button button-stable button-outline" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+      {{'BUTTON.SAVE' | translate}}
     </button>
   </ion-nav-buttons>
 
