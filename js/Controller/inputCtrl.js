@@ -1,8 +1,9 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function ($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
+  vm.babyName = $filter('translate')('SETTINGS.BABY_DEFAULT_NAME');
   vm.curMode = 0;
   vm.autoMode = false;
   vm.manualMode = false;
@@ -30,7 +31,7 @@ angular.module('app.controllers')
   vm.pooSlider = {};
   vm.enableSave = false;
 
-  vm.test = function () {
+  vm.test = function() {
     /*var elt = document.getElementById("test");
     elt.setAttribute("style", "height:200px");*/
   }
@@ -76,14 +77,14 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
-  case MODE_AUTO:
-    vm.curMode = MODE_AUTO;
-    break;
-  case MODE_EDIT:
-    vm.curMode = MODE_EDIT;
-    break;
-  default:
-    vm.curMode = MODE_MANUAL;
+    case MODE_AUTO:
+      vm.curMode = MODE_AUTO;
+      break;
+    case MODE_EDIT:
+      vm.curMode = MODE_EDIT;
+      break;
+    default:
+      vm.curMode = MODE_MANUAL;
   }
 
   vm.peeSlider = {
@@ -133,7 +134,7 @@ angular.module('app.controllers')
   _initData();
 
   // start timer for each second
-  $interval(function () {
+  $interval(function() {
       // if running state
       if (vm.curState == vm.STATE_RUNNING) {
 
@@ -161,8 +162,8 @@ angular.module('app.controllers')
   );
 
   // update diapper slider after the DOM is loaded
-  $document.ready(function () {
-    $timeout(function () {
+  $document.ready(function() {
+    $timeout(function() {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
@@ -201,7 +202,7 @@ angular.module('app.controllers')
     vm.breast = !vm.breast;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function () {
+    $timeout(function() {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -218,7 +219,7 @@ angular.module('app.controllers')
     vm.bottle = !vm.bottle;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function () {
+    $timeout(function() {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -235,7 +236,7 @@ angular.module('app.controllers')
     vm.diapper = !vm.diapper;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function () {
+    $timeout(function() {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }

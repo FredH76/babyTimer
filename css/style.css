@@ -248,6 +248,15 @@
 }
 
 
+/******************************             BATH ROW                ***************************/
+
+.bath-row .col {
+  padding: 0px 20px 0px 20px;
+  color: gray;
+  font-style: italic;
+}
+
+
 /******************************             MANUAL TAB               *************************/
 
 .duration-row {

@@ -33,16 +33,18 @@ var translationsEN = {
     DIAPPER_PEE_LEVEL: "Pee Level",
     DIAPPER_POO_LEVEL: "Poo Level",
     BATH_HEADER: "BATH",
-    BATH_MESSAGE: "{{babyName}} is soft and clean",
+    BATH_MESSAGE: "Perfect: {{name}} is soft and clean",
     VITAMIN_HEADER: "VITAMIN",
-    VITAMIN_MESSAGE: " {{babyName}} is strong and safe",
+    VITAMIN_MESSAGE: "Okay: {{name}} is strong and safe",
     MESSAGE_HEADER: "MESSAGE",
   },
   HISTORIC: {
     BREAK_HEADER: "PREVIOUS FEEDING :",
   },
   MENU: {},
-  SETTING: {},
+  SETTINGS: {
+    BABY_DEFAULT_NAME: "Baby",
+  },
   ACRONYM: {
     DAY: "d",
     HOUR: "h",
@@ -88,16 +90,18 @@ var translationsFR = {
     DIAPPER_PEE_LEVEL: "Niveau pipi",
     DIAPPER_POO_LEVEL: "Niveau selles",
     BATH_HEADER: "BAIN",
-    BATH_MESSAGE: "{{babyName}} est doux et propre",
+    BATH_MESSAGE: "Ca y est : {{name}} est doux et propre",
     VITAMIN_HEADER: "VITAMINE",
-    VITAMIN_MESSAGE: " {{babyName}} est fort et protégé",
+    VITAMIN_MESSAGE: "Ca y est : {{name}} est fort et protégé",
     MESSAGE_HEADER: "MESSAGE",
   },
   HISTORIC: {
     BREAK_HEADER: "REPAS PRECEDENT :",
   },
   MENU: {},
-  SETTING: {},
+  SETTINGS: {
+    BABY_DEFAULT_NAME: "Bébé",
+  },
   ACRONYM: {
     DAY: "j",
     HOUR: "h",
