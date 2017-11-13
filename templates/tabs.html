@@ -7,18 +7,18 @@ navigation history that also transitions its views in and out.
 
   <!-- Automatic Tab -->
   <!--<ion-tab title="Automatic" icon="ion-clock" href="#/tab/auto">-->
-  <ion-tab title="Automatic" icon="ion-clock" ui-sref="tab.auto({mode :0})">
+  <ion-tab title="{{'TAB_TITLE.AUTOMATIC' | translate}}" icon="ion-clock" ui-sref="tab.auto({mode :0})">
     <ion-nav-view name="tab-auto"></ion-nav-view>
   </ion-tab>
 
   <!-- Manual Tab -->
   <!--<ion-tab title="Manual" icon="ion-edit" href="#/tab/input">-->
-  <ion-tab title="Manual" icon="ion-edit" ui-sref="tab.manual({mode :1})">
+  <ion-tab title="{{'TAB_TITLE.MANUAL' | translate}}" icon="ion-edit" ui-sref="tab.manual({mode :1})">
     <ion-nav-view name="tab-manual"></ion-nav-view>
   </ion-tab>
 
   <!-- Historic Tab -->
-  <ion-tab title="Historic" icon="ion-calendar" href="#/tab/historic">
+  <ion-tab title="{{'TAB_TITLE.HISTORIC' | translate}}" icon="ion-calendar" href="#/tab/historic">
     <ion-nav-view name="tab-historic"></ion-nav-view>
   </ion-tab>
 
