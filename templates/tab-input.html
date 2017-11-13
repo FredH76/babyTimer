@@ -269,8 +269,11 @@
       <div class="item bath-row" ng-show="inVM.bath">
         <!-- CONTENT -->
         <div class="row">
-          <div class="col">
-            {{'INPUT.BATH_MESSAGE'| translate : {'name' : inVM.babyName} }}
+          <div class="col" ng-if="inVM.babyGender == inVM.MALE">
+            {{'INPUT.BATH_MESSAGE_MALE'| translate : {'name' : inVM.babyName} }}
+          </div>
+          <div class="col" ng-if="inVM.babyGender == inVM.FEMALE">
+            {{'INPUT.BATH_MESSAGE_FEMALE'| translate : {'name' : inVM.babyName} }}
           </div>
         </div>
 

@@ -14,3 +14,6 @@ var UNDEF = {
 var MODE_AUTO = 0x00;
 var MODE_MANUAL = 0x01
 var MODE_EDIT = 0x02;
+
+var MALE = 0x01;
+var FEMALE = 0x02;

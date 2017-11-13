@@ -4,6 +4,7 @@ angular.module('app.controllers')
   var vm = this;
 
   vm.babyName = $filter('translate')('SETTINGS.BABY_DEFAULT_NAME');
+  vm.babyGender = MALE;
   vm.curMode = 0;
   vm.autoMode = false;
   vm.manualMode = false;
@@ -61,18 +62,11 @@ angular.module('app.controllers')
   vm.MODE_MANUAL = MODE_MANUAL;
   vm.MODE_EDIT = MODE_EDIT;
 
-  vm.LEFT = {
-    id: 0x01,
-    string: "left"
-  };
-  vm.RIGHT = {
-    id: 0x02,
-    string: "right"
-  };
-  vm.UNDEF = {
-    id: 0x00,
-    string: "no side"
-  }
+  vm.LEFT = LEFT;
+  vm.RIGHT = RIGHT;
+  vm.UNDEF = UNDEF;
+  vm.MALE = MALE;
+  vm.FEMALE = FEMALE;
 
   /******************************         INITIALISATION               ************************/
   // set up current mode (AUTO/EDIT/MANUAL)
