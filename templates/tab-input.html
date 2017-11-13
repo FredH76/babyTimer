@@ -35,7 +35,7 @@
         <div class="row date-row">
           <div class="col">
             <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openDatePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
-              {{inVM.selDayStr}}
+              {{inVM.selDay.toLocaleDateString()}}
             </div>
           </div>
         </div>

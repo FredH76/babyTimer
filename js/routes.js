@@ -66,9 +66,22 @@ angular.module('app.routes', [])
         controllerAs: 'histVM'
       }
     }
+  })
+
+  .state('tab.settings', {
+    cache: true,
+    url: '/settings',
+    views: {
+      'tab-settings': {
+        templateUrl: 'templates/tab-settings.html',
+        controller: 'settingsCtrl',
+        controllerAs: 'setVM'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/manual/1/null');
+  //$urlRouterProvider.otherwise('/tab/manual/1/null');
+  $urlRouterProvider.otherwise('/tab/settings');
 
 }]);

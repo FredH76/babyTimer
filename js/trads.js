@@ -19,6 +19,7 @@ var translationsEN = {
     MANUAL: "Manual Mode",
     EDIT: "Edit Mode",
     HISTORIC: "Historic",
+    SETTINGS: "Settings",
   },
   INPUT: {
     BREAST_CHRONO_HEADER: "BREAST FEEDING",
@@ -43,6 +44,7 @@ var translationsEN = {
   },
   MENU: {},
   SETTINGS: {
+    BABY_HEADER: "MY BABY",
     BABY_DEFAULT_NAME: "Baby",
   },
   ACRONYM: {
@@ -52,6 +54,8 @@ var translationsEN = {
     SECOND: "s",
     LEFT: "L",
     RIGHT: "R",
+    WEIGHT: "kg",
+    HEIGHT: "in",
   }
 };
 
@@ -69,13 +73,14 @@ var translationsFR = {
     MANUAL: "Manuel",
     EDIT: "Edition",
     HISTORIC: "Historique",
-    SETTINGS: "Configuration",
+    SETTINGS: "Réglages",
   },
   PAGE_TITLE: {
     AUTOMATIC: "Mode automatique",
     MANUAL: "Saisie manuelle",
     EDIT: "Mode Edition",
     HISTORIC: "Historique",
+    SETTINGS: "Réglages",
   },
   INPUT: {
     BREAST_CHRONO_HEADER: "ALLAITEMENT",
@@ -100,7 +105,17 @@ var translationsFR = {
   },
   MENU: {},
   SETTINGS: {
+    BABY_HEADER: "INFORMATIONS BEBE",
     BABY_DEFAULT_NAME: "Bébé",
+    BABY_SURNAME: "Prénom",
+    BABY_NAME: "Nom",
+    BIRTHDAY_MALE: "Né le ",
+    BIRTHDAY_FEMALE: "Née le ",
+    BABY_GENDER: "Sexe",
+    BABY_BOY: "Garçon",
+    BABY_GIRL: "Fille",
+    BABY_WEIGHT: "Poid Naissance",
+    BABY_HEIGHT: "Taille Naissance",
   },
   ACRONYM: {
     DAY: "j",
@@ -109,5 +124,7 @@ var translationsFR = {
     SECOND: "s",
     LEFT: "G",
     RIGHT: "D",
+    WEIGHT: "kg ",
+    HEIGHT: "cm",
   }
 }

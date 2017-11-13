@@ -21,7 +21,7 @@ angular.module('app.controllers')
   vm.curDuration = 0;
   vm.curRecord = {};
   vm.startTime = null;
-  vm.selDayStr = "";
+  vm.selDay = null;
   vm.selHour = "";
   vm.selMin = "";
   vm.diapper = false;
@@ -289,7 +289,7 @@ angular.module('app.controllers')
   function openDatePicker() {
     var datePickerConf = {
       callback: _onDatePicked, //WARNING: callback is Mandatory!
-      inputDate: new Date(vm.selDayStr),
+      inputDate: vm.selDay,
       titleLabel: 'Select a Date',
       setLabel: 'Set',
       todayLabel: 'Today',
@@ -312,11 +312,9 @@ angular.module('app.controllers')
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
 
-    var selDate = new Date(val);
-    console.log('Return value from the datepicker popup is : ' + val, selDate);
-    vm.selDayStr = selDate.toLocaleDateString();
+    vm.selDay = new Date(val);;
+    console.log('Return value from the datepicker popup is : ' + val, vm.selDay);
   }
-  openTimePicker
 
 
   /*********************               OPEN TIME PICKER                     *******************/
@@ -376,7 +374,7 @@ angular.module('app.controllers')
     // if mode MANUAL or EDIT
     if (vm.curMode == MODE_MANUAL || vm.curMode == MODE_EDIT) {
       // add START TIME info
-      var l_startTime = new Date(vm.selDayStr);
+      var l_startTime = vm.selDay;
       l_startTime.setHours(vm.selHour);
       l_startTime.setMinutes(vm.selMin);
       l_rec.startTime = l_startTime;
@@ -517,7 +515,7 @@ angular.module('app.controllers')
     }
 
     // string day
-    vm.selDayStr = vm.startTime.toLocaleDateString();
+    vm.selDay = vm.startTime;
 
     // hour and minute
     vm.selHour = utils.formatHour(vm.startTime.getHours());
