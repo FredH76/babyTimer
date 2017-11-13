@@ -6,15 +6,15 @@
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
 angular.module('app', [
-  'ionic', 
+  'ionic',
   'pascalprecht.translate',
-  'app.routes', 
-  'app.controllers', 
-  'app.services', 
+  'app.routes',
+  'app.controllers',
+  'app.services',
   'app.filters'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -29,14 +29,14 @@ angular.module('app', [
   });
 })
 
-.config(function($ionicConfigProvider, $translateProvider) {
+.config(function ($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
-  
+
   // add translation table
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('fr', translationsFR);
+  $translateProvider.fallbackLanguage('fr');
   $translateProvider.determinePreferredLanguage();
-  $translateProvider.fallbackLanguage('en');
-  
+
 });

@@ -198,6 +198,7 @@ angular.module('app.controllers')
 
   /*********************           Click on BREAST BUTTON                   *****************/
   function onToggleBreast() {
+    vm.breast = !vm.breast;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
     $timeout(function () {
@@ -214,6 +215,7 @@ angular.module('app.controllers')
 
   /*********************           Click on BOTTLE BUTTON                   *****************/
   function onToggleBottle() {
+    vm.bottle = !vm.bottle;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
     $timeout(function () {
@@ -230,6 +232,7 @@ angular.module('app.controllers')
 
   /*********************           Click on DIAPPER BUTTON                  *****************/
   function onToggleDiapper() {
+    vm.diapper = !vm.diapper;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
     $timeout(function () {
@@ -251,6 +254,7 @@ angular.module('app.controllers')
 
   /*********************            Click on BATH BUTTON                    *****************/
   function onToggleBath() {
+    vm.bath = !vm.bath;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
   }
@@ -315,7 +319,7 @@ angular.module('app.controllers')
 
     var selDate = new Date(val);
     console.log('Return value from the datepicker popup is : ' + val, selDate);
-    vm.selDayStr = selDate.toDateString();
+    vm.selDayStr = selDate.toLocaleDateString();
   }
   openTimePicker
 
@@ -518,7 +522,7 @@ angular.module('app.controllers')
     }
 
     // string day
-    vm.selDayStr = vm.startTime.toDateString();
+    vm.selDayStr = vm.startTime.toLocaleDateString();
 
     // hour and minute
     vm.selHour = utils.formatHour(vm.startTime.getHours());
