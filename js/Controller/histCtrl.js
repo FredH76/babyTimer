@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function($scope, $state, $interval, utils, DBrecord) {
+.controller('histCtrl', function ($scope, $state, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
   vm.recList = [];
@@ -109,12 +109,18 @@ angular.module('app.controllers')
       vm.dispList[i] = dispItem;
     }
 
-    // sort the list (but already done )
+    /* sort the list (but already done ) // WARNING: this function has bug when dispList.lenght > 10
     vm.dispList.sort(function(a, b) {
       return (a.time.getTime() > b.time.getTime());
-    })
+    })*/
 
     _refreshDayList();
+
+    // display recList from BOTTOM
+    $timeout(function () {
+      $ionicScrollDelegate.scrollBottom();
+    });
+
   };
 
 

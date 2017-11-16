@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function ($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.babyName = $filter('translate')('SETTINGS.BABY_DEFAULT_NAME');
@@ -32,7 +32,7 @@ angular.module('app.controllers')
   vm.pooSlider = {};
   vm.enableSave = false;
 
-  vm.test = function() {
+  vm.test = function () {
     /*var elt = document.getElementById("test");
     elt.setAttribute("style", "height:200px");*/
   }
@@ -71,14 +71,14 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
-    case MODE_AUTO:
-      vm.curMode = MODE_AUTO;
-      break;
-    case MODE_EDIT:
-      vm.curMode = MODE_EDIT;
-      break;
-    default:
-      vm.curMode = MODE_MANUAL;
+  case MODE_AUTO:
+    vm.curMode = MODE_AUTO;
+    break;
+  case MODE_EDIT:
+    vm.curMode = MODE_EDIT;
+    break;
+  default:
+    vm.curMode = MODE_MANUAL;
   }
 
   vm.peeSlider = {
@@ -128,7 +128,7 @@ angular.module('app.controllers')
   _initData();
 
   // start timer for each second
-  $interval(function() {
+  $interval(function () {
       // if running state
       if (vm.curState == vm.STATE_RUNNING) {
 
@@ -156,8 +156,8 @@ angular.module('app.controllers')
   );
 
   // update diapper slider after the DOM is loaded
-  $document.ready(function() {
-    $timeout(function() {
+  $document.ready(function () {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
@@ -196,7 +196,7 @@ angular.module('app.controllers')
     vm.breast = !vm.breast;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -213,7 +213,7 @@ angular.module('app.controllers')
     vm.bottle = !vm.bottle;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -230,7 +230,7 @@ angular.module('app.controllers')
     vm.diapper = !vm.diapper;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -290,16 +290,16 @@ angular.module('app.controllers')
     var datePickerConf = {
       callback: _onDatePicked, //WARNING: callback is Mandatory!
       inputDate: vm.selDay,
-      titleLabel: 'Select a Date',
-      setLabel: 'Set',
-      todayLabel: 'Today',
-      closeLabel: 'Close',
+      titleLabel: $filter('translate')('POPUP.DATEPICKER_TITLE'),
+      setLabel: $filter('translate')('BUTTON.OK'),
+      todayLabel: $filter('translate')('BUTTON.TODAY'),
+      closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      weeksList: transWeek,
+      monthsList: transMonth,
       templateType: 'popup',
-      from: new Date(2012, 8, 1),
-      to: new Date(2018, 8, 1),
+      from: new Date(2017, 8, 1),
+      to: new Date(2025, 8, 1),
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: false,
@@ -321,7 +321,7 @@ angular.module('app.controllers')
   function openTimePicker() {
     var timePickerConf = {
       callback: _onTimePicked, //WARNING: callback is Mandatory!
-      inputTime: vm.selHour * 60 * 60 + vm.selMin * 60,
+      inputTime: vm.selHour * 60 * 60 + parseInt(vm.selMin / 5) * 5 * 60,
       format: 24,
       step: 5,
       setLabel: 'Set',
@@ -357,8 +357,8 @@ angular.module('app.controllers')
     // if mode AUTO
     if (vm.curMode == MODE_AUTO) {
       // add START TIME info
-      var truncMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
-      vm.startTime.setMinutes(truncMin);
+      //var truncMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
+      //vm.startTime.setMinutes(truncMin);
       l_rec.startTime = vm.startTime;
 
       // add DURATION info
@@ -519,13 +519,40 @@ angular.module('app.controllers')
 
     // hour and minute
     vm.selHour = utils.formatHour(vm.startTime.getHours());
-    //vm.selMin = utils.formatMinute(vm.startTime.getMinutes());
-    vm.selMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
+    vm.selMin = utils.formatMinute(vm.startTime.getMinutes());
+    //vm.selMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
 
     // disable save button
     vm.enableSave = false;
 
   }
+
+  /*********************            TRANSLATED ARRAY                          *****************/
+  var transWeek = [
+    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.MONDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.TUESDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.THURSDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.FRIDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
+  ];
+
+  var transMonth = [
+    ($filter('translate')('MONTH.JANUARY')).slice(0, 3),
+    ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3),
+    ($filter('translate')('MONTH.MARCH')).slice(0, 3),
+    ($filter('translate')('MONTH.APRIL')).slice(0, 3),
+    ($filter('translate')('MONTH.MAY')).slice(0, 3),
+    ($filter('translate')('MONTH.JUNE')).slice(0, 4),
+    ($filter('translate')('MONTH.JULY')).slice(0, 4),
+    ($filter('translate')('MONTH.AUGUST')).slice(0, 3),
+    ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3),
+    ($filter('translate')('MONTH.OCTOBER')).slice(0, 3),
+    ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3),
+    ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
+  ];
+
 
   /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************
   function _extractHMS(date) {

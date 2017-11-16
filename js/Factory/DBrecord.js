@@ -1,16 +1,120 @@
-angular.module('app.services')
+angular.module('app.factory', [])
 
-.factory('DBrecord', function(utils) {
+.factory('DBrecord', function (utils) {
   var RECORD_PREFIX = "rec_";
+  var BABY_UID_PREFIX = "babyUID_";
+
+  // DEFAULT BABY STRUCTURE  
+  var defaultBaby = {
+    uid: BABY_UID_PREFIX + "0",
+    name: "My new",
+    firstname: "baby",
+    birthday: new Date(),
+    gender: MALE,
+    weight: 3.5,
+    height: 50,
+  }
 
   var service = {
+    //version
+    getAppVersion: getAppVersion,
+    storeAppVersion: storeAppVersion,
+    patchToV0_1_1: patchToV0_1_1,
+
+    //baby infos
+    createNewBaby: createNewBaby,
+    getCurBabyUID: getCurBabyUID,
+    getBabyInfo: getBabyInfo,
+    getBabyUIDList: getBabyUIDList,
+    //saveBaby: saveBaby,
+
+    // records
     loadRec: loadRec,
     saveRec: saveRec,
     delRec: delRec,
     getRecList: getRecList,
-    _createUID: _createUID,
+    _createRecUID: _createRecUID,
   }
   return service;
+
+  /*********************                  GET APP VERSION                   *****************/
+  function getAppVersion() {
+    var version = null;
+    if (localStorage["app_version"] === undefined)
+      version = "0.0.0";
+    else
+      version = JSON.parse(localStorage["app_version"]);
+    return version;
+  }
+
+
+  /*********************               STORE APP VERSION                    *****************/
+  function storeAppVersion(version) {
+    localStorage["app_version"] = JSON.stringify(version);
+  }
+
+
+  /*********************                  GET CURRENT BABY ID               *****************/
+  function createNewBaby() {
+    var uid = _createBabyUID();
+    var baby = defaultBaby;
+    baby.uid = uid;
+    localStorage[uid] = JSON.stringify(baby);
+  }
+
+  /*********************                  GET CURRENT BABY ID               *****************/
+  function getCurBabyUID() {
+    var babyUID = null;
+    var babyJs = localStorage["current_baby_ID"];
+
+    if (babyJs !== undefined) {
+      babyID = JSON.parse(localStorage["current_baby_ID"]);
+    }
+    // else if no record exist with "current_baby_ID": create it
+    {
+      var curBaby = null;
+
+      // get Baby UID List 
+      var babyUIDList = getBabyUIDList();
+      // if baby list not empty
+      if (babyList.lenght === 0) {
+        // pick up the first baby
+        babyUID = babyUIDList[0];
+      }
+      // else create a first baby
+      else {
+        localStorage[defaultBaby.uid] = JSON.stringify(defaultBaby);
+        curBaby = defaultBaby;
+      }
+
+      // create new entry in local storage;
+      localStorage["current_baby_ID"] = JSON.stringify(babyUID);
+
+      // update all record with babyID
+    }
+    return babyUID;
+  }
+
+  /*********************                  GET BABY INFO                     *****************/
+  function getBabyInfo(babyUID) {
+    var babyInfo = JSON.parse(localStorage[babyUID]);
+    return babyInfo;
+  }
+
+  /*********************                  GET BABY LIST                      *****************/
+  function getBabyUIDList() {
+    var babyUIDList = [];
+    var prefix = BABY_UID_PREFIX;
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        babyUIDList.push(property);
+      }
+    }
+    return babyUIDList;
+  }
+
 
   /*********************                  LOAD RECORD                        *****************/
   function loadRec(recUID) {
@@ -24,7 +128,7 @@ angular.module('app.services')
 
   /*********************                  SAVE RECORD UID                     *****************/
   function saveRec(record) {
-    localStorage[_createUID(record)] = JSON.stringify(record);
+    localStorage[_createRecUID(record)] = JSON.stringify(record);
   }
 
   /*********************                  DELETE RECORD                       *****************/
@@ -78,9 +182,42 @@ angular.module('app.services')
   }
 
   /********************************************************************************************/
+  /*********************              DB UPDATE VERSION PATCH                 *****************/
+  /********************************************************************************************/
+  function patchToV0_1_1() {
+    var babyUID = null;
+
+    // create a baby
+    if (getBabyUIDList().length == 0)
+      babyUID = createNewBaby();
+    else {
+      console.error("ERROR : DBrecord.patchToV0_1_1 >> a baby already exist. Its UID wil be used");
+      babyUID = getBabyUIDList()[0];
+    }
+
+    var prefix = RECORD_PREFIX;
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        // Attribute all record to babyUID
+        rec = JSON.parse(localStorage[property]);
+        rec.babyUID = babyUID; 
+        localStorage[property] = JSON.stringify(rec);
+      }
+    }
+  }
+
+  /********************************************************************************************/
   /*********************                      TOOL BOX                        *****************/
   /********************************************************************************************/
-  function _createUID(record) {
+  function _createBabyUID() {
+    var UID = BABY_UID_PREFIX;
+    var timeStamp = (new Date()).getTime();
+    UID += timeStamp;
+    return UID;
+  }
+
+  function _createRecUID(record) {
     var UID = RECORD_PREFIX;
 
     // add year/month/day_

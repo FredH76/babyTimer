@@ -1,7 +1,8 @@
 angular.module('app.controllers')
 
-.controller('settingsCtrl', function($scope, ionicDatePicker) {
+.controller('settingsCtrl', function ($scope, ionicDatePicker, DBrecord) {
   var vm = this;
+  vm.baby = DBrecord.getCurBabyUID();
   vm.babyGender = MALE;
   vm.birthday = new Date();
 

@@ -117,6 +117,11 @@ var translationsFR = {
     BABY_WEIGHT: "Poid Naissance",
     BABY_HEIGHT: "Taille Naissance",
   },
+  POPUP: {
+    DATEPICKER_TITLE: "Entrez une date",
+    DATEPICKER_WEEK_LIST: ["D", "L", "M", "M", "J", "V", "S"],
+    DATEPICKER_MONT_LIST: ["Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
+  },
   ACRONYM: {
     DAY: "j",
     HOUR: "h",
@@ -126,5 +131,28 @@ var translationsFR = {
     RIGHT: "D",
     WEIGHT: "kg ",
     HEIGHT: "cm",
+  },
+  WEEK: {
+    MONDAY: "Lundi",
+    TUESDAY: "Mardi",
+    WEDNESDAY: "Mercredi",
+    THURSDAY: "Jeudi",
+    FRIDAY: "Vendredi",
+    SATURDAY: "Samedi",
+    SUNDAY: "Dimanche",
+  },
+  MONTH: {
+    JANUARY: "Janvier",
+    FEBRUARY: "Fevrier",
+    MARCH: "Mars",
+    APRIL: "Avril",
+    MAY: "Mai",
+    JUNE: "Juin",
+    JULY: "Juillet",
+    AUGUST: "Aout",
+    SEPTEMBER: "Septembre",
+    OCTOBER: "Octobre",
+    NOVEMBER: "Novembre",
+    DECEMBER: "Decembre",
   }
 }

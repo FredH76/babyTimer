@@ -10,12 +10,12 @@ angular.module('app', [
   'pascalprecht.translate',
   'app.routes',
   'app.controllers',
-  'app.services',
+  'app.factory',
   'app.filters'
 ])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform, utils, DBrecord) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -27,10 +27,21 @@ angular.module('app', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    // get version number in database
+    var dbVersion = DBrecord.getAppVersion();
+    // if database version lower than current app version: update DB.
+    if (utils.compVersion(dbVersion, app_version) < 0) {
+      if (utils.compVersion(dbVersion, "0.1.1") < 0) {
+        DBrecord.patchToV0_1_1();
+      }
+      DBrecord.storeAppVersion(app_version);
+    }
+
   });
 })
 
-.config(function($ionicConfigProvider, $translateProvider) {
+.config(function ($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
 
