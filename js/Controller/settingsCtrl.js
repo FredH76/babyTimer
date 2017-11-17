@@ -2,25 +2,44 @@ angular.module('app.controllers')
 
 .controller('settingsCtrl', function ($scope, ionicDatePicker, DBrecord) {
   var vm = this;
-  vm.baby = DBrecord.getCurBabyUID();
-  vm.babyGender = MALE;
-  vm.birthday = new Date();
+  vm.baby = null;
+  vm.name = null;
+  vm.firstname = null;
+  vm.birthday = null;
+  vm.gender = null;
+  vm.weight = null;
+  vm.height = null;
 
   /******************************      FUNCTION DECLARATION            ************************/
+  vm.changeName = changeName;
+  vm.changeFirstname = changeFirstname;
   vm.openDatePicker = openDatePicker;
-  vm.onMaleGenderClick = onMaleGenderClick;
-  vm.onFemaleGenderClick = onFemaleGenderClick;
+  vm.onClickMale = onClickMale;
+  vm.onClickFemale = onClickFemale;
+  vm.changeWeight = changeWeight;
+  vm.changeHeight = changeHeight;
+
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.MALE = MALE;
   vm.FEMALE = FEMALE;
 
   /******************************         INITIALISATION               ************************/
+  // load the first baby in UID list
+  vm.babyUID = DBrecord.getBabyUIDList()[0];
+  vm.baby = DBrecord.getBabyInfo(vm.babyUID);
+  vm.name = vm.baby.name;
+  vm.firstname = vm.baby.firstname;
+  vm.birthday = new Date(vm.baby.birthday);
+  vm.gender = vm.baby.gender;
+  vm.weight = vm.baby.weight;
+  vm.height = vm.baby.height;
+
   /*********************               OPEN DATE PICKER                     *******************/
   function openDatePicker() {
     var datePickerConf = {
       callback: _onDatePicked, //WARNING: callback is Mandatory!
-      inputDate: new Date(vm.selDayStr),
+      inputDate: new Date(vm.birthday),
       titleLabel: 'Select a Date',
       setLabel: 'Set',
       todayLabel: 'Today',
@@ -40,31 +59,49 @@ angular.module('app.controllers')
   };
 
   function _onDatePicked(val) { //Mandatory
-    // enable SAVE/CANCEL BUTTON
-    vm.enableSave = true;
-
-    var selDate = new Date(val);
-    console.log('Return value from the datepicker popup is : ' + val, selDate);
-    vm.selDayStr = selDate.toLocaleDateString();
+    vm.birthday = new Date(val);
+    console.log('Return value from the datepicker popup is : ' + val, vm.birthday);
+    vm.baby.birthday = vm.birthday;
+    DBrecord.saveBaby(vm.baby);
   }
 
+  /*********************                 change Name                          *****************/
+  function changeName() {
+    vm.baby.name = vm.name;
+    DBrecord.saveBaby(vm.baby);
+  }
+
+  /*********************                 change Firstame                      *****************/
+  function changeFirstname() {
+    vm.baby.firstname = vm.firstname;
+    DBrecord.saveBaby(vm.baby);
+  }
 
   /*********************          Click on MALE RADIO BUTTON                  *****************/
-  function onMaleGenderClick() {
-    // enable SAVE/CANCEL BUTTON
-    vm.enableSave = true;
-
-    // update display
-    vm.leftSide = !vm.leftSide;
+  function onClickMale() {
+    vm.gender = MALE;
+    vm.baby.gender = vm.gender;
+    DBrecord.saveBaby(vm.baby);
   }
 
   /*********************          Click on FEMALE RADIO BUTTON                *****************/
-  function onFemaleGenderClick() {
-    // enable SAVE/CANCEL BUTTON
-    vm.enableSave = true;
-
-    // update display
-    vm.leftSide = !vm.leftSide;
+  function onClickFemale() {
+    vm.gender = FEMALE;
+    vm.baby.gender = vm.gender;
+    DBrecord.saveBaby(vm.baby);
   }
+
+  /*********************                 change Weight                      *****************/
+  function changeWeight() {
+    vm.baby.weight = vm.weight;
+    DBrecord.saveBaby(vm.baby);
+  }
+
+  /*********************                 change Height                      *****************/
+  function changeHeight() {
+    vm.baby.height = vm.height;
+    DBrecord.saveBaby(vm.baby);
+  }
+
 
 })

@@ -81,6 +81,10 @@ angular.module('app.controllers')
     vm.curMode = MODE_MANUAL;
   }
 
+  vm.baby = DBrecord.getBabyInfo(DBrecord.getBabyUIDList()[0]);
+  vm.babyName = vm.baby.firstname;
+  vm.babyGender = vm.baby.gender;
+
   vm.peeSlider = {
     value: 2,
     options: {

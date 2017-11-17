@@ -23,10 +23,9 @@ angular.module('app.factory', [])
 
     //baby infos
     createNewBaby: createNewBaby,
-    getCurBabyUID: getCurBabyUID,
     getBabyInfo: getBabyInfo,
     getBabyUIDList: getBabyUIDList,
-    //saveBaby: saveBaby,
+    saveBaby: saveBaby,
 
     // records
     loadRec: loadRec,
@@ -62,43 +61,13 @@ angular.module('app.factory', [])
     localStorage[uid] = JSON.stringify(baby);
   }
 
-  /*********************                  GET CURRENT BABY ID               *****************/
-  function getCurBabyUID() {
-    var babyUID = null;
-    var babyJs = localStorage["current_baby_ID"];
-
-    if (babyJs !== undefined) {
-      babyID = JSON.parse(localStorage["current_baby_ID"]);
-    }
-    // else if no record exist with "current_baby_ID": create it
-    {
-      var curBaby = null;
-
-      // get Baby UID List 
-      var babyUIDList = getBabyUIDList();
-      // if baby list not empty
-      if (babyList.lenght === 0) {
-        // pick up the first baby
-        babyUID = babyUIDList[0];
-      }
-      // else create a first baby
-      else {
-        localStorage[defaultBaby.uid] = JSON.stringify(defaultBaby);
-        curBaby = defaultBaby;
-      }
-
-      // create new entry in local storage;
-      localStorage["current_baby_ID"] = JSON.stringify(babyUID);
-
-      // update all record with babyID
-    }
-    return babyUID;
-  }
-
   /*********************                  GET BABY INFO                     *****************/
   function getBabyInfo(babyUID) {
     var babyInfo = JSON.parse(localStorage[babyUID]);
-    return babyInfo;
+    if (babyInfo === undefined)
+      return null;
+    else
+      return babyInfo;
   }
 
   /*********************                  GET BABY LIST                      *****************/
@@ -113,6 +82,11 @@ angular.module('app.factory', [])
       }
     }
     return babyUIDList;
+  }
+
+  /*********************                  SAVE BABY                          *****************/
+  function saveBaby(baby) {
+    localStorage[baby.uid] = JSON.stringify(baby);
   }
 
 
@@ -201,7 +175,7 @@ angular.module('app.factory', [])
       if (property.slice(0, prefix.length) == prefix) {
         // Attribute all record to babyUID
         rec = JSON.parse(localStorage[property]);
-        rec.babyUID = babyUID; 
+        rec.babyUID = babyUID;
         localStorage[property] = JSON.stringify(rec);
       }
     }
