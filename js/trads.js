@@ -36,8 +36,8 @@ var translationsEN = {
     BATH_HEADER: "BATH",
     BATH_MESSAGE_MALE: "Perfect: {{name}} is soft and clean",
     BATH_MESSAGE_FEMALE: "Perfect: {{name}} is soft and clean",
+    MESSAGE_HEADER: "NOTE",
     MEDECINE_HEADER: "MEDECINE",
-    MESSAGE_HEADER: "MESSAGE",
   },
   HISTORIC: {
     BREAK_HEADER: "PREVIOUS FEEDING :",
@@ -97,8 +97,9 @@ var translationsFR = {
     BATH_HEADER: "BAIN",
     BATH_MESSAGE_MALE: "ça y est : {{name}} est doux et propre",
     BATH_MESSAGE_FEMALE: "ça y est : {{name}} est douce et propre",
+    MESSAGE_HEADER: "NOTE",
+    MESSAGE_PLACEHOLDER: "...",
     MEDECINE_HEADER: "MEDICAMENT",
-    MESSAGE_HEADER: "MESSAGE",
   },
   HISTORIC: {
     BREAK_HEADER: "REPAS PRECEDENT :",

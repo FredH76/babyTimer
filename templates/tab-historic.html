@@ -53,124 +53,138 @@
               </div>
             </div>
 
-            <div class="row row-center" style="height:100%">
+            <div class="row row-center no-padding no-margin">
 
               <div class="col col-10 col-center del-flag " ng-show="histVM.editMode" ng-click="histVM.delRec(item)">
                 <i class="ion-minus-circled" style="color:red;font-size:25px;padding:0px;margin:0px"></i>
               </div>
 
               <!-- HOUR -->
-              <div class="col col-15">
+              <div class="col-15 col-center">
                 {{item.time | HourMinFromDate}}
               </div>
 
-              <!-- BREAST -->
-              <div class="col col-10" style="text-align:right">
-                <div ng-if="item.breast == true">
-                  <img ng-src="img/breast-sm-on.jpg" style="height:35px">
+
+              <div class="col col-90 no-padding no-margin">
+                <div class="row no-padding no-margin">
+                  <!-- BREAST -->
+                  <div class="col-5 col-center" style="text-align:right">
+                    <div ng-if="item.breast == true">
+                      <img ng-src="img/breast-sm-on.jpg" style="height:35px">
+                    </div>
+                    <div ng-if="item.breast != true">
+                      <img ng-src="img/breast-sm-off.jpg" style="height:35px">
+                    </div>
+                  </div>
+
+                  <!-- DURATION -->
+                  <div class="col col-15 side_display" ng-if="item.breast == true">
+                    <div class="row" style="height:15px">
+                      <div style="width:100%; text-align:center">
+                        {{item.duration | MinutesFromSeconds}}
+                      </div>
+                    </div>
+                    <div class="row row-center">
+                      <div class="breast-side" ng-class="item.leftSide?'state-checked':'none'">
+                        {{'ACRONYM.LEFT' | translate}}
+                      </div>
+                      <div class="breast-side" ng-class="item.rightSide?'state-checked':'none'">
+                        {{'ACRONYM.RIGHT' | translate}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col col-15 side_display" ng-if="item.breast != true">
+                    <div style="width:100%; text-align:center; color:lightgrey">
+                      --
+                    </div>
+                  </div>
+
+                  <!-- BOTTLE -->
+                  <div class="col col-10 no-side-padding" style="text-align:right">
+                    <div ng-if="item.bottle == true">
+                      <img ng-src="img/bottle-on.png" style="height:35px">
+                    </div>
+                    <div ng-if="item.bottle != true">
+                      <img ng-src="img/bottle-off.png" style="height:35px">
+                    </div>
+                  </div>
+
+                  <!-- CONTENT -->
+                  <div class="col col-15 col-center" ng-if="item.bottle == true">
+                    <div style="width:100%; text-align:left">
+                      {{item.bottleContent}}
+                      <br>ml
+                    </div>
+                  </div>
+                  <div class="col col-15 col-center" ng-if="item.bottle != true">
+                    <div style="width:100%; text-align:left; color:lightgrey">
+                      &nbsp;&nbsp;--
+                    </div>
+                  </div>
+
+
+                  <!-- BATH -->
+                  <div class="col col-10" style="text-align:center;margin-left:-5px; margin-right:15px">
+                    <div ng-if="item.bath">
+                      <img ng-src="img/bath-on.jpg" style="height:30px">
+                    </div>
+                    <div ng-if="!item.bath">
+                      <img ng-src="img/bath-off.jpg" style="height:30px">
+                    </div>
+
+                  </div>
+
+                  <!-- PEE -->
+                  <div class="col col-10" style="text-align:right">
+                    <div ng-if="item.diapper == false">
+                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                    </div>
+                    <div ng-if="item.diapper == true">
+                      <div ng-if="item.peeLevel == 0">
+                        <img ng-src="img/diapper-on-0.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.peeLevel == 1">
+                        <img ng-src="img/diapper-pee1.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.peeLevel == 2">
+                        <img ng-src="img/diapper-pee2.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.peeLevel == 3">
+                        <img ng-src="img/diapper-pee3.jpg" style="height:30px">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- POO -->
+                  <div class="col col-10" style="text-align:right">
+                    <div ng-if="item.diapper == false">
+                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                    </div>
+                    <div ng-if="item.diapper == true">
+                      <div ng-if="item.pooLevel == 0">
+                        <img ng-src="img/diapper-on-0.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.pooLevel == 1">
+                        <img ng-src="img/diapper-poo1.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.pooLevel == 2">
+                        <img ng-src="img/diapper-poo2.jpg" style="height:30px">
+                      </div>
+                      <div ng-if="item.pooLevel == 3">
+                        <img ng-src="img/diapper-poo3.jpg" style="height:30px">
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div ng-if="item.breast != true">
-                  <img ng-src="img/breast-sm-off.jpg" style="height:35px">
+
+                <div class="row row-center " ng-if="item.message">
+                  <div class="col col-90 note">
+                    {{item.msgTxt}}
+                  </div>
                 </div>
+
               </div>
 
-              <!-- DURATION -->
-              <div class="col col-15 side_display" ng-if="item.breast == true">
-                <div class="row" style="height:15px">
-                  <div style="width:100%; text-align:center">
-                    {{item.duration | MinutesFromSeconds}}
-                  </div>
-                </div>
-                <div class="row row-center">
-                  <div class="breast-side" ng-class="item.leftSide?'state-checked':'none'">
-                    {{'ACRONYM.LEFT' | translate}}
-                  </div>
-                  <div class="breast-side" ng-class="item.rightSide?'state-checked':'none'">
-                    {{'ACRONYM.RIGHT' | translate}}
-                  </div>
-                </div>
-              </div>
-              <div class="col col-15 side_display" ng-if="item.breast != true">
-                <div style="width:100%; text-align:center; color:lightgrey">
-                  --
-                </div>
-              </div>
-
-              <!-- BOTTLE -->
-              <div class="col col-10 no-side-padding" style="text-align:right">
-                <div ng-if="item.bottle == true">
-                  <img ng-src="img/bottle-on.png" style="height:35px">
-                </div>
-                <div ng-if="item.bottle != true">
-                  <img ng-src="img/bottle-off.png" style="height:35px">
-                </div>
-              </div>
-
-              <!-- CONTENT -->
-              <div class="col col-10" ng-if="item.bottle == true">
-                <div style="width:100%; text-align:left">
-                  {{item.bottleContent}}ml
-                </div>
-              </div>
-              <div class="col col-10" ng-if="item.bottle != true">
-                <div style="width:100%; text-align:center; color:lightgrey">
-                  --
-                </div>
-              </div>
-
-
-              <!-- BATH -->
-              <div class="col col-10" style="text-align:center;margin-left:10px; margin-right:15px">
-                <div ng-if="item.bath != 0">
-                  <img ng-src="img/bath-on.jpg" style="height:30px">
-                </div>
-                <div ng-if="item.bath == 0">
-                  <img ng-src="img/bath-off.jpg" style="height:30px">
-                </div>
-
-              </div>
-
-              <!-- PEE -->
-              <div class="col col-10" style="text-align:right">
-                <div ng-if="item.diapper == false">
-                  <img ng-src="img/diapper-off.jpg" style="height:30px">
-                </div>
-                <div ng-if="item.diapper == true">
-                  <div ng-if="item.peeLevel == 0">
-                    <img ng-src="img/diapper-on-0.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.peeLevel == 1">
-                    <img ng-src="img/diapper-pee1.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.peeLevel == 2">
-                    <img ng-src="img/diapper-pee2.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.peeLevel == 3">
-                    <img ng-src="img/diapper-pee3.jpg" style="height:30px">
-                  </div>
-                </div>
-              </div>
-
-              <!-- POO -->
-              <div class="col col-10" style="text-align:right">
-                <div ng-if="item.diapper == false">
-                  <img ng-src="img/diapper-off.jpg" style="height:30px">
-                </div>
-                <div ng-if="item.diapper == true">
-                  <div ng-if="item.pooLevel == 0">
-                    <img ng-src="img/diapper-on-0.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.pooLevel == 1">
-                    <img ng-src="img/diapper-poo1.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.pooLevel == 2">
-                    <img ng-src="img/diapper-poo2.jpg" style="height:30px">
-                  </div>
-                  <div ng-if="item.pooLevel == 3">
-                    <img ng-src="img/diapper-poo3.jpg" style="height:30px">
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

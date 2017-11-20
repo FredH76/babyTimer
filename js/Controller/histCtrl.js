@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($scope, $state, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function($scope, $state, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
   vm.recList = [];
@@ -105,6 +105,8 @@ angular.module('app.controllers')
       dispItem.peeLevel = vm.recList[i].peeLevel;
       dispItem.pooLevel = vm.recList[i].pooLevel;
       dispItem.bath = vm.recList[i].bath;
+      dispItem.message = vm.recList[i].message;
+      dispItem.msgTxt = vm.recList[i].msgTxt;
 
       vm.dispList[i] = dispItem;
     }
@@ -117,7 +119,7 @@ angular.module('app.controllers')
     _refreshDayList();
 
     // display recList from BOTTOM
-    $timeout(function () {
+    $timeout(function() {
       $ionicScrollDelegate.scrollBottom();
     });
 

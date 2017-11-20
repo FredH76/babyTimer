@@ -37,6 +37,14 @@
     margin: 0px;
   }
   
+  .no-padding {
+    padding: 0px;
+  }
+  
+  .no-margin {
+    margin: 0px;
+  }
+  
   .list {
     margin-top: -1px
   }
@@ -235,6 +243,19 @@
     color: gray;
     font-style: italic;
   }
+  /******************************             MESSAGE ROW                ***************************/
+  
+  .msg-row {
+    padding: 4px 25px 4px 25px;
+  }
+  
+  .msg-row textarea {
+    padding: 10px;
+    width: 100%;
+    background: whitesmoke;
+    resize: none;
+    color: #444;
+  }
   /******************************             MANUAL TAB               *************************/
   
   .duration-row {
@@ -340,6 +361,12 @@ rzslider .rz-ticks .rz-tick {
     padding-top: 0px;
     padding-bottom: 0px;
   }
+  
+  .side_display {
+    margin-left: -3px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
   /*
 .item-record {
   height: 50px;
@@ -355,7 +382,7 @@ rzslider .rz-ticks .rz-tick {
 }*/
   
   .item-record {
-    height: 50px;
+    /*height: 50px;*/
     padding-right: 10px;
     padding-left: 10px;
     border-bottom: solid 1px lightgrey;
@@ -407,6 +434,11 @@ rzslider .rz-ticks .rz-tick {
     flex: 0 0 40%;
     max-width: 40%;
   }
+  
+  .historic-content {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
   /*.breast-side {
   border-radius: 10px;
   margin: 5px 1px 0 1px;
@@ -439,6 +471,18 @@ rzslider .rz-ticks .rz-tick {
     padding: 5px 15px 5px 15px;
     border: solid 1px grey;
     border-radius: 3px;
+  }
+  
+  .note {
+    width: 100%;
+    margin-top: -3px;
+    padding-top: 0px;
+    padding-bottom: 25px;
+    height: 20px;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: gray;
+    font-style: italic;
   }
   
   .edit-flag {
@@ -475,7 +519,7 @@ rzslider .rz-ticks .rz-tick {
 /********************************************************************************************/
   
   .settings-row {
-    margin-top: 0px important;
+    margin-top: 0px !important;
     padding: 0px 20px 0px 20px;
     height: 42px;
   }

@@ -26,6 +26,8 @@ angular.module('app.controllers')
   vm.selMin = "";
   vm.diapper = false;
   vm.bath = false;
+  vm.message = false;
+  vm.msgTxt = "";
   vm.bottleSlider = {};
   vm.breastSlider = {};
   vm.peeSlider = {};
@@ -47,6 +49,8 @@ angular.module('app.controllers')
   vm.onToggleBottle = onToggleBottle;
   vm.onToggleDiapper = onToggleDiapper;
   vm.onToggleBath = onToggleBath;
+  vm.onToggleMessage = onToggleMessage;
+  vm.changeMessage = changeMessage;
   vm.run = run;
   vm.pause = pause;
   vm.save = save;
@@ -258,10 +262,28 @@ angular.module('app.controllers')
     vm.enableSave = true;
   }
 
+  /*********************            Click on MESSAGE BUTTON                 *****************/
+  function onToggleMessage() {
+    vm.message = !vm.message;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+
+  /*********************                Edit on MESSAGE                     *****************/
+  function changeMessage() {
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
   /*********************                  RUN                               *****************/
   function run() {
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
+
+    // store start time if first run
+    if (vm.curState == vm.STATE_IDLE)
+      vm.startTime = new Date();
 
     // switch to RUNNING state
     vm.curState = vm.STATE_RUNNING;
@@ -278,7 +300,7 @@ angular.module('app.controllers')
     vm.enableSave = true;
 
     // switch to PAUSED state
-    vm.curState = vm.STATE_IDLE;
+    vm.curState = vm.STATE_PAUSED;
 
     // add elapsed time to stored duration
     var elapsedTime = ((new Date()).getTime() - startRunTime.getTime()) / 1000;
@@ -361,6 +383,8 @@ angular.module('app.controllers')
     // if mode AUTO
     if (vm.curMode == MODE_AUTO) {
       // add START TIME info
+      if (vm.curState == vm.STATE_IDLE) // force start ime to be right now time 
+        vm.startTime = new Date();
       //var truncMin = utils.formatMinute(parseInt(vm.startTime.getMinutes() / 5) * 5);
       //vm.startTime.setMinutes(truncMin);
       l_rec.startTime = vm.startTime;
@@ -391,7 +415,10 @@ angular.module('app.controllers')
 
     // add BOTTLE info
     l_rec.bottle = vm.bottle;
-    l_rec.bottleContent = vm.bottleSlider.value;
+    if (l_rec.bottle)
+      l_rec.bottleContent = vm.bottleSlider.value;
+    else
+      l_rec.bottleContent = 0;
 
     // add SIDE info
     l_rec.leftSide = vm.leftSide;
@@ -399,17 +426,32 @@ angular.module('app.controllers')
 
     // add DIAPPER/PEE/POO info
     l_rec.diapper = vm.diapper;
-    l_rec.peeLevel = vm.peeSlider.value;
-    l_rec.pooLevel = vm.pooSlider.value;
+    if (l_rec.diapper) {
+      l_rec.peeLevel = vm.peeSlider.value;
+      l_rec.pooLevel = vm.pooSlider.value;
+    } else {
+      l_rec.peeLevel = 0;
+      l_rec.pooLevel = 0;
+    }
 
     // add BATH info
     l_rec.bath = vm.bath;
 
+    // add MESSAGE info
+    l_rec.message = vm.message;
+    if (l_rec.message)
+      l_rec.msgTxt = vm.msgTxt;
+    else
+      l_rec.msgTxt = "";
+
     // if MODE_EDIT : delete original record
     if (vm.curMode == MODE_EDIT) {
       DBrecord.delRec($stateParams.recUID);
-      $stateParams.recUID = DBrecord._createUID(l_rec);
+      $stateParams.recUID = DBrecord._createRecUID(l_rec);
     }
+
+    // add baby UID
+    l_rec.babyUID = vm.baby.uid;
 
     // save records in DB
     DBrecord.saveRec(l_rec);
@@ -445,6 +487,7 @@ angular.module('app.controllers')
     if (vm.curMode === MODE_AUTO) {
       // day
       vm.startTime = new Date();
+      //vm.startTime = null;
       // chrono
       startRunTime = null;
       vm.chrHour = utils.formatHour(0);
@@ -516,6 +559,8 @@ angular.module('app.controllers')
       vm.pooSlider.value = loaded_rec.pooLevel;
       // bath 
       vm.bath = loaded_rec.bath;
+      vm.message = loaded_rec.message;
+      vm.msgTxt = loaded_rec.msgTxt;
     }
 
     // string day
@@ -533,28 +578,11 @@ angular.module('app.controllers')
 
   /*********************            TRANSLATED ARRAY                          *****************/
   var transWeek = [
-    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.MONDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.TUESDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.THURSDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.FRIDAY')).slice(0, 1),
-    ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
+    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1), ($filter('translate')('WEEK.MONDAY')).slice(0, 1), ($filter('translate')('WEEK.TUESDAY')).slice(0, 1), ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1), ($filter('translate')('WEEK.THURSDAY')).slice(0, 1), ($filter('translate')('WEEK.FRIDAY')).slice(0, 1), ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
   ];
 
   var transMonth = [
-    ($filter('translate')('MONTH.JANUARY')).slice(0, 3),
-    ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3),
-    ($filter('translate')('MONTH.MARCH')).slice(0, 3),
-    ($filter('translate')('MONTH.APRIL')).slice(0, 3),
-    ($filter('translate')('MONTH.MAY')).slice(0, 3),
-    ($filter('translate')('MONTH.JUNE')).slice(0, 4),
-    ($filter('translate')('MONTH.JULY')).slice(0, 4),
-    ($filter('translate')('MONTH.AUGUST')).slice(0, 3),
-    ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3),
-    ($filter('translate')('MONTH.OCTOBER')).slice(0, 3),
-    ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3),
-    ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
+    ($filter('translate')('MONTH.JANUARY')).slice(0, 3), ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3), ($filter('translate')('MONTH.MARCH')).slice(0, 3), ($filter('translate')('MONTH.APRIL')).slice(0, 3), ($filter('translate')('MONTH.MAY')).slice(0, 3), ($filter('translate')('MONTH.JUNE')).slice(0, 4), ($filter('translate')('MONTH.JULY')).slice(0, 4), ($filter('translate')('MONTH.AUGUST')).slice(0, 3), ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3), ($filter('translate')('MONTH.OCTOBER')).slice(0, 3), ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3), ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
   ];
 
 

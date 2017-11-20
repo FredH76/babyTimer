@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function (utils) {
+.factory('DBrecord', function(utils) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -176,6 +176,9 @@ angular.module('app.factory', [])
         // Attribute all record to babyUID
         rec = JSON.parse(localStorage[property]);
         rec.babyUID = babyUID;
+        // add new properties: message, msgTxt
+        rec.message = false;
+        rec.msgTxt = "";
         localStorage[property] = JSON.stringify(rec);
       }
     }

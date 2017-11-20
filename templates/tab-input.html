@@ -95,7 +95,7 @@
           <div class="row button-row">
             <!-- RUN BUTTON -->
             <div class="col col-50">
-              <button ng-disabled="inVM.curState != inVM.STATE_IDLE" class="button icon-left ion-play button-outline button-block button-positive" ng-click="inVM.run()">
+              <button ng-disabled="inVM.curState == inVM.STATE_RUNNING" class="button icon-left ion-play button-outline button-block button-positive" ng-click="inVM.run()">
                 {{'INPUT.BREAST_RUN' | translate}}
               </button>
             </div>
@@ -184,7 +184,7 @@
       <!-- BOTTLE HEADER -->
       <div class="item item-divider text-label" ng-click="inVM.onToggleBottle()">
         <div class="row row-center">
-          <img src="img/bottle-on.png" style="width:40px; margin-right:0px">
+          <img src="img/bottle-on.png" style="height:40px; margin-left:8px; margin-right:8px">
           <div class="col">{{'INPUT.BOTTLE_HEADER' | translate}}</div>
           <div class="col" style="text-align:right">
             <label class="toggle toggle-positive">
@@ -279,29 +279,51 @@
 
       </div>
 
-    </div>
-    <!-- END OF LIST -->
 
-
-    <!-- BOTTOM BUTTON -->
-    <div>
-      <div class="row bottom-button-row">
-        <!-- SAVE BUTTON -->
-        <div class="col col-50">
-          <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
-            {{'BUTTON.SAVE' | translate}}
-          </button>
+      <!-- MESSAGE HEADER -->
+      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMessage()">
+        <div class="row row-center">
+          <img src="img/note-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+          <div class="col">{{'INPUT.MESSAGE_HEADER' | translate}}</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.message" ng-click="inVM.onToggleMessage()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
         </div>
-
-        <!-- RESET BUTTON -->
-        <div class="col col-50">
-          <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
-            {{'BUTTON.RESET' | translate}}
-          </button>
-        </div>
-
       </div>
-    </div>
+      <div class="test">
+
+        <!-- MESSAGE INPUT-->
+        <div class="item msg-row" ng-show="inVM.message">
+          <!-- CONTENT -->
+          <textarea id="myTextarea" ng-model="inVM.msgTxt" class="textareaMsg" placeholder="{{'INPUT.MESSAGE_PLACEHOLDER' | translate}}" ng-change="inVM.changeMessage()"></textarea>
+        </div>
+        <!-- END OF LIST -->
+
+
+        <!-- BOTTOM BUTTON -->
+        <div>
+          <div class="row bottom-button-row">
+            <!-- SAVE BUTTON -->
+            <div class="col col-50">
+              <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+                {{'BUTTON.SAVE' | translate}}
+              </button>
+            </div>
+
+            <!-- RESET BUTTON -->
+            <div class="col col-50">
+              <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
+                {{'BUTTON.RESET' | translate}}
+              </button>
+            </div>
+
+          </div>
+        </div>
 
   </ion-content>
 
