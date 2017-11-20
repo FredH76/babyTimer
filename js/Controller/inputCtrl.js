@@ -321,11 +321,11 @@ angular.module('app.controllers')
       todayLabel: $filter('translate')('BUTTON.TODAY'),
       closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: transWeek,
-      monthsList: transMonth,
+      weeksList: utils.transWeek,
+      monthsList: utils.transMonth,
       templateType: 'popup',
-      from: new Date(2017, 8, 1),
-      to: new Date(2025, 8, 1),
+      from: new Date(2017, 7, 1),
+      to: new Date(2025, 7, 1),
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: false,
@@ -575,15 +575,6 @@ angular.module('app.controllers')
     vm.enableSave = false;
 
   }
-
-  /*********************            TRANSLATED ARRAY                          *****************/
-  var transWeek = [
-    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1), ($filter('translate')('WEEK.MONDAY')).slice(0, 1), ($filter('translate')('WEEK.TUESDAY')).slice(0, 1), ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1), ($filter('translate')('WEEK.THURSDAY')).slice(0, 1), ($filter('translate')('WEEK.FRIDAY')).slice(0, 1), ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
-  ];
-
-  var transMonth = [
-    ($filter('translate')('MONTH.JANUARY')).slice(0, 3), ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3), ($filter('translate')('MONTH.MARCH')).slice(0, 3), ($filter('translate')('MONTH.APRIL')).slice(0, 3), ($filter('translate')('MONTH.MAY')).slice(0, 3), ($filter('translate')('MONTH.JUNE')).slice(0, 4), ($filter('translate')('MONTH.JULY')).slice(0, 4), ($filter('translate')('MONTH.AUGUST')).slice(0, 3), ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3), ($filter('translate')('MONTH.OCTOBER')).slice(0, 3), ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3), ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
-  ];
 
 
   /*********************         EXTRACT HOUR/MINUTE/SECOND                   *****************

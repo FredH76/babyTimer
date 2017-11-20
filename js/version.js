@@ -1,4 +1,9 @@
-var app_version = "0.1.2";
+var app_version = "0.1.3";
+
+/*******************************   version = 0.1.3  ********************************************
+new functionnalities (in progress) :
+- add a 'medecine' info field to follow medecine distribution 
+
 
 /*******************************   version = 0.1.2  ********************************************
 bug fixed: 
@@ -7,7 +12,7 @@ bug fixed:
 
 /*******************************   version = 0.1.1  ********************************************
 new functionnalities:
-- add a 'note' field to store text message 
+- add a 'note' info field to store text message 
 
 
 /*******************************   version = 0.1.0  ********************************************

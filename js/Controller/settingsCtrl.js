@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('settingsCtrl', function ($scope, ionicDatePicker, DBrecord) {
+.controller('settingsCtrl', function ($scope, $filter, utils, ionicDatePicker, DBrecord) {
   var vm = this;
   vm.baby = null;
   vm.name = null;
@@ -39,17 +39,17 @@ angular.module('app.controllers')
   function openDatePicker() {
     var datePickerConf = {
       callback: _onDatePicked, //WARNING: callback is Mandatory!
-      inputDate: new Date(vm.birthday),
-      titleLabel: 'Select a Date',
-      setLabel: 'Set',
-      todayLabel: 'Today',
-      closeLabel: 'Close',
+      inputDate: vm.birthday,
+      titleLabel: $filter('translate')('POPUP.DATEPICKER_TITLE'),
+      setLabel: $filter('translate')('BUTTON.OK'),
+      todayLabel: $filter('translate')('BUTTON.TODAY'),
+      closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      weeksList: utils.transWeek,
+      monthsList: utils.transMonth,
       templateType: 'popup',
-      from: new Date(2012, 8, 1),
-      to: new Date(2018, 8, 1),
+      from: new Date(2017, 7, 1),
+      to: new Date(2025, 7, 1),
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: false,

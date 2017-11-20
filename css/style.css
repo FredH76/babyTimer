@@ -530,14 +530,18 @@ rzslider .rz-ticks .rz-tick {
   }
   
   .settings-row input {
-    background: whitesmoke;
+    border: 1px solid darkcyan;
+    border-radius: 10px;
+    /*background: whitesmoke;*/
     padding-left: 20px;
     margin-right: -20px;
     font-size: 16px
   }
   
   .settings-time {
-    background: whitesmoke;
+    border: 1px solid darkcyan;
+    border-radius: 10px;
+    /*background: whitesmoke;*/
     padding-top: 5px;
     padding-left: 20px;
     font-size: 16px;
