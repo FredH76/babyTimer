@@ -66,9 +66,9 @@
 
 
               <div class="col col-90 no-padding no-margin">
-                <div class="row no-padding no-margin">
+                <div class="row row-center no-padding no-margin">
                   <!-- BREAST -->
-                  <div class="col-5 col-center" style="text-align:right">
+                  <div class="col-5 col-center" style="text-align:right;margin-left:-10px">
                     <div ng-if="item.breast == true">
                       <img ng-src="img/breast-sm-on.jpg" style="height:35px">
                     </div>
@@ -122,20 +122,30 @@
                     </div>
                   </div>
 
-
-                  <!-- BATH -->
-                  <div class="col col-10" style="text-align:center;margin-left:-5px; margin-right:15px">
-                    <div ng-if="item.bath">
-                      <img ng-src="img/bath-on.jpg" style="height:30px">
+                  <!-- MEDECINE : ICON -->
+                  <div class="col col-15" style="text-align:right;margin-left:-25px">
+                    <div ng-if="item.medecine == false">
+                      <img ng-src="img/medecine-off.png" style="height:33px">
                     </div>
-                    <div ng-if="!item.bath">
-                      <img ng-src="img/bath-off.jpg" style="height:30px">
+                    <div ng-if="item.medecine == true">
+                      <img ng-src="img/medecine-on.png" style="height:33px">
                     </div>
-
+                  </div>
+                  <!-- MEDECINE : DETAIL -->
+                  <div class="col col-15 med-infos">
+                    <!-- VITAMIN -->
+                    <div ng-if="item.medecine && item.vitamin" class="status-checked">{{histVM.vitaminName.slice(0,4)}}</div>
+                    <div ng-if="!item.medecine || !item.vitamin">--</div>
+                    <!-- PARACETAMOL -->
+                    <div ng-if="item.medecine && item.paracetamol" class="status-checked">{{histVM.paracetamolName.slice(0,4)}}</div>
+                    <div ng-if="!item.medecine || !item.paracetamol">--</div>
+                    <!-- OTHER MEDECINE -->
+                    <div ng-if="item.medecine && item.otherMed" class="status-checked">{{item.otherMedName.slice(0,4)}}</div>
+                    <div ng-if="!item.medecine || !item.otherMed">--</div>
                   </div>
 
                   <!-- PEE -->
-                  <div class="col col-10" style="text-align:right">
+                  <div class="col col-10" style="text-align:right;margin-left:-22px">
                     <div ng-if="item.diapper == false">
                       <img ng-src="img/diapper-off.jpg" style="height:30px">
                     </div>
@@ -175,6 +185,17 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- BATH -->
+                  <div class="col col-10" style="text-align:center;margin-left: 10px">
+                    <div ng-if="item.bath">
+                      <img ng-src="img/bath-on.png" style="height:28px">
+                    </div>
+                    <div ng-if="!item.bath">
+                      <img ng-src="img/bath-off.png" style="height:28px">
+                    </div>
+                  </div>
+
                 </div>
 
                 <div class="row row-center " ng-if="item.message">

@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function($scope, $state, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function ($scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
   vm.recList = [];
@@ -17,6 +17,11 @@ angular.module('app.controllers')
   vm.delRec = delRec;
   vm.editRec = editRec;
 
+  /******************************      DEFINE CONSTANT for HTML        ************************/
+  vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN'),
+  vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL'),
+  vm.otherMedName = ""; // to be defined item per item
+  
   /******************************         INITIALISATION               ************************/
   refreshRecList();
   vm.editMode = false;
@@ -105,6 +110,11 @@ angular.module('app.controllers')
       dispItem.peeLevel = vm.recList[i].peeLevel;
       dispItem.pooLevel = vm.recList[i].pooLevel;
       dispItem.bath = vm.recList[i].bath;
+      dispItem.medecine = vm.recList[i].medecine;
+      dispItem.vitamin = vm.recList[i].vitamin;
+      dispItem.paracetamol = vm.recList[i].paracetamol;
+      dispItem.otherMed = vm.recList[i].otherMed;
+      dispItem.otherMedName = vm.recList[i].otherMedName;
       dispItem.message = vm.recList[i].message;
       dispItem.msgTxt = vm.recList[i].msgTxt;
 
@@ -119,7 +129,7 @@ angular.module('app.controllers')
     _refreshDayList();
 
     // display recList from BOTTOM
-    $timeout(function() {
+    $timeout(function () {
       $ionicScrollDelegate.scrollBottom();
     });
 

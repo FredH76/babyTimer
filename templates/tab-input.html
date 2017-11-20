@@ -204,9 +204,71 @@
             </rzslider>
           </div>
         </div>
-
       </div>
 
+      <!-- MEDECINE HEADER -->
+      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMedecine()">
+        <div class="row row-center">
+          <img src="img/medecine-on.png" style="width:38px; margin-left:1px; margin-right:1px">
+          <div class="col">{{'INPUT.MEDECINE_HEADER' | translate}}</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.medecine" ng-click="inVM.onToggleMedecine()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDECINE INPUT-->
+      <div class="item med-row" ng-show="inVM.medecine">
+        <!-- VITAMINE / PARACETAMOL-->
+        <div class="row row-center med-row" style="padding-top:10px">
+
+          <!-- VITAMIN radio button -->
+          <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
+            <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.vitamin?' vitamin-checked':''">
+              <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-empty':'' "></i>
+            </div>-->
+          </div>
+          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
+            {{'INPUT.MEDECINE_VITAMIN' | translate}}
+          </div>
+
+          <!-- PARACETAMOL radio button -->
+          <div class="col col-10" ng-click="inVM.onParacetamolClick()">
+            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.paracetamol?'paracetamol-checked':''">
+              <i ng-class="inVM.paracetamol?'icon ion-checkmark':'' "></i>
+            </div>-->
+          </div>
+          <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
+            {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
+          <div ng-if="inVM.paracetamolAlarm != false">
+            <i class="icon ion-android-stopwatch" style="color:red;font-size:25px" ng-click="inVM.pop_paracetamolAlarm"></i>
+          </div>
+        </div>
+
+        <!-- OTHER -->
+        <div class="row row-center med-row" style="padding-top:10px">
+
+          <!-- OTHER radio button -->
+          <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
+            <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.otherMed?'otherMed-checked':''">
+              <i ng-class="inVM.otherMed?'icon ion-checkmark':'' "></i>
+            </div>-->
+          </div>
+          <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
+            {{'INPUT.MEDECINE_OTHER' | translate}}
+          </div>
+          <input name="otherMed" type="text" ng-model="inVM.otherMedName" style="margin-right:10px;width:100%" ng-click="inVM.onOtherMedName()">
+
+        </div>
+      </div>
 
       <!-- DIAPER HEADER -->
       <div class="item item-divider text-label" ng-click="inVM.onToggleDiapper()">
@@ -274,72 +336,6 @@
           <div class="col" ng-if="inVM.babyGender == inVM.FEMALE">
             {{'INPUT.BATH_MESSAGE_FEMALE'| translate : {'name' : inVM.babyName} }}
           </div>
-        </div>
-
-      </div>
-
-
-      <!-- MEDECINE HEADER -->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMedecine()">
-        <div class="row row-center">
-          <img src="img/medecine-on.png" style="width:36px; margin-left:2px; margin-right:2px">
-          <div class="col">{{'INPUT.MEDECINE_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.medecine" ng-click="inVM.onToggleMedecine()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- MEDECINE INPUT-->
-      <div class="item med-row" ng-show="inVM.medecine">
-        <!-- VITAMINE / PARACETAMOL-->
-        <div class="row row-center med-row" style="padding-top:10px">
-
-          <!-- VITAMIN radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
-            <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.vitamin?' vitamin-checked':''">
-              <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-empty':'' "></i>
-            </div>-->
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
-            {{'INPUT.MEDECINE_VITAMIN' | translate}}
-          </div>
-
-          <!-- PARACETAMOL radio button -->
-          <div class="col col-10" ng-click="inVM.onParacetamolClick()">
-            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.paracetamol?'paracetamol-checked':''">
-              <i ng-class="inVM.paracetamol?'icon ion-checkmark':'' "></i>
-            </div>-->
-          </div>
-          <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
-            {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
-          <div ng-if="inVM.paracetamolAlarm != false">
-            <i class="icon ion-android-stopwatch" style="color:red;font-size:25px" ng-click="inVM.pop_paracetamolAlarm"></i>
-          </div>
-        </div>
-
-        <!-- OTHER -->
-        <div class="row row-center med-row" style="padding-top:10px">
-
-          <!-- OTHER radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
-            <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.otherMed?'otherMed-checked':''">
-              <i ng-class="inVM.otherMed?'icon ion-checkmark':'' "></i>
-            </div>-->
-          </div>
-          <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
-            {{'INPUT.MEDECINE_OTHER' | translate}}
-          </div>
-          <input name="otherMed" type="text" ng-model="inVM.otherMedName" style="margin-right:10px;width:100%" ng-click="inVM.onOtherMedName()">
-
         </div>
       </div>
 
