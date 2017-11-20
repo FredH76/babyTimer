@@ -486,6 +486,22 @@ angular.module('app.controllers')
     // add BATH info
     l_rec.bath = vm.bath;
 
+    // add MEDECINE info
+    l_rec.medecine = vm.medecine;
+    if (l_rec.medecine) {
+      l_rec.medecine = vm.medecine;
+      l_rec.vitamin = vm.vitamin;
+      l_rec.paracetamol = vm.paracetamol;
+      l_rec.otherMed = vm.otherMed;
+      l_rec.otherMedName = vm.otherMedName;
+    } else {
+      l_rec.medecine = false;
+      l_rec.vitamin = false;
+      l_rec.paracetamol = false;
+      l_rec.otherMed = false;
+      l_rec.otherMedName = "";
+    }
+
     // add MESSAGE info
     l_rec.message = vm.message;
     if (l_rec.message)
@@ -558,6 +574,15 @@ angular.module('app.controllers')
       vm.pooSlider.value = null;
       // bath
       vm.bath = false;
+      // medecine
+      vm.medecine = false;
+      vm.vitamin = false;
+      vm.paracetamol = false;
+      vm.otherMed = false;
+      vm.otherMedName = "";
+      // message
+      vm.message = false;
+      vm.msgTxt = "";
     }
 
     //if mode MANUAL
@@ -579,6 +604,15 @@ angular.module('app.controllers')
       vm.pooSlider.value = null;
       // bath :
       vm.bath = false;
+      // medecine
+      vm.medecine = false;
+      vm.vitamin = false;
+      vm.paracetamol = false;
+      vm.otherMed = false;
+      vm.otherMedName = "";
+      // message
+      vm.message = false;
+      vm.msgTxt = "";
     }
 
     //if mode EDIT
@@ -608,6 +642,13 @@ angular.module('app.controllers')
       vm.pooSlider.value = loaded_rec.pooLevel;
       // bath 
       vm.bath = loaded_rec.bath;
+      // medecine
+      vm.medecine = loaded_rec.medecine;
+      vm.vitamin = loaded_rec.vitamin;
+      vm.paracetamol = loaded_rec.paracetamol;
+      vm.otherMed = loaded_rec.otherMed;
+      vm.otherMedName = loaded_rec.otherMedName;
+      // message
       vm.message = loaded_rec.message;
       vm.msgTxt = loaded_rec.msgTxt;
     }

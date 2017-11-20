@@ -303,6 +303,9 @@
           <!-- VITAMIN radio button -->
           <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
             <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.vitamin?' vitamin-checked':''">
+              <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-empty':'' "></i>
+            </div>-->
           </div>
           <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
             {{'INPUT.MEDECINE_VITAMIN' | translate}}
@@ -310,7 +313,10 @@
 
           <!-- PARACETAMOL radio button -->
           <div class="col col-10" ng-click="inVM.onParacetamolClick()">
-            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.paracetamol?'paracetamol-checked':''">
+              <i ng-class="inVM.paracetamol?'icon ion-checkmark':'' "></i>
+            </div>-->
           </div>
           <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
             {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
@@ -325,6 +331,9 @@
           <!-- OTHER radio button -->
           <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
             <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            <!-- <div class="medecine" ng-class="inVM.otherMed?'otherMed-checked':''">
+              <i ng-class="inVM.otherMed?'icon ion-checkmark':'' "></i>
+            </div>-->
           </div>
           <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
             {{'INPUT.MEDECINE_OTHER' | translate}}

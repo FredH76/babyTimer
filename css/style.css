@@ -257,6 +257,30 @@
     color: #444;
     text-overflow: ellipsis;
   }
+  
+  .medecine {
+    width: 25px;
+    height: 25px;
+    border: 1px solid darkcyan;
+    border-radius: 12px;
+    color: darkcyan;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .vitamin-checked {
+    background: orange;
+    /*salmon;*/
+  }
+  
+  .paracetamol-checked {
+    background: violet;
+  }
+  
+  .otherMed-checked {
+    background: powderblue;
+    /*skyblue;*/
+  }
   /******************************             MESSAGE ROW            ***************************/
   
   .msg-row {
