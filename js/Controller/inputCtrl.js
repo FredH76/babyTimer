@@ -26,6 +26,12 @@ angular.module('app.controllers')
   vm.selMin = "";
   vm.diapper = false;
   vm.bath = false;
+  vm.medecine = false;
+  vm.vitamin = false;
+  vm.paracetamol = false;
+  vm.paracetamolAlarm = false;
+  vm.otherMed = false;
+  vm.otherMedName = "";
   vm.message = false;
   vm.msgTxt = "";
   vm.bottleSlider = {};
@@ -49,6 +55,12 @@ angular.module('app.controllers')
   vm.onToggleBottle = onToggleBottle;
   vm.onToggleDiapper = onToggleDiapper;
   vm.onToggleBath = onToggleBath;
+  vm.onToggleMedecine = onToggleMedecine;
+  vm.onVitaminClick = onVitaminClick;
+  vm.onParacetamolClick = onParacetamolClick;
+  vm.onOtherMedClick = onOtherMedClick;
+  vm.pop_paracetamolAlarm = pop_paracetamolAlarm;
+  vm.onOtherMedName = onOtherMedName;
   vm.onToggleMessage = onToggleMessage;
   vm.changeMessage = changeMessage;
   vm.run = run;
@@ -262,13 +274,50 @@ angular.module('app.controllers')
     vm.enableSave = true;
   }
 
+  /*********************            Click on MEDECINE BUTTON                *****************/
+  function onToggleMedecine() {
+    vm.medecine = !vm.medecine;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+  /*********************          Click on VITAMIN RADIO BUTTON             *****************/
+  function onVitaminClick() {
+    vm.vitamin = !vm.vitamin;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+  /*********************          Click on PARACETAMOL RADIO BUTTON         *****************/
+  function onParacetamolClick() {
+    vm.paracetamol = !vm.paracetamol;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+  /*********************          Click on OTHER MED RADIO BUTTON           *****************/
+  function onOtherMedClick() {
+    vm.otherMed = !vm.otherMed;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+  /*********************            POP_PARACETAMOL ALARM                   *****************/
+  function pop_paracetamolAlarm() {}
+
+  /*********************            SET OTHER MEDECINE NAME                 *****************/
+  function onOtherMedName() {
+    vm.otherMed = true;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  };
+
   /*********************            Click on MESSAGE BUTTON                 *****************/
   function onToggleMessage() {
     vm.message = !vm.message;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
   }
-
 
   /*********************                Edit on MESSAGE                     *****************/
   function changeMessage() {

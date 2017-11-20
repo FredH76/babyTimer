@@ -236,14 +236,28 @@
   #pooSlider {
     margin-top: 10px;
   }
-  /******************************             BATH ROW                ***************************/
+  /******************************             BATH ROW               ***************************/
   
   .bath-row .col {
     padding: 0px 20px 0px 20px;
     color: gray;
     font-style: italic;
   }
-  /******************************             MESSAGE ROW                ***************************/
+  /******************************             MEDECINE ROW           ***************************/
+  
+  .med-row {
+    padding: 4px 15px 4px 15px;
+  }
+  
+  .med-row input {
+    background: whitesmoke;
+    padding-left: 15px;
+    margin-right: -20px;
+    font-size: 16px;
+    color: #444;
+    text-overflow: ellipsis;
+  }
+  /******************************             MESSAGE ROW            ***************************/
   
   .msg-row {
     padding: 4px 25px 4px 25px;

@@ -30,27 +30,8 @@
   <ion-content>
 
     <div class="list">
-      <div class="item" ng-if="inVM.curMode != inVM.MODE_AUTO">
-        <!-- DAY DISPLAY -->
-        <div class="row date-row">
-          <div class="col">
-            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openDatePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
-              {{inVM.selDay.toLocaleDateString()}}
-            </div>
-          </div>
-        </div>
 
-        <!-- TIME DISPLAY -->
-        <div class="row date-row">
-          <div class="col">
-            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openTimePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
-              {{inVM.selHour}}:{{inVM.selMin}}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHRONOMETER PANEL -->
+      <!-- MODE AUTO : CHRONOMETER PANEL -->
       <div ng-if="inVM.curMode===inVM.MODE_AUTO">
         <!-- CHRONOMETER HEADER -->
         <div class="row row-center item-divider text-label">
@@ -131,52 +112,70 @@
       <!-- END OF CHRONOMETER PANEL -->
 
 
-      <!-- MANUAL and EDIT SPECIFIC OPTION -->
+      <!-- Mode MANUAL and EDIT : SPECIFIC OPTION -->
       <div ng-if="inVM.curMode === inVM.MODE_EDIT || inVM.curMode === inVM.MODE_MANUAL ">
 
-        <!-- MANUAL HEADER-->
-        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBreast()">
-          <div class="row row-center">
-            <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
-            <div class="col">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
-            <div class="col" style="text-align:right">
-              <label class="toggle toggle-positive">
-                <input type="checkbox" ng-model="inVM.breast" ng-click="inVM.onToggleBreast()">
-                <div class="track">
-                  <div class="handle"></div>
-                </div>
-              </label>
+        <!-- DAY DISPLAY -->
+        <div class="row date-row">
+          <div class="col">
+            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openDatePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
+              {{inVM.selDay.toLocaleDateString()}}
             </div>
           </div>
         </div>
 
-        <div class="item" ng-show="inVM.breast">
-
-          <!-- SIDE DISPLAY -->
-          <div class="row row-center side-row" style="padding-top:10px">
-
-            <!-- LEFT side radio button -->
-            <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
-              <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
-              {{'INPUT.BREAST_LEFT_SIDE' | translate}}
-            </div>
-
-            <!-- RIGHT side radio button -->
-            <div class="col col-10" ng-click="inVM.onRightSideClick()">
-              <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
-            </div>
-            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
-              {{'INPUT.BREAST_RIGHT_SIDE' | translate}}
+        <!-- TIME DISPLAY -->
+        <div class="row date-row">
+          <div class="col">
+            <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openTimePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
+              {{inVM.selHour}}:{{inVM.selMin}}
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="row duration-row">
-            <div class="col">
-              <rzslider id="breastSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.breastSlider.value" rz-slider-options="inVM.breastSlider.options">
-              </rzslider>
-            </div>
+      <!-- MANUAL HEADER-->
+      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBreast()">
+        <div class="row row-center">
+          <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
+          <div class="col">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.breast" ng-click="inVM.onToggleBreast()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" ng-show="inVM.breast">
+
+        <!-- SIDE DISPLAY -->
+        <div class="row row-center side-row" style="padding-top:10px">
+
+          <!-- LEFT side radio button -->
+          <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
+            <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+          </div>
+          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
+            {{'INPUT.BREAST_LEFT_SIDE' | translate}}
+          </div>
+
+          <!-- RIGHT side radio button -->
+          <div class="col col-10" ng-click="inVM.onRightSideClick()">
+            <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+          </div>
+          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
+            {{'INPUT.BREAST_RIGHT_SIDE' | translate}}
+          </div>
+        </div>
+
+        <div class="row duration-row">
+          <div class="col">
+            <rzslider id="breastSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.breastSlider.value" rz-slider-options="inVM.breastSlider.options">
+            </rzslider>
           </div>
         </div>
       </div>
@@ -280,6 +279,62 @@
       </div>
 
 
+      <!-- MEDECINE HEADER -->
+      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMedecine()">
+        <div class="row row-center">
+          <img src="img/medecine-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+          <div class="col">{{'INPUT.MEDECINE_HEADER' | translate}}</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.medecine" ng-click="inVM.onToggleMedecine()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDECINE INPUT-->
+      <div class="item med-row" ng-show="inVM.medecine">
+        <!-- VITAMINE / PARACETAMOL-->
+        <div class="row row-center med-row" style="padding-top:10px">
+
+          <!-- VITAMIN radio button -->
+          <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
+            <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+          </div>
+          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
+            {{'INPUT.MEDECINE_VITAMIN' | translate}}
+          </div>
+
+          <!-- PARACETAMOL radio button -->
+          <div class="col col-10" ng-click="inVM.onParacetamolClick()">
+            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+          </div>
+          <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
+            {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
+          <div ng-if="inVM.paracetamolAlarm != false">
+            <i class="icon ion-android-stopwatch" style="color:red;font-size:25px" ng-click="inVM.pop_paracetamolAlarm"></i>
+          </div>
+        </div>
+
+        <!-- OTHER -->
+        <div class="row row-center med-row" style="padding-top:10px">
+
+          <!-- OTHER radio button -->
+          <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
+            <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+          </div>
+          <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
+            {{'INPUT.MEDECINE_OTHER' | translate}}
+          </div>
+          <input name="otherMed" type="text" ng-model="inVM.otherMedName" style="margin-right:10px;width:100%" ng-click="inVM.onOtherMedName()">
+
+        </div>
+      </div>
+
+
       <!-- MESSAGE HEADER -->
       <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMessage()">
         <div class="row row-center">
@@ -295,35 +350,37 @@
           </div>
         </div>
       </div>
-      <div class="test">
 
-        <!-- MESSAGE INPUT-->
-        <div class="item msg-row" ng-show="inVM.message">
-          <!-- CONTENT -->
-          <textarea id="myTextarea" ng-model="inVM.msgTxt" class="textareaMsg" placeholder="{{'INPUT.MESSAGE_PLACEHOLDER' | translate}}" ng-change="inVM.changeMessage()"></textarea>
-        </div>
-        <!-- END OF LIST -->
+      <!-- MESSAGE INPUT-->
+      <div class="item msg-row" ng-show="inVM.message">
+        <!-- CONTENT -->
+        <textarea id="myTextarea" ng-model="inVM.msgTxt" class="textareaMsg" placeholder="{{'INPUT.MESSAGE_PLACEHOLDER' | translate}}" ng-change="inVM.changeMessage()"></textarea>
+      </div>
 
 
-        <!-- BOTTOM BUTTON -->
-        <div>
-          <div class="row bottom-button-row">
-            <!-- SAVE BUTTON -->
-            <div class="col col-50">
-              <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
-                {{'BUTTON.SAVE' | translate}}
-              </button>
-            </div>
-
-            <!-- RESET BUTTON -->
-            <div class="col col-50">
-              <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
-                {{'BUTTON.RESET' | translate}}
-              </button>
-            </div>
-
+      <!-- BOTTOM BUTTON -->
+      <div>
+        <div class="row bottom-button-row">
+          <!-- SAVE BUTTON -->
+          <div class="col col-50">
+            <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+              {{'BUTTON.SAVE' | translate}}
+            </button>
           </div>
+
+          <!-- RESET BUTTON -->
+          <div class="col col-50">
+            <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
+              {{'BUTTON.RESET' | translate}}
+            </button>
+          </div>
+
         </div>
+      </div>
+
+
+    </div>
+    <!-- END OF LIST ?-->
 
   </ion-content>
 

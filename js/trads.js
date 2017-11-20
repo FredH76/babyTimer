@@ -100,6 +100,9 @@ var translationsFR = {
     MESSAGE_HEADER: "NOTE",
     MESSAGE_PLACEHOLDER: "...",
     MEDECINE_HEADER: "MEDICAMENT",
+    MEDECINE_VITAMIN: "Vitamines",
+    MEDECINE_PARACETAMOL: "Paracetamol",
+    MEDECINE_OTHER: "Autre :",
   },
   HISTORIC: {
     BREAK_HEADER: "REPAS PRECEDENT :",
