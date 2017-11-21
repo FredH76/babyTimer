@@ -33,8 +33,12 @@ angular.module('app', [
     // if database version lower than current app version: update DB.
     if (utils.compVersion(dbVersion, app_version) < 0) {
       if (utils.compVersion(dbVersion, "0.1.1") < 0) {
-        DBrecord.patchToV0_1_1();
+        DBrecord.patchToV0_1_1(); // create a default baby record + add babyUID and text fields to all records
       }
+      if (utils.compVersion(dbVersion, "0.1.3") < 0) {
+        DBrecord.patchToV0_1_3(); // add medecine fields to all records
+      }
+
       DBrecord.storeAppVersion(app_version);
     }
 

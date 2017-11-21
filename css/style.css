@@ -31,15 +31,17 @@
     font-weight: normal;
     color: darkgrey;
   }
+  /*  BUG FROM HERE */
+  
+  .no-padding {
+    padding: 0px;
+  }
   
   .row {
     padding: 0px;
     margin: 0px;
   }
-  
-  .no-padding {
-    padding: 0px;
-  }
+  /* TO HERE */
   
   .no-margin {
     margin: 0px;

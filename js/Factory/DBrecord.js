@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function(utils) {
+.factory('DBrecord', function (utils) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -20,6 +20,7 @@ angular.module('app.factory', [])
     getAppVersion: getAppVersion,
     storeAppVersion: storeAppVersion,
     patchToV0_1_1: patchToV0_1_1,
+    patchToV0_1_3: patchToV0_1_3,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -158,6 +159,7 @@ angular.module('app.factory', [])
   /********************************************************************************************/
   /*********************              DB UPDATE VERSION PATCH                 *****************/
   /********************************************************************************************/
+  // create a default baby record + add babyUID to all records
   function patchToV0_1_1() {
     var babyUID = null;
 
@@ -173,12 +175,34 @@ angular.module('app.factory', [])
     // go through every property of LocalStorage
     for (var property in localStorage) {
       if (property.slice(0, prefix.length) == prefix) {
-        // Attribute all record to babyUID
+        // Attribute babyUID to all record
         rec = JSON.parse(localStorage[property]);
         rec.babyUID = babyUID;
         // add new properties: message, msgTxt
         rec.message = false;
         rec.msgTxt = "";
+        localStorage[property] = JSON.stringify(rec);
+      }
+    }
+  }
+
+  // add MEDECINE + TEXT fields to all records
+  function patchToV0_1_3() {
+    var babyUID = null;
+    var prefix = RECORD_PREFIX;
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        // Attribute Medecine fields to all record
+        rec = JSON.parse(localStorage[property]);
+        // add new properties: medecine, vitamin,..
+        rec.medecine = false;
+        rec.vitamin = false;
+        rec.paracetamol = false;
+        rec.otherMed = false;
+        rec.otherMedName = "";
+
         localStorage[property] = JSON.stringify(rec);
       }
     }

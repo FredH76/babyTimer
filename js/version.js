@@ -1,8 +1,9 @@
 var app_version = "0.1.3";
 
 /*******************************   version = 0.1.3  ********************************************
-new functionnalities (in progress) :
+new functionnalities :
 - add a 'medecine' info field to follow medecine distribution 
+- reorganize hitoric display
 
 
 /*******************************   version = 0.1.2  ********************************************

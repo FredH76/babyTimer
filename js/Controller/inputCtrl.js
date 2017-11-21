@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function ($document, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function ($document, $scope, $state, $stateParams, $ionicHistory, $interval, $ionicScrollDelegate, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.babyName = $filter('translate')('SETTINGS.BABY_DEFAULT_NAME');
@@ -663,6 +663,12 @@ angular.module('app.controllers')
 
     // disable save button
     vm.enableSave = false;
+
+    // display recList from BOTTOM
+    $timeout(function () {
+      $ionicScrollDelegate.scrollBottom();
+      $scope.$broadcast('scroll.refreshComplete');
+    });
 
   }
 

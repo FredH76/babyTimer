@@ -132,50 +132,50 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- MANUAL HEADER-->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBreast()">
-        <div class="row row-center">
-          <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
-          <div class="col">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.breast" ng-click="inVM.onToggleBreast()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="item" ng-show="inVM.breast">
-
-        <!-- SIDE DISPLAY -->
-        <div class="row row-center side-row" style="padding-top:10px">
-
-          <!-- LEFT side radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
-            <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
-            {{'INPUT.BREAST_LEFT_SIDE' | translate}}
-          </div>
-
-          <!-- RIGHT side radio button -->
-          <div class="col col-10" ng-click="inVM.onRightSideClick()">
-            <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
-            {{'INPUT.BREAST_RIGHT_SIDE' | translate}}
+        <!-- MANUAL HEADER-->
+        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBreast()">
+          <div class="row row-center">
+            <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
+            <div class="col">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.breast" ng-click="inVM.onToggleBreast()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
 
-        <div class="row duration-row">
-          <div class="col">
-            <rzslider id="breastSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.breastSlider.value" rz-slider-options="inVM.breastSlider.options">
-            </rzslider>
+        <div class="item" ng-show="inVM.breast">
+
+          <!-- SIDE DISPLAY -->
+          <div class="row row-center side-row" style="padding-top:10px">
+
+            <!-- LEFT side radio button -->
+            <div class="col col-10 col-center" ng-click="inVM.onLeftSideClick()">
+              <i ng-class="inVM.leftSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onLeftSideClick()">
+              {{'INPUT.BREAST_LEFT_SIDE' | translate}}
+            </div>
+
+            <!-- RIGHT side radio button -->
+            <div class="col col-10" ng-click="inVM.onRightSideClick()">
+              <i ng-class="inVM.rightSide?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' "></i>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onRightSideClick()">
+              {{'INPUT.BREAST_RIGHT_SIDE' | translate}}
+            </div>
+          </div>
+
+          <div class="row duration-row">
+            <div class="col">
+              <rzslider id="breastSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="inVM.breastSlider.value" rz-slider-options="inVM.breastSlider.options">
+              </rzslider>
+            </div>
           </div>
         </div>
       </div>

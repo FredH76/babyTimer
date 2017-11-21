@@ -19,9 +19,9 @@ angular.module('app.controllers')
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN'),
-  vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL'),
-  vm.otherMedName = ""; // to be defined item per item
-  
+    vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL'),
+    vm.otherMedName = ""; // to be defined item per item
+
   /******************************         INITIALISATION               ************************/
   refreshRecList();
   vm.editMode = false;
@@ -128,9 +128,12 @@ angular.module('app.controllers')
 
     _refreshDayList();
 
-    // display recList from BOTTOM
+    /* display recList from BOTTOM */
     $timeout(function () {
-      $ionicScrollDelegate.scrollBottom();
+      var view = $ionicScrollDelegate.getScrollView();
+      view.resize();
+      var y = view.getScrollMax();
+      $ionicScrollDelegate.scrollTo(0, y.top);
     });
 
   };
