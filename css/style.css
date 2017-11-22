@@ -585,7 +585,8 @@ rzslider .rz-ticks .rz-tick {
     color: #444;
   }
   
-  .settings-row input {
+  .settings-row input,
+  .measure-row input {
     border: 1px solid darkcyan;
     border-radius: 10px;
     /*background: whitesmoke;*/

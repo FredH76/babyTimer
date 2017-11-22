@@ -340,6 +340,74 @@
       </div>
 
 
+      <!-- WEIGHT/HEIGHT HEADER -->
+      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMeasure()">
+        <div class="row row-center">
+          <img src="img/measure-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+          <div class="col">{{'INPUT.MEASURE_HEADER' | translate}}</div>
+          <div class="col" style="text-align:right">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="inVM.measure" ng-click="inVM.onToggleMeasure()">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" ng-show="inVM.measure">
+        <div class="row row-center measure-row">
+          <!-- WEIGHT  -->
+          <div class="col col-center col-15" style="margin-left:10px">
+            {{'INPUT.MEASURE_WEIGHT' | translate}}
+          </div>
+          <div class="col col-right col-20">
+            <input name="weight" type="number" ng-model="inVM.weight" style="width:100%" ng-blur="inVM.changeWeight()">
+          </div>
+          <div class="col col-left col-15">
+            {{'ACRONYM.WEIGHT' | translate}}
+          </div>
+
+          <!-- HEIGTH -->
+          <div class="col col-center col-15">
+            {{'INPUT.MEASURE_HEIGHT' | translate}}
+          </div>
+          <div class="col col-center col-20 settings-text">
+            <input name="height" type="number" ng-model="inVM.height" style="width:100%" ng-blur="inVM.changeHeight()">
+          </div>
+          <div class="col col-left col-15">
+            {{'ACRONYM.HEIGHT' | translate}}
+          </div>
+        </div>
+
+      </div>
+      <!-- BABY WEIGHT 
+      <div class="row row-center settings-row settings-text">
+        <div class="col col-center col-40">
+          {{'SETTINGS.BABY_WEIGHT' | translate}}
+        </div>
+        <div class="col col-center col-25">
+          <input name="weight" type="number" ng-model="setVM.weight" style="width:100%" ng-blur="setVM.changeWeight()">
+        </div>
+        <div class="col col-center col-20">
+          {{'ACRONYM.WEIGHT' | translate}}
+        </div>
+      </div>
+
+      <!-- BABY HEIGHT
+      <div class="row row-center settings-row settings-text">
+        <div class="col col-center col-40">
+          {{'SETTINGS.BABY_HEIGHT' | translate}}
+        </div>
+        <div class="col col-center col-25">
+          <input name="height" type="number" ng-model="setVM.height" style="width:100%" ng-blur="setVM.changeHeight()">
+        </div>
+        <div class="col col-center col-20">
+          {{'ACRONYM.HEIGHT' | translate}}
+        </div>
+      </div>-->
+
       <!-- MESSAGE HEADER -->
       <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMessage()">
         <div class="row row-center">

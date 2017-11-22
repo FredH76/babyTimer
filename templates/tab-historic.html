@@ -216,9 +216,9 @@
         <div class="row row-center">
           <div class="col">{{'HISTORIC.BREAK_HEADER' | translate}}</div>
           <div class="col " style="text-align:right;vertical-align:middel">
-            <span ng-if="histVM.durDay!=0">{{histVM.durDay}}d</span>
-            <span ng-if="histVM.durHour!=0">{{histVM.durHour}}h</span>
-            <span>{{histVM.durMin}}mn</span>
+            <span ng-if="histVM.durDay!=0">{{histVM.durDay}}{{'ACRONYM.DAY' | translate}}</span>
+            <span ng-if="histVM.durHour!=0">{{histVM.durHour}}{{'ACRONYM.HOUR' | translate}}</span>
+            <span>{{histVM.durMin}}{{'ACRONYM.MINUTE' | translate}}</span>
           </div>
         </div>
       </div>

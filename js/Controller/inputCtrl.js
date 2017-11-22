@@ -32,6 +32,9 @@ angular.module('app.controllers')
   vm.paracetamolAlarm = false;
   vm.otherMed = false;
   vm.otherMedName = "";
+  vm.measure = false;
+  vm.height = null;
+  vm.weight = null;
   vm.message = false;
   vm.msgTxt = "";
   vm.bottleSlider = {};
@@ -61,6 +64,9 @@ angular.module('app.controllers')
   vm.onOtherMedClick = onOtherMedClick;
   vm.pop_paracetamolAlarm = pop_paracetamolAlarm;
   vm.onOtherMedName = onOtherMedName;
+  vm.onToggleMeasure = onToggleMeasure;
+  vm.changeWeight = changeWeight;
+  vm.changeHeight = changeHeight;
   vm.onToggleMessage = onToggleMessage;
   vm.changeMessage = changeMessage;
   vm.run = run;
@@ -312,6 +318,23 @@ angular.module('app.controllers')
     vm.enableSave = true;
   };
 
+  /*********************            Click on MEASURE BUTTON                *****************/
+  function onToggleMeasure() {
+    vm.measure = !vm.measure;
+    // enable SAVE/CANCEL BUTTON
+    vm.enableSave = true;
+  }
+
+  /*********************                 change Weight                      *****************/
+  function changeWeight() {
+    vm.enableSave = true;
+  }
+
+  /*********************                 change Height                      *****************/
+  function changeHeight() {
+    vm.enableSave = true;
+  }
+
   /*********************            Click on MESSAGE BUTTON                 *****************/
   function onToggleMessage() {
     vm.message = !vm.message;
@@ -418,13 +441,27 @@ angular.module('app.controllers')
   /*********************                  SAVE                                *****************/
   /*  update and save current record according to following format
   /*  rec.startTime
+  /*  rec.breast
   /*  rec.duration
   /*  rec.leftSide
   /*  rec.rightSide
+  /*  rec.bottle
+  /*  rec.bottleContent
+  /*  rec.medecine
+  /*  rec.vitamin
+  /*  rec.paracetamol
+  /*  rec.otherMed
+  /*  rec.otherMedName
   /*  rec.diapper
   /*  rec.peeLevel
   /*  rec.pooLevel
   /*  rec.bath
+  /*  rec.measure
+  /*  rec.weight
+  /*  rec.height
+  /*  rec.message
+  /*  rec.msgTxt
+  /*  rec.babyUID
   /********************************************************************************************/
   function save() {
     var l_rec = {};
@@ -473,19 +510,6 @@ angular.module('app.controllers')
     l_rec.leftSide = vm.leftSide;
     l_rec.rightSide = vm.rightSide;
 
-    // add DIAPPER/PEE/POO info
-    l_rec.diapper = vm.diapper;
-    if (l_rec.diapper) {
-      l_rec.peeLevel = vm.peeSlider.value;
-      l_rec.pooLevel = vm.pooSlider.value;
-    } else {
-      l_rec.peeLevel = 0;
-      l_rec.pooLevel = 0;
-    }
-
-    // add BATH info
-    l_rec.bath = vm.bath;
-
     // add MEDECINE info
     l_rec.medecine = vm.medecine;
     if (l_rec.medecine) {
@@ -500,6 +524,29 @@ angular.module('app.controllers')
       l_rec.paracetamol = false;
       l_rec.otherMed = false;
       l_rec.otherMedName = "";
+    }
+
+    // add DIAPPER/PEE/POO info
+    l_rec.diapper = vm.diapper;
+    if (l_rec.diapper) {
+      l_rec.peeLevel = vm.peeSlider.value;
+      l_rec.pooLevel = vm.pooSlider.value;
+    } else {
+      l_rec.peeLevel = 0;
+      l_rec.pooLevel = 0;
+    }
+
+    // add BATH info
+    l_rec.bath = vm.bath;
+
+    // add MEASURE info
+    l_rec.measure = vm.measure;
+    if (l_rec.measure) {
+      l_rec.weight = vm.weight;
+      l_rec.height = vm.height;
+    } else {
+      l_rec.weight = 0;
+      l_rec.height = 0;
     }
 
     // add MESSAGE info
@@ -580,6 +627,10 @@ angular.module('app.controllers')
       vm.paracetamol = false;
       vm.otherMed = false;
       vm.otherMedName = "";
+      // measure
+      vm.measure = false;
+      vm.weight = 0;
+      vm.height = 0;
       // message
       vm.message = false;
       vm.msgTxt = "";
@@ -610,6 +661,10 @@ angular.module('app.controllers')
       vm.paracetamol = false;
       vm.otherMed = false;
       vm.otherMedName = "";
+      // measure
+      vm.measure = false;
+      vm.weight = 0;
+      vm.height = 0;
       // message
       vm.message = false;
       vm.msgTxt = "";
@@ -648,6 +703,10 @@ angular.module('app.controllers')
       vm.paracetamol = loaded_rec.paracetamol;
       vm.otherMed = loaded_rec.otherMed;
       vm.otherMedName = loaded_rec.otherMedName;
+      // measure
+      vm.measure = loaded_rec.measure;
+      vm.weight = loaded_rec.weight;
+      vm.height = loaded_rec.height;
       // message
       vm.message = loaded_rec.message;
       vm.msgTxt = loaded_rec.msgTxt;

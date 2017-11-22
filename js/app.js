@@ -38,6 +38,9 @@ angular.module('app', [
       if (utils.compVersion(dbVersion, "0.1.3") < 0) {
         DBrecord.patchToV0_1_3(); // add medecine fields to all records
       }
+      if (utils.compVersion(dbVersion, "0.1.4") < 0) {
+        DBrecord.patchToV0_1_4(); // add weight/height fields to all records
+      }
 
       DBrecord.storeAppVersion(app_version);
     }

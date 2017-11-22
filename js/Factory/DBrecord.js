@@ -21,6 +21,7 @@ angular.module('app.factory', [])
     storeAppVersion: storeAppVersion,
     patchToV0_1_1: patchToV0_1_1,
     patchToV0_1_3: patchToV0_1_3,
+    patchToV0_1_4: patchToV0_1_4,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -202,6 +203,26 @@ angular.module('app.factory', [])
         rec.paracetamol = false;
         rec.otherMed = false;
         rec.otherMedName = "";
+
+        localStorage[property] = JSON.stringify(rec);
+      }
+    }
+  }
+
+  // add MEASURES fields to all records
+  function patchToV0_1_4() {
+    var babyUID = null;
+    var prefix = RECORD_PREFIX;
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        // Attribute Measure fields to all record
+        rec = JSON.parse(localStorage[property]);
+        // add new properties: medecine, vitamin,..
+        rec.measure = false;
+        rec.weight = 0;
+        rec.height = 0;
 
         localStorage[property] = JSON.stringify(rec);
       }
