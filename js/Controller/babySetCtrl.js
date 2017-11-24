@@ -13,6 +13,7 @@ angular.module('app.controllers')
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.goBack = goBack;
+  vm.loadPicture = loadPicture;
   vm.changeName = changeName;
   vm.changeFirstname = changeFirstname;
   vm.openDatePicker = openDatePicker;
@@ -77,6 +78,13 @@ angular.module('app.controllers')
     }*/
     $backView = $ionicHistory.backView();
     $backView.go();
+  }
+
+  /*********************                 Load Picture                         *****************/
+  function loadPicture() {
+    vm.baby.name = vm.name;
+    33
+    DBrecord.saveBaby(vm.baby);
   }
 
   /*********************                 change Name                          *****************/

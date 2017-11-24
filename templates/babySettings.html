@@ -3,7 +3,7 @@
   <!-- BACK BUTTON (LEFT)-->
   <ion-nav-buttons side="left">
     <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="babyVM.goBack()">
-    </button>
+    </button>&nbsp;&nbsp;
   </ion-nav-buttons>
 
   <ion-content>
@@ -18,15 +18,19 @@
         </div>
       </div>
 
-      <!-- BABY NAME -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_NAME' | translate}}
-        </div>
-        <div class="col col-50">
-          <input name="name" type="text" ng-model="babyVM.name" style="width:100%" ng-blur="babyVM.changeName()">
+      <!-- BABY PICTURE -->
+      <div class="row row-center">
+        <div class="col" style="text-align:center" ng-click="babyVM.loadPicture()">
+          <br>
+          <img src="img/baby-boy.png" style="width:50%; border:solid 2px darkturquoise; border-radius:10px" ng-if="babyVM.gender == babyVM.MALE">
+          <img src="img/baby-girl.png" style="width:50%; border:solid 2px lightpink; border-radius:10px" ng-if="babyVM.gender == babyVM.FEMALE">
+          <br>
+          <br>
         </div>
       </div>
+
+      <ng-camera capture-message="Cheeeese!" countdown="3" output-height="160" output-width="213" viewer-height="320" viewer-width="426" image-format="jpeg" jpeg-quality="100" action-message="Take picture" snapshot="vm.picture" flash-fallback-url="/vendors/webcamjs/webcam.swf"
+      overlay-url="/overlay.png" shutter-url="/shutter.mp3"></ng-camera>
 
       <!-- BABY SURNAME -->
       <div class="row row-center settings-row settings-text">
@@ -35,6 +39,16 @@
         </div>
         <div class="col col-50">
           <input name="surname" type="text" ng-model="babyVM.firstname" style="width:100%" ng-blur="babyVM.changeFirstname()">
+        </div>
+      </div>
+
+      <!-- BABY NAME -->
+      <div class="row row-center settings-row settings-text">
+        <div class="col col-center col-40">
+          {{'SETTINGS.BABY_NAME' | translate}}
+        </div>
+        <div class="col col-50">
+          <input name="name" type="text" ng-model="babyVM.name" style="width:100%" ng-blur="babyVM.changeName()">
         </div>
       </div>
 

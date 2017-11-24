@@ -14,8 +14,8 @@ angular.module('app', [
   'app.filters'
 ])
 
-.run(function ($ionicPlatform, utils, DBrecord) {
-  $ionicPlatform.ready(function () {
+.run(function($ionicPlatform, utils, DBrecord) {
+  $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -47,7 +47,7 @@ angular.module('app', [
   });
 })
 
-.config(function ($ionicConfigProvider, $translateProvider) {
+.config(function($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
 
