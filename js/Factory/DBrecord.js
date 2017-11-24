@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function (utils) {
+.factory('DBrecord', function(utils) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -15,6 +15,15 @@ angular.module('app.factory', [])
     height: 50,
   }
 
+  // DEFAULT DISPLAY CONFIGURATION STRUCTURE  
+  var defaultInputDisplay = {
+    medecine: true,
+    diapper: true,
+    bath: true,
+    measure: true,
+    note: true,
+  }
+
   var service = {
     //version
     getAppVersion: getAppVersion,
@@ -22,6 +31,10 @@ angular.module('app.factory', [])
     patchToV0_1_1: patchToV0_1_1,
     patchToV0_1_3: patchToV0_1_3,
     patchToV0_1_4: patchToV0_1_4,
+
+    // Settings
+    getDisplayConf: getDisplayConf,
+    saveDisplayConf: saveDisplayConf,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -35,6 +48,7 @@ angular.module('app.factory', [])
     delRec: delRec,
     getRecList: getRecList,
     _createRecUID: _createRecUID,
+
   }
   return service;
 
@@ -49,9 +63,26 @@ angular.module('app.factory', [])
   }
 
 
-  /*********************               STORE APP VERSION                    *****************/
+  /*********************                STORE APP VERSION                  *****************/
   function storeAppVersion(version) {
     localStorage["app_version"] = JSON.stringify(version);
+  }
+
+
+  /*********************             GET DISPLAY CONFIGURATION             *****************/
+  function getDisplayConf() {
+    var displayConf = null;
+    if (localStorage["config_input_display"] === undefined)
+      displayConf = defaultInputDisplay;
+    else
+      displayConf = JSON.parse(localStorage["config_input_display"]);
+    return displayConf;
+  }
+
+
+  /*********************            SAVE DISPLAY CONFIGURATION              *****************/
+  function saveDisplayConf(displayConf) {
+    localStorage["config_input_display"] = JSON.stringify(displayConf);
   }
 
 
@@ -210,6 +241,7 @@ angular.module('app.factory', [])
   }
 
   // add MEASURES fields to all records
+  // add CONFIG_INPUT_DISPLAY param
   function patchToV0_1_4() {
     var babyUID = null;
     var prefix = RECORD_PREFIX;
@@ -227,6 +259,8 @@ angular.module('app.factory', [])
         localStorage[property] = JSON.stringify(rec);
       }
     }
+
+    saveDisplayConf(defaultInputDisplay);
   }
 
   /********************************************************************************************/

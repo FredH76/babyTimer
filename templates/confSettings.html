@@ -10,98 +10,86 @@
 
     <div class="list">
 
-      <!-- BABY INFOS-->
-      <!-- BABY HEADER -->
+      <!-- AUTOMATIC MANUAL HEADER -->
       <div class="item item-divider text-label" style="padding-top:15px;margin-bottom:5px">
         <div class="row row-center">
-          <div class="col col-center">{{'SETTINGS.BABY_HEADER' | translate}}</div>
+          <div class="col col-center">{{'SETTINGS.AUTO_MAN_HEADER' | translate}}</div>
         </div>
       </div>
 
-      <!-- BABY NAME -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_NAME' | translate}}
-        </div>
-        <div class="col col-50">
-          <input name="name" type="text" ng-model="setVM.name" style="width:100%" ng-blur="setVM.changeName()">
+      <!-- AUTOMATIC MANUAL INSTRUCTIONS -->
+      <div class="row row-center instruct-row settings-text">
+        <div class="col settings-instruct">
+          {{'SETTINGS.AUTO_MAN_INSTRUCTIONS' | translate}}
         </div>
       </div>
 
-      <!-- BABY SURNAME -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_FIRSTNAME' | translate}}
+      <!-- AUTOMATIC MANUAL LIST CONFIGURATION -->
+      <div class="row row-center instruct-row settings-text">
+        <div class="col col-15 left-radio">
+          <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
-        <div class="col col-50">
-          <input name="surname" type="text" ng-model="setVM.firstname" style="width:100%" ng-blur="setVM.changeFirstname()">
-        </div>
-      </div>
-
-      <!--BIRTHDAY -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40" ng-if="setVM.gender == setVM.MALE">
-          {{'SETTINGS.BIRTHDAY_MALE' | translate}}
-        </div>
-        <div class="col col-center col-40" ng-if="setVM.gender == setVM.FEMALE">
-          {{'SETTINGS.BIRTHDAY_FEMALE' | translate}}
-        </div>
-
-        <div class="col col-50 col-center">
-          <div class="settings-time" ng-click="setVM.openDatePicker()">
-            {{setVM.birthday.toLocaleDateString()}}
-          </div>
+        <div class="col col-70" style="color:grey">
+          {{'INPUT.BREAST_CHRONO_HEADER' | translate}}
         </div>
       </div>
-
-      <!-- BABY GENDER -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_GENDER' | translate}}
+      <div class="row row-center instruct-row settings-text">
+        <div class="col col-15 left-radio" ng-click="confVM.onClickMale()">
+          <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
-        <div class="col col-10 col-center" ng-click="setVM.onClickMale()">
-          <i ng-class="setVM.gender == setVM.MALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
-        </div>
-        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="setVM.onClickMale()">
-          {{'SETTINGS.BABY_BOY' | translate}}
-        </div>
-        <div class="col col-10" ng-click="setVM.onClickFemale()">
-          <i ng-class="setVM.gender == setVM.FEMALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
-        </div>
-        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="setVM.onClickFemale()">
-          {{'SETTINGS.BABY_GIRL' | translate}}
-        </div>
-
-      </div>
-
-      <!-- BABY WEIGHT -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_WEIGHT' | translate}}
-        </div>
-        <div class="col col-center col-25">
-          <input name="weight" type="number" ng-model="setVM.weight" style="width:100%" ng-blur="setVM.changeWeight()">
-        </div>
-        <div class="col col-center col-20">
-          {{'ACRONYM.WEIGHT' | translate}}
+        <div class="col col-70" style="color:grey">
+          {{'INPUT.BOTTLE_HEADER' | translate}}
         </div>
       </div>
-
-      <!-- BABY HEIGHT -->
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_HEIGHT' | translate}}
+      <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMedecine()">
+        <div class=" col col-15 left-radio ">
+          <i ng-class="confVM.medecine? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
-        <div class="col col-center col-25">
-          <input name="height" type="number" ng-model="setVM.height" style="width:100%" ng-blur="setVM.changeHeight()">
-        </div>
-        <div class="col col-center col-20">
-          {{'ACRONYM.HEIGHT' | translate}}
+        <div class="col col-70 ">
+          {{'INPUT.MEDECINE_HEADER' | translate}}
         </div>
       </div>
-
-
+      <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickDiapper()">
+        <div class=" col col-15 left-radio">
+          <i ng-class="confVM.diapper? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
+        </div>
+        <div class="col col-70 ">
+          {{'INPUT.DIAPPER_HEADER' | translate}}
+        </div>
+      </div>
+      <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickBath()">
+        <div class=" col col-15 left-radio ">
+          <i ng-class="confVM.bath? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
+        </div>
+        <div class="col col-70 ">
+          {{'INPUT.BATH_HEADER' | translate}}
+        </div>
+      </div>
+      <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMeasure()">
+        <div class=" col col-15 left-radio ">
+          <i ng-class="confVM.measure? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
+        </div>
+        <div class="col col-70 ">
+          {{'INPUT.MEASURE_HEADER' | translate}}
+        </div>
+      </div>
+      <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickNote()">
+        <div class=" col col-15 left-radio ">
+          <i ng-class="confVM.note? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
+        </div>
+        <div class="col col-70 ">
+          {{'INPUT.NOTE_HEADER' | translate}}
+        </div>
+      </div>
     </div>
+
+    <!-- GENERAL -->
+    <div class="item item-divider text-label " style="padding-top:15px;margin-bottom:5px ">
+      <div class="row row-center ">
+        <div class="col col-center ">{{'SETTINGS.GENERAL_HEADER' | translate}}</div>
+      </div>
+    </div>
+
     <!-- END OF LIST -->
 
   </ion-content>

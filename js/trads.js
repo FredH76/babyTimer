@@ -36,7 +36,7 @@ var translationsEN = {
     BATH_HEADER: "BATH",
     BATH_MESSAGE_MALE: "Perfect: {{name}} is soft and clean",
     BATH_MESSAGE_FEMALE: "Perfect: {{name}} is soft and clean",
-    MESSAGE_HEADER: "NOTE",
+    NOTE_HEADER: "NOTE",
     MEDECINE_HEADER: "MEDECINE",
   },
   HISTORIC: {
@@ -100,7 +100,6 @@ var translationsFR = {
     BATH_HEADER: "BAIN",
     BATH_MESSAGE_MALE: "ça y est : {{name}} est doux et propre",
     BATH_MESSAGE_FEMALE: "ça y est : {{name}} est douce et propre",
-    MESSAGE_PLACEHOLDER: "...",
     MEDECINE_HEADER: "MEDICAMENT",
     MEDECINE_VITAMIN: "Vitamines",
     MEDECINE_PARACETAMOL: "Paracetamol",
@@ -108,7 +107,8 @@ var translationsFR = {
     MEASURE_HEADER: "MESURES",
     MEASURE_WEIGHT: "Poids",
     MEASURE_HEIGHT: "Taille",
-    MESSAGE_HEADER: "NOTE",
+    NOTE_HEADER: "NOTE",
+    NOTE_PLACEHOLDER: "...",
   },
   HISTORIC: {
     BREAK_HEADER: "REPAS PRECEDENT :",
@@ -131,6 +131,9 @@ var translationsFR = {
     BABY_GIRL: "Fille",
     BABY_WEIGHT: "Poids Naissance",
     BABY_HEIGHT: "Taille Naissance",
+    AUTO_MAN_HEADER: "MODE AUTOMATIQUE ET MANUEL",
+    AUTO_MAN_INSTRUCTIONS: "Selectionner les champs à saisir :",
+    GENERAL_HEADER: "GENERAL",
   },
   POPUP: {
     DATEPICKER_TITLE: "Entrez une date",

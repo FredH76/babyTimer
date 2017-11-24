@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function ($scope, $state, $ionicHistory, $filter, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $filter, utils, ionicDatePicker, DBrecord) {
   var vm = this;
   vm.nbBaby = 1; // this will be set from DBrecord when several babies
   vm.baby = null;
@@ -12,7 +12,6 @@ angular.module('app.controllers')
   vm.height = null;
 
   /******************************      FUNCTION DECLARATION            ************************/
-
   vm.goBack = goBack;
   vm.changeName = changeName;
   vm.changeFirstname = changeFirstname;
@@ -70,13 +69,16 @@ angular.module('app.controllers')
 
   /****************************        GO back         ****************************************/
   function goBack() {
-    var backView = $ionicHistory.backView();
+    /*var backView = $ionicHistory.backView();
     if (backView) {
       backView.go();
     } else {
       $state.go('tab.historic');
-    }
+    }*/
+    $backView = $ionicHistory.backView();
+    $backView.go();
   }
+
   /*********************                 change Name                          *****************/
   function changeName() {
     vm.baby.name = vm.name;

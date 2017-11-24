@@ -9,7 +9,7 @@
     </button>
   </ion-nav-buttons>
 
-  <!-- CONFIG BUTTON (RIGHT)-->
+  <!-- SAVE BUTTON (RIGHT)-->
   <ion-nav-buttons side="secondary">
     <button class="button button-stable button-outline" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
       {{'BUTTON.SAVE' | translate}}
@@ -208,229 +208,213 @@
       </div>
 
       <!-- MEDECINE HEADER -->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMedecine()">
-        <div class="row row-center">
-          <img src="img/medecine-on.png" style="width:38px; margin-left:1px; margin-right:1px">
-          <div class="col">{{'INPUT.MEDECINE_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.medecine" ng-click="inVM.onToggleMedecine()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
+      <div ng-if="inVM.displayConf.medecine">
+        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMedecine()">
+          <div class="row row-center">
+            <img src="img/medecine-on.png" style="width:38px; margin-left:1px; margin-right:1px">
+            <div class="col">{{'INPUT.MEDECINE_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.medecine" ng-click="inVM.onToggleMedecine()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- MEDECINE INPUT-->
-      <div class="item med-row" ng-show="inVM.medecine">
-        <!-- VITAMINE / PARACETAMOL-->
-        <div class="row row-center med-row" style="padding-top:10px">
+        <!-- MEDECINE INPUT-->
+        <div class="item med-row" ng-show="inVM.medecine">
+          <!-- VITAMINE / PARACETAMOL-->
+          <div class="row row-center med-row" style="padding-top:10px">
 
-          <!-- VITAMIN radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
-            <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.vitamin?' vitamin-checked':''">
+            <!-- VITAMIN radio button -->
+            <div class="col col-10 col-center" ng-click="inVM.onVitaminClick()">
+              <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+              <!-- <div class="medecine" ng-class="inVM.vitamin?' vitamin-checked':''">
               <i ng-class="inVM.vitamin?'icon ion-ios-checkmark-empty':'' "></i>
             </div>-->
-          </div>
-          <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
-            {{'INPUT.MEDECINE_VITAMIN' | translate}}
-          </div>
+            </div>
+            <div class="col col-40" style="text-align:left;padding-left:15px" ng-click="inVM.onVitaminClick()">
+              {{'INPUT.MEDECINE_VITAMIN' | translate}}
+            </div>
 
-          <!-- PARACETAMOL radio button -->
-          <div class="col col-10" ng-click="inVM.onParacetamolClick()">
-            <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.paracetamol?'paracetamol-checked':''">
+            <!-- PARACETAMOL radio button -->
+            <div class="col col-10" ng-click="inVM.onParacetamolClick()">
+              <i ng-class="inVM.paracetamol?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+              <!-- <div class="medecine" ng-class="inVM.paracetamol?'paracetamol-checked':''">
               <i ng-class="inVM.paracetamol?'icon ion-checkmark':'' "></i>
             </div>-->
+            </div>
+            <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
+              {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
+            <div ng-if="inVM.paracetamolAlarm != false">
+              <i class="icon ion-android-stopwatch" style="color:red;font-size:25px" ng-click="inVM.pop_paracetamolAlarm"></i>
+            </div>
           </div>
-          <div style="text-align:left;padding-left:15px; padding-right:10px" ng-click="inVM.onParacetamolClick()">
-            {{'INPUT.MEDECINE_PARACETAMOL' | translate}}</div>
-          <div ng-if="inVM.paracetamolAlarm != false">
-            <i class="icon ion-android-stopwatch" style="color:red;font-size:25px" ng-click="inVM.pop_paracetamolAlarm"></i>
-          </div>
-        </div>
 
-        <!-- OTHER -->
-        <div class="row row-center med-row" style="padding-top:10px">
+          <!-- OTHER -->
+          <div class="row row-center med-row" style="padding-top:10px">
 
-          <!-- OTHER radio button -->
-          <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
-            <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
-            <!-- <div class="medecine" ng-class="inVM.otherMed?'otherMed-checked':''">
+            <!-- OTHER radio button -->
+            <div class="col col-10 col-center" ng-click="inVM.onOtherMedClick()">
+              <i ng-class="inVM.otherMed?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" ng-class=""></i>
+              <!-- <div class="medecine" ng-class="inVM.otherMed?'otherMed-checked':''">
               <i ng-class="inVM.otherMed?'icon ion-checkmark':'' "></i>
             </div>-->
-          </div>
-          <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
-            {{'INPUT.MEDECINE_OTHER' | translate}}
-          </div>
-          <input name="otherMed" type="text" ng-model="inVM.otherMedName" style="margin-right:10px;width:100%" ng-click="inVM.onOtherMedName()">
+            </div>
+            <div class="col col-25" style="text-align:left;padding-left:15px" ng-click="inVM.onOtherMedClick()">
+              {{'INPUT.MEDECINE_OTHER' | translate}}
+            </div>
+            <input name="otherMed" type="text" ng-model="inVM.otherMedName" style="margin-right:10px;width:100%" ng-click="inVM.onOtherMedName()">
 
+          </div>
         </div>
       </div>
 
       <!-- DIAPER HEADER -->
-      <div class="item item-divider text-label" ng-click="inVM.onToggleDiapper()">
-        <div class="row row-center">
-          <img src="img/diapper-on.png" style="width:30px; margin-left:5px; margin-right:5px">
-          <div class="col">{{'INPUT.DIAPPER_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.diapper" ng-click="inVM.onToggleDiapper()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="item diapper-item ng-hide" ng-show="inVM.diapper">
-        <!-- PEE MEASUREMENT -->
-        <div class="row row-diapper">
-          <div class="col col-33 col-top">
-            {{'INPUT.DIAPPER_PEE_LEVEL' | translate}}
-          </div>
-          <div class="col col-66">
-            <rzslider id="peeSlider" rz-slider-model="inVM.peeSlider.value" rz-slider-options="inVM.peeSlider.options">
-            </rzslider>
+      <div ng-if="inVM.displayConf.diapper">
+        <div class="item item-divider text-label" ng-click="inVM.onToggleDiapper()">
+          <div class="row row-center">
+            <img src="img/diapper-on.png" style="width:30px; margin-left:5px; margin-right:5px">
+            <div class="col">{{'INPUT.DIAPPER_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.diapper" ng-click="inVM.onToggleDiapper()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
 
-        <!-- POO MEASUREMENT -->
-        <div class="row row-diapper">
-          <div class="col col-33 col-top">
-            {{'INPUT.DIAPPER_POO_LEVEL' | translate}}
+        <div class="item diapper-item ng-hide" ng-show="inVM.diapper">
+          <!-- PEE MEASUREMENT -->
+          <div class="row row-diapper">
+            <div class="col col-33 col-top">
+              {{'INPUT.DIAPPER_PEE_LEVEL' | translate}}
+            </div>
+            <div class="col col-66">
+              <rzslider id="peeSlider" rz-slider-model="inVM.peeSlider.value" rz-slider-options="inVM.peeSlider.options">
+              </rzslider>
+            </div>
           </div>
-          <div class="col col-66">
-            <rzslider id="pooSlider" rz-slider-model="inVM.pooSlider.value" rz-slider-options="inVM.pooSlider.options">
-            </rzslider>
+
+          <!-- POO MEASUREMENT -->
+          <div class="row row-diapper">
+            <div class="col col-33 col-top">
+              {{'INPUT.DIAPPER_POO_LEVEL' | translate}}
+            </div>
+            <div class="col col-66">
+              <rzslider id="pooSlider" rz-slider-model="inVM.pooSlider.value" rz-slider-options="inVM.pooSlider.options">
+              </rzslider>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- BATH HEADER -->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBath()">
-        <div class="row row-center">
-          <img src="img/bath-on.png" style="width:28px; margin-left:6px; margin-right:6px">
-          <div class="col">{{'INPUT.BATH_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.bath" ng-click="inVM.onToggleBath()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
+      <div ng-if="inVM.displayConf.bath">
+        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBath()">
+          <div class="row row-center">
+            <img src="img/bath-on.png" style="width:28px; margin-left:6px; margin-right:6px">
+            <div class="col">{{'INPUT.BATH_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.bath" ng-click="inVM.onToggleBath()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!--BATH MESSAGE -->
+        <div class="item bath-row" ng-show="inVM.bath">
+          <!-- CONTENT -->
+          <div class="row">
+            <div class="col" ng-if="inVM.babyGender == inVM.MALE">
+              {{'INPUT.BATH_MESSAGE_MALE'| translate : {'name' : inVM.babyName} }}
+            </div>
+            <div class="col" ng-if="inVM.babyGender == inVM.FEMALE">
+              {{'INPUT.BATH_MESSAGE_FEMALE'| translate : {'name' : inVM.babyName} }}
+            </div>
           </div>
         </div>
       </div>
-
-      <!--BATH MESSAGE -->
-      <div class="item bath-row" ng-show="inVM.bath">
-        <!-- CONTENT -->
-        <div class="row">
-          <div class="col" ng-if="inVM.babyGender == inVM.MALE">
-            {{'INPUT.BATH_MESSAGE_MALE'| translate : {'name' : inVM.babyName} }}
-          </div>
-          <div class="col" ng-if="inVM.babyGender == inVM.FEMALE">
-            {{'INPUT.BATH_MESSAGE_FEMALE'| translate : {'name' : inVM.babyName} }}
-          </div>
-        </div>
-      </div>
-
 
       <!-- WEIGHT/HEIGHT HEADER -->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMeasure()">
-        <div class="row row-center">
-          <img src="img/measure-on.png" style="width:36px; margin-left:2px; margin-right:2px">
-          <div class="col">{{'INPUT.MEASURE_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.measure" ng-click="inVM.onToggleMeasure()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
+      <div ng-if="inVM.displayConf.measure">
+        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMeasure()">
+          <div class="row row-center">
+            <img src="img/measure-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+            <div class="col">{{'INPUT.MEASURE_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.measure" ng-click="inVM.onToggleMeasure()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
           </div>
+        </div>
+
+        <div class="item" ng-show="inVM.measure">
+          <div class="row row-center measure-row">
+            <!-- WEIGHT  -->
+            <div class="col col-center col-15" style="margin-left:10px">
+              {{'INPUT.MEASURE_WEIGHT' | translate}}
+            </div>
+            <div class="col col-right col-20">
+              <input name="weight" type="number" ng-model="inVM.weight" style="width:100%; padding-left:10px" ng-blur="inVM.changeWeight()">
+            </div>
+            <div class="col col-left col-15">
+              {{'ACRONYM.WEIGHT' | translate}}
+            </div>
+
+            <!-- HEIGTH -->
+            <div class="col col-center col-15">
+              {{'INPUT.MEASURE_HEIGHT' | translate}}
+            </div>
+            <div class="col col-center col-20 settings-text">
+              <input name="height" type="number" ng-model="inVM.height" style="width:100%; padding-left:10px" ng-blur="inVM.changeHeight()">
+            </div>
+            <div class="col col-left col-15">
+              {{'ACRONYM.HEIGHT' | translate}}
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="item" ng-show="inVM.measure">
-        <div class="row row-center measure-row">
-          <!-- WEIGHT  -->
-          <div class="col col-center col-15" style="margin-left:10px">
-            {{'INPUT.MEASURE_WEIGHT' | translate}}
-          </div>
-          <div class="col col-right col-20">
-            <input name="weight" type="number" ng-model="inVM.weight" style="width:100%; padding-left:10px" ng-blur="inVM.changeWeight()">
-          </div>
-          <div class="col col-left col-15">
-            {{'ACRONYM.WEIGHT' | translate}}
-          </div>
 
-          <!-- HEIGTH -->
-          <div class="col col-center col-15">
-            {{'INPUT.MEASURE_HEIGHT' | translate}}
-          </div>
-          <div class="col col-center col-20 settings-text">
-            <input name="height" type="number" ng-model="inVM.height" style="width:100%; padding-left:10px" ng-blur="inVM.changeHeight()">
-          </div>
-          <div class="col col-left col-15">
-            {{'ACRONYM.HEIGHT' | translate}}
+      <!-- NOTE HEADER -->
+      <div ng-if="inVM.displayConf.note">
+        <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMessage()">
+          <div class="row row-center">
+            <img src="img/note-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+            <div class="col">{{'INPUT.NOTE_HEADER' | translate}}</div>
+            <div class="col" style="text-align:right">
+              <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="inVM.message" ng-click="inVM.onToggleMessage()">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
 
-      </div>
-      <!-- BABY WEIGHT 
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_WEIGHT' | translate}}
-        </div>
-        <div class="col col-center col-25">
-          <input name="weight" type="number" ng-model="setVM.weight" style="width:100%" ng-blur="setVM.changeWeight()">
-        </div>
-        <div class="col col-center col-20">
-          {{'ACRONYM.WEIGHT' | translate}}
+        <!-- MESSAGE INPUT-->
+        <div class="item msg-row" ng-show="inVM.message">
+          <!-- CONTENT -->
+          <textarea id="myTextarea" ng-model="inVM.msgTxt" class="textareaMsg" placeholder="{{'INPUT.NOTE_PLACEHOLDER' | translate}}" ng-change="inVM.changeMessage()"></textarea>
         </div>
       </div>
-
-      <!-- BABY HEIGHT
-      <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40">
-          {{'SETTINGS.BABY_HEIGHT' | translate}}
-        </div>
-        <div class="col col-center col-25">
-          <input name="height" type="number" ng-model="setVM.height" style="width:100%" ng-blur="setVM.changeHeight()">
-        </div>
-        <div class="col col-center col-20">
-          {{'ACRONYM.HEIGHT' | translate}}
-        </div>
-      </div>-->
-
-      <!-- MESSAGE HEADER -->
-      <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleMessage()">
-        <div class="row row-center">
-          <img src="img/note-on.png" style="width:36px; margin-left:2px; margin-right:2px">
-          <div class="col">{{'INPUT.MESSAGE_HEADER' | translate}}</div>
-          <div class="col" style="text-align:right">
-            <label class="toggle toggle-positive">
-              <input type="checkbox" ng-model="inVM.message" ng-click="inVM.onToggleMessage()">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- MESSAGE INPUT-->
-      <div class="item msg-row" ng-show="inVM.message">
-        <!-- CONTENT -->
-        <textarea id="myTextarea" ng-model="inVM.msgTxt" class="textareaMsg" placeholder="{{'INPUT.MESSAGE_PLACEHOLDER' | translate}}" ng-change="inVM.changeMessage()"></textarea>
-      </div>
-
 
       <!-- BOTTOM BUTTON -->
       <div>
