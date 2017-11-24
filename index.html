@@ -44,29 +44,98 @@
   <script src="js/filter.js"></script>
   <script src="js/trads.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/Controller/mainMenuCtrl.js"></script>
+  <script src="js/Controller/confSetCtrl.js"></script>
   <script src="js/Controller/inputCtrl.js"></script>
   <script src="js/Controller/autoCtrl.js"></script>
   <script src="js/Controller/manCtrl.js"></script>
   <script src="js/Controller/histCtrl.js"></script>
-  <script src="js/Controller/settingsCtrl.js"></script>
+  <script src="js/Controller/babySetCtrl.js"></script>
   <script src="js/Factory/DBrecord.js"></script>
   <script src="js/Factory/utils.js"></script>
 </head>
 
 <body ng-app="app" animation="slide-left-right-ios7">
-  <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
-  <ion-nav-bar class="bar-stable">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
-  </ion-nav-bar>
-  <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
-  <ion-nav-view></ion-nav-view>
+  <div>
+    <ion-side-menus enable-menu-with-back-views="false">
+
+      <!-- LEFT MENU -->
+      <ion-side-menu side="left" ng-controller="mainMenuCtrl as menVM">
+        <ion-header-bar class="bar-stable">
+          <div menu-close class="title">{{'PAGE_TITLE.MENU' | translate}}</div>
+        </ion-header-bar>
+        <ion-content class="side-menu-left">
+          <ion-list>
+            <!--HEADER for BABY INFO-->
+            <ion-item class="item-divider side-header item-icon-right" menu-close style="color:#444; background-color:#f5f5f5; padding-left:20px">
+              <i class="icon ion-chevron-right"></i>
+              <div class="row row-center" style="height:100%" ui-sref="babySettings">
+                <div ng-if="menVM.nbBaby<=1">
+                  {{'MENU.BABY_INFOS' | translate}}
+                </div>
+                <div ng-if="menVM.nbBaby>1">
+                  {{'MENU.BABIES_INFOS' | translate}}
+                </div>
+              </div>
+            </ion-item>
+
+            <!-- HEADER for CONFIGURATION -->
+            <ion-item class="item-divider side-header item-icon-right" style="color:#444">
+              <i class="icon ion-chevron-right"></i>
+              <div class="row row-center" style="height:100%" ui-sref="confSettings">
+                {{'MENU.CONFIGURATION' | translate}}
+              </div>
+            </ion-item>
+
+            <!-- HEADER for ACCOUNT -->
+            <ion-item class="item-divider side-header" style="color:#444">
+              <div class="row row-center" style="height:100%">
+                {{'MENU.ACCOUNT' | translate}}
+              </div>
+            </ion-item>
+
+
+            <!-- SOFTWARE INFOS -->
+            <div class="row row-center" menu-close>
+              <div class="col" style="text-align:center">
+                <br>
+                <br>
+                <span style="font-size:25px;color:darkcyan;font-family:jokerman">BABY TIMER </span>
+                <br>
+                <img src="img/icon.png" style="width:40%">
+                <br> version : {{menVM.version}}
+                <br> Copyright (c) BabyTimer
+              </div>
+            </div>
+
+
+
+          </ion-list>
+        </ion-content>
+      </ion-side-menu>
+
+      <!-- MAIN CONTENT -->
+      <ion-side-menu-content drag-content="false">
+        <!--
+          The nav bar that will be updated as we navigate between views.
+        -->
+        <ion-nav-bar class="bar-stable">
+          <ion-nav-back-button>
+          </ion-nav-back-button>
+          <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon button-clear ion-navicon"></button>
+          </ion-nav-buttons>
+        </ion-nav-bar>
+        <!--
+          The views will be rendered in the <ion-nav-view> directive below
+          Templates are in the /templates folder (but you could also
+          have templates inline in this html file if you'd like).
+        -->
+        <ion-nav-view></ion-nav-view>
+      </ion-side-menu-content>
+
+    </ion-side-menus>
+  </div>
 </body>
 
 </html>

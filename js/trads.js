@@ -80,7 +80,10 @@ var translationsFR = {
     MANUAL: "Saisie manuelle",
     EDIT: "Mode Edition",
     HISTORIC: "Historique",
-    SETTINGS: "Réglages",
+    MENU: "Réglages",
+    BABY_INFOS: "Informations Bébé",
+    BABIES_INFOS: "Informations Bébés",
+    CONFIGURATION: "Configuration",
   },
   INPUT: {
     BREAST_CHRONO_HEADER: "ALLAITEMENT",
@@ -110,7 +113,12 @@ var translationsFR = {
   HISTORIC: {
     BREAK_HEADER: "REPAS PRECEDENT :",
   },
-  MENU: {},
+  MENU: {
+    BABY_INFOS: "Informations bébé",
+    BABIES_INFOS: "Information bébés",
+    CONFIGURATION: "Configuration",
+    ACCOUNT: "Comptes   (non disponible)",
+  },
   SETTINGS: {
     BABY_HEADER: "MON BEBE",
     BABY_DEFAULT_NAME: "Bébé",
@@ -123,7 +131,6 @@ var translationsFR = {
     BABY_GIRL: "Fille",
     BABY_WEIGHT: "Poids Naissance",
     BABY_HEIGHT: "Taille Naissance",
-    OPTION_HEADER: "MES OPTIONS",
   },
   POPUP: {
     DATEPICKER_TITLE: "Entrez une date",

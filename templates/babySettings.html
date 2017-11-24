@@ -1,4 +1,10 @@
-<ion-view view-title="{{'PAGE_TITLE.SETTINGS' | translate}}">
+<ion-view view-title="{{babyVM.nbBaby <2 ? ('PAGE_TITLE.BABY_INFOS' | translate) : ('PAGE_TITLE.BABIES_INFOS' | translate)}}">
+
+  <!-- BACK BUTTON (LEFT)-->
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="babyVM.goBack()">
+    </button>
+  </ion-nav-buttons>
 
   <ion-content>
 
@@ -18,7 +24,7 @@
           {{'SETTINGS.BABY_NAME' | translate}}
         </div>
         <div class="col col-50">
-          <input name="name" type="text" ng-model="setVM.name" style="width:100%" ng-blur="setVM.changeName()">
+          <input name="name" type="text" ng-model="babyVM.name" style="width:100%" ng-blur="babyVM.changeName()">
         </div>
       </div>
 
@@ -28,22 +34,22 @@
           {{'SETTINGS.BABY_FIRSTNAME' | translate}}
         </div>
         <div class="col col-50">
-          <input name="surname" type="text" ng-model="setVM.firstname" style="width:100%" ng-blur="setVM.changeFirstname()">
+          <input name="surname" type="text" ng-model="babyVM.firstname" style="width:100%" ng-blur="babyVM.changeFirstname()">
         </div>
       </div>
 
       <!--BIRTHDAY -->
       <div class="row row-center settings-row settings-text">
-        <div class="col col-center col-40" ng-if="setVM.gender == setVM.MALE">
+        <div class="col col-center col-40" ng-if="babyVM.gender == babyVM.MALE">
           {{'SETTINGS.BIRTHDAY_MALE' | translate}}
         </div>
-        <div class="col col-center col-40" ng-if="setVM.gender == setVM.FEMALE">
+        <div class="col col-center col-40" ng-if="babyVM.gender == babyVM.FEMALE">
           {{'SETTINGS.BIRTHDAY_FEMALE' | translate}}
         </div>
 
         <div class="col col-50 col-center">
-          <div class="settings-time" ng-click="setVM.openDatePicker()">
-            {{setVM.birthday.toLocaleDateString()}}
+          <div class="settings-time" ng-click="babyVM.openDatePicker()">
+            {{babyVM.birthday.toLocaleDateString()}}
           </div>
         </div>
       </div>
@@ -53,16 +59,16 @@
         <div class="col col-center col-40">
           {{'SETTINGS.BABY_GENDER' | translate}}
         </div>
-        <div class="col col-10 col-center" ng-click="setVM.onClickMale()">
-          <i ng-class="setVM.gender == setVM.MALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
+        <div class="col col-10 col-center" ng-click="babyVM.onClickMale()">
+          <i ng-class="babyVM.gender == babyVM.MALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
         </div>
-        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="setVM.onClickMale()">
+        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="babyVM.onClickMale()">
           {{'SETTINGS.BABY_BOY' | translate}}
         </div>
-        <div class="col col-10" ng-click="setVM.onClickFemale()">
-          <i ng-class="setVM.gender == setVM.FEMALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
+        <div class="col col-10" ng-click="babyVM.onClickFemale()">
+          <i ng-class="babyVM.gender == babyVM.FEMALE?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size: 26px"></i>
         </div>
-        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="setVM.onClickFemale()">
+        <div class="col col-20" style="text-align:left;margin-left:-7px" ng-click="babyVM.onClickFemale()">
           {{'SETTINGS.BABY_GIRL' | translate}}
         </div>
 
@@ -74,7 +80,7 @@
           {{'SETTINGS.BABY_WEIGHT' | translate}}
         </div>
         <div class="col col-center col-25">
-          <input name="weight" type="number" ng-model="setVM.weight" style="width:100%" ng-blur="setVM.changeWeight()">
+          <input name="weight" type="number" ng-model="babyVM.weight" style="width:100%" ng-blur="babyVM.changeWeight()">
         </div>
         <div class="col col-center col-20">
           {{'ACRONYM.WEIGHT' | translate}}
@@ -87,20 +93,12 @@
           {{'SETTINGS.BABY_HEIGHT' | translate}}
         </div>
         <div class="col col-center col-25">
-          <input name="height" type="number" ng-model="setVM.height" style="width:100%" ng-blur="setVM.changeHeight()">
+          <input name="height" type="number" ng-model="babyVM.height" style="width:100%" ng-blur="babyVM.changeHeight()">
         </div>
         <div class="col col-center col-20">
           {{'ACRONYM.HEIGHT' | translate}}
         </div>
       </div>
-
-      <!-- OPTIONS --
-      <!-- OPTION HEADER --
-      <div class="item item-divider text-label" style="padding-top:15px;margin-bottom:5px">
-        <div class="row row-center">
-          <div class="col col-center">{{'SETTINGS.OPTION_HEADER' | translate}}</div>
-        </div>
-      </div>-->
 
 
     </div>

@@ -723,12 +723,6 @@ angular.module('app.controllers')
     // disable save button
     vm.enableSave = false;
 
-    // display recList from BOTTOM
-    $timeout(function () {
-      $ionicScrollDelegate.scrollBottom();
-      $scope.$broadcast('scroll.refreshComplete');
-    });
-
   }
 
 

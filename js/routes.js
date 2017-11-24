@@ -68,17 +68,21 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tab.settings', {
-    cache: true,
-    url: '/settings',
-    views: {
-      'tab-settings': {
-        templateUrl: 'templates/tab-settings.html',
-        controller: 'settingsCtrl',
-        controllerAs: 'setVM'
-      }
-    }
-  });
+  .state('babySettings', {
+    cache: false,
+    url: '/babySettings',
+    templateUrl: 'templates/babySettings.html',
+    controller: 'babySettingsCtrl',
+    controllerAs: 'babyVM'
+  })
+
+  .state('confSettings', {
+    cache: false,
+    url: '/confSettings',
+    templateUrl: 'templates/confSettings.html',
+    controller: 'confSettingsCtrl',
+    controllerAs: 'confVM'
+  })
 
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/tab/manual/1/null');

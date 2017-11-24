@@ -4,6 +4,7 @@
 
   <!-- BACK BUTTON (LEFT)-->
   <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon button-clear ion-navicon" ng-if="inVM.curMode !== inVM.MODE_EDIT"></button>
     <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="inVM.goBack()" ng-if="inVM.curMode === inVM.MODE_EDIT">
     </button>
   </ion-nav-buttons>
@@ -363,7 +364,7 @@
             {{'INPUT.MEASURE_WEIGHT' | translate}}
           </div>
           <div class="col col-right col-20">
-            <input name="weight" type="number" ng-model="inVM.weight" style="width:100%" ng-blur="inVM.changeWeight()">
+            <input name="weight" type="number" ng-model="inVM.weight" style="width:100%; padding-left:10px" ng-blur="inVM.changeWeight()">
           </div>
           <div class="col col-left col-15">
             {{'ACRONYM.WEIGHT' | translate}}
@@ -374,7 +375,7 @@
             {{'INPUT.MEASURE_HEIGHT' | translate}}
           </div>
           <div class="col col-center col-20 settings-text">
-            <input name="height" type="number" ng-model="inVM.height" style="width:100%" ng-blur="inVM.changeHeight()">
+            <input name="height" type="number" ng-model="inVM.height" style="width:100%; padding-left:10px" ng-blur="inVM.changeHeight()">
           </div>
           <div class="col col-left col-15">
             {{'ACRONYM.HEIGHT' | translate}}
