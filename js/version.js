@@ -1,12 +1,13 @@
 var app_version = "0.1.4";
 
 /*******************************   version = 0.1.4  ********************************************
-new functionnalities (in progress):
+new functionnalities :
 - add a 'weight/height' info field 
 - add a config_input_display param in DB
 - add a side menu
 - add option to configure input display
 - remove settings tab
+- add baby picture
 bug fixed:
 - make scrollBottom work properly
 

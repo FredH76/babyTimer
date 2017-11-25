@@ -35,6 +35,8 @@ angular.module('app.factory', [])
     // Settings
     getDisplayConf: getDisplayConf,
     saveDisplayConf: saveDisplayConf,
+    getBabyPict: getBabyPict,
+    saveBabyPict: saveBabyPict,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -83,6 +85,23 @@ angular.module('app.factory', [])
   /*********************            SAVE DISPLAY CONFIGURATION              *****************/
   function saveDisplayConf(displayConf) {
     localStorage["config_input_display"] = JSON.stringify(displayConf);
+  }
+
+
+  /*********************              GET BABY PICTURE                      *****************/
+  function getBabyPict() {
+    var picture = null;
+    if (localStorage["config_baby_picture"] === undefined)
+      picture = null;
+    else
+      picture = JSON.parse(localStorage["config_baby_picture"]);
+    return picture;
+  }
+
+
+  /*********************            SAVE BABY PICTURE                       *****************/
+  function saveBabyPict(picture) {
+    localStorage["config_baby_picture"] = JSON.stringify(picture);
   }
 
 

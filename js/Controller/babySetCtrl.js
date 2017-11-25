@@ -1,9 +1,10 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $filter, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, utils, ionicDatePicker, DBrecord) {
   var vm = this;
   vm.nbBaby = 1; // this will be set from DBrecord when several babies
   vm.baby = null;
+  vm.picture = null;
   vm.name = null;
   vm.firstname = null;
   vm.birthday = null;
@@ -13,7 +14,6 @@ angular.module('app.controllers')
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.goBack = goBack;
-  vm.loadPicture = loadPicture;
   vm.changeName = changeName;
   vm.changeFirstname = changeFirstname;
   vm.openDatePicker = openDatePicker;
@@ -22,6 +22,13 @@ angular.module('app.controllers')
   vm.changeWeight = changeWeight;
   vm.changeHeight = changeHeight;
 
+  /******************************       POPUP  DECLARATION             ************************/
+  var picturePopup = null;
+  $scope.pop_pictureMenu = pop_pictureMenu;
+  $scope.openCamera = openCamera;
+  $scope.openGallery = openGallery;
+  $scope.deletePicture = deletePicture;
+  $scope.cancel_menu = cancel_menu;
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.MALE = MALE;
@@ -31,6 +38,7 @@ angular.module('app.controllers')
   // load the first baby in UID list
   vm.babyUID = DBrecord.getBabyUIDList()[0];
   vm.baby = DBrecord.getBabyInfo(vm.babyUID);
+  vm.picture = vm.baby.picture;
   vm.name = vm.baby.name;
   vm.firstname = vm.baby.firstname;
   vm.birthday = new Date(vm.baby.birthday);
@@ -70,22 +78,124 @@ angular.module('app.controllers')
 
   /****************************        GO back         ****************************************/
   function goBack() {
-    /*var backView = $ionicHistory.backView();
+    var backView = $ionicHistory.backView();
     if (backView) {
       backView.go();
     } else {
       $state.go('tab.historic');
-    }*/
-    $backView = $ionicHistory.backView();
-    $backView.go();
+    }
   }
 
-  /*********************                 Load Picture                         *****************/
-  function loadPicture() {
-    vm.baby.name = vm.name;
-    33
+  /*********************                 Open Camera                          *****************/
+  function openCamera() {
+    picturePopup.close();
+
+    var options = {
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 300,
+      targetHeight: 300,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: true
+    };
+
+    // 3 - call cordova camera function
+    $cordovaCamera.getPicture(options).then(function(imageFile) {
+
+      /*// 4
+      onImageSuccess(imageData);
+
+      function onImageSuccess(fileURI) {
+        createFileEntry(fileURI);
+      }
+
+      function createFileEntry(fileURI) {
+        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+      }
+
+      // 5
+      function copyFile(fileEntry) {
+        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+        var newName = vm.babyUID + name;
+
+        window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(fileSystem2) {
+            fileEntry.copyTo(
+              fileSystem2,
+              newName,
+              onCopySuccess,
+              fail
+            );
+          },
+          fail);
+      }
+
+      // 6
+      function onCopySuccess(entry) {
+        $scope.$apply(function() {
+          vm.picture = urlForImage(entry.nativeURL);
+        });
+      }
+
+      // 7
+      function urlForImage(imageName) {
+        var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+        var trueOrigin = cordova.file.externalDataDirectory + name;
+        return trueOrigin;
+      }
+
+      function fail(error) {
+        console.log("fail: " + error.code);
+      }
+
+
+      //vm.picture = imageData;
+      }, function(err) {
+        console.log(err);
+      });*/
+      vm.picture = imageFile;
+      vm.baby.picture = vm.picture;
+      DBrecord.saveBaby(vm.baby);
+    });
+  }
+
+
+  /*********************                 Open Gallery                         *****************/
+  function openGallery() {
+    picturePopup.close();
+
+
+    var options = {
+      quality: 75,
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 300,
+      targetHeight: 300,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: true
+    };
+
+    $cordovaCamera.getPicture(options).then(function(imageFile) {
+      vm.picture = imageFile;
+      vm.baby.picture = vm.picture;
+      DBrecord.saveBaby(vm.baby);
+    }, function(err) {
+      // An error occured. Show a message to the user
+    });
+
+  }
+
+  /*********************                 Delete Picture                       *****************/
+  function deletePicture() {
+    picturePopup.close();
+    vm.picture = null;
+    vm.baby.picture = vm.picture;
     DBrecord.saveBaby(vm.baby);
   }
+
 
   /*********************                 change Name                          *****************/
   function changeName() {
@@ -125,5 +235,23 @@ angular.module('app.controllers')
     DBrecord.saveBaby(vm.baby);
   }
 
+
+  /****************************        POPUP MANAGEMENT             ****************************/
+
+  //--------------------------            PICTURE                   ----------------------------/
+  // SHOW popup to choose between Picture/Gallery/delete/cancel
+  function pop_pictureMenu() {
+    picturePopup = $ionicPopup.show({
+      title: $filter('translate')('POPUP.TITLE_PICTURE_MENU'),
+      cssClass: 'popup-title',
+      templateUrl: 'templates/pop_picture.html',
+      scope: $scope,
+    });
+  }
+
+  /*********************                 Cancel picture Menu                   *****************/
+  function cancel_menu() {
+    picturePopup.close();
+  }
 
 })

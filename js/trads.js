@@ -139,6 +139,11 @@ var translationsFR = {
     DATEPICKER_TITLE: "Entrez une date",
     DATEPICKER_WEEK_LIST: ["D", "L", "M", "M", "J", "V", "S"],
     DATEPICKER_MONT_LIST: ["Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
+    TITLE_PICTURE_MENU: "GESTIONNAIRE PHOTO",
+    OPEN_CAMERA: "Prendre une photo",
+    OPEN_GALLERY: "Choisir dans gallerie",
+    DELETE_PICTURE: "Effacer photo courante",
+    CANCEL: "Annuler"
   },
   ACRONYM: {
     DAY: "j",

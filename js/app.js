@@ -7,6 +7,7 @@
 // 'app.controllers' is found in controllers.js
 angular.module('app', [
   'ionic',
+  'ngCordova',
   'pascalprecht.translate',
   'app.routes',
   'app.controllers',

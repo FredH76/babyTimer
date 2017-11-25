@@ -584,6 +584,12 @@ rzslider .rz-ticks .rz-tick {
     vertical-align: bottom;
   }
   
+  .baby-picture {
+    width: 50%;
+    border: solid 5px darkturquoise;
+    border-radius: 10px;
+  }
+  
   .settings-row {
     margin-top: 0px !important;
     padding: 0px 20px 0px 20px;
@@ -632,6 +638,21 @@ rzslider .rz-ticks .rz-tick {
     height: 34px;
     color: #444;
     vertical-align: middle;
+  }
+  
+  .popup-container .popup {
+    border-radius: 10px;
+  }
+  
+  .popup-head {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: lightgrey;
+    color: #444;
+  }
+  
+  .scroll-content {
+    overflow-y: auto;
   }
   /*-------------------------------------------OLD--------------------------------------------*/
   /******************************             TIME HEADER (UP)         ************************/

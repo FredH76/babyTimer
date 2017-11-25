@@ -11,19 +11,22 @@
     <div class="list">
 
       <!-- BABY INFOS-->
-      <!-- BABY HEADER -->
+      <!-- BABY HEADER 
       <div class="item item-divider text-label" style="padding-top:15px;margin-bottom:5px">
         <div class="row row-center">
           <div class="col col-center">{{'SETTINGS.BABY_HEADER' | translate}}</div>
         </div>
-      </div>
+      </div>-->
 
       <!-- BABY PICTURE -->
       <div class="row row-center">
-        <div class="col" style="text-align:center" ng-click="babyVM.loadPicture()">
+        <div class="col" style="text-align:center">
           <br>
-          <img src="img/baby-boy.png" style="width:50%; border:solid 2px darkturquoise; border-radius:10px" ng-if="babyVM.gender == babyVM.MALE">
-          <img src="img/baby-girl.png" style="width:50%; border:solid 2px lightpink; border-radius:10px" ng-if="babyVM.gender == babyVM.FEMALE">
+          <br>
+          <img src="img/baby-boy.png" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.gender == babyVM.MALE && babyVM.picture == null" ng-click="pop_pictureMenu()">
+          <img src="img/baby-girl.png" class="baby-picture" style="border-color : lightpink" ng-if="babyVM.gender == babyVM.FEMALE && babyVM.picture == null" ng-click="pop_pictureMenu()">
+          <img src="{{babyVM.picture}}" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.gender == babyVM.MALE && babyVM.picture != null" ng-click="pop_pictureMenu()">
+          <img src="{{babyVM.picture}}" class="baby-picture" style="border-color : lightpink" ng-if="babyVM.gender == babyVM.FEMALE && babyVM.picture != null" ng-click="pop_pictureMenu()">
           <br>
           <br>
         </div>
