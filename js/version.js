@@ -5,6 +5,7 @@ new functionnalities (in progress):
 - historic tab displays only fields selected in configuration menu
 - color right bar button (in darkcyan)
 - french/english language choice
+- full english translation
 bug fixed:
 - historic tab display is back from last entry
 
