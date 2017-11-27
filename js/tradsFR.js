@@ -1,64 +1,3 @@
-var translationsEN = {
-  BUTTON: {
-    EDIT: "Edit",
-    SAVE: "Save",
-    RESET: "Reset",
-    CANCEL: "Cancel",
-    OK: "OK",
-    TODAY: "Today",
-  },
-  TAB_TITLE: {
-    AUTOMATIC: "Automatic",
-    MANUAL: "Manual",
-    EDIT: "Edit",
-    HISTORIC: "Historic",
-    SETTINGS: "Settings"
-  },
-  PAGE_TITLE: {
-    AUTOMATIC: "Auto Mode",
-    MANUAL: "Manual Mode",
-    EDIT: "Edit Mode",
-    HISTORIC: "Historic",
-    SETTINGS: "Settings",
-  },
-  INPUT: {
-    BREAST_CHRONO_HEADER: "BREAST FEEDING",
-    BREAST_MANUAL_HEADER: "BREAST FEEDING",
-    BREAST_LEFT_SIDE: "Left side",
-    BREAST_RIGHT_SIDE: "Right side",
-    BREAST_DURATION: "Duration",
-    BREAST_RUN: "Run",
-    BREAST_PAUSE: "Pause",
-    BOTTLE_HEADER: "BABY'S BOTTLE",
-    DIAPPER_HEADER: "DIAPPER",
-    DIAPPER_PEE_LEVEL: "Pee Level",
-    DIAPPER_POO_LEVEL: "Poo Level",
-    BATH_HEADER: "BATH",
-    BATH_MESSAGE_MALE: "Perfect: {{name}} is soft and clean",
-    BATH_MESSAGE_FEMALE: "Perfect: {{name}} is soft and clean",
-    NOTE_HEADER: "NOTE",
-    MEDECINE_HEADER: "MEDECINE",
-  },
-  HISTORIC: {
-    BREAK_HEADER: "PREVIOUS FEEDING :",
-  },
-  MENU: {},
-  SETTINGS: {
-    BABY_HEADER: "MY BABY",
-    BABY_DEFAULT_NAME: "Baby",
-  },
-  ACRONYM: {
-    DAY: "d",
-    HOUR: "h",
-    MINUTE: "mn",
-    SECOND: "s",
-    LEFT: "L",
-    RIGHT: "R",
-    WEIGHT: "kg",
-    HEIGHT: "in",
-  }
-};
-
 var translationsFR = {
   BUTTON: {
     EDIT: "Modifier",
@@ -107,7 +46,7 @@ var translationsFR = {
     MEASURE_HEADER: "MESURES",
     MEASURE_WEIGHT: "Poids",
     MEASURE_HEIGHT: "Taille",
-    NOTE_HEADER: "NOTE",
+    NOTE_HEADER: "NOTES",
     NOTE_PLACEHOLDER: "...",
   },
   HISTORIC: {
@@ -117,7 +56,7 @@ var translationsFR = {
     BABY_INFOS: "Informations bébé",
     BABIES_INFOS: "Information bébés",
     CONFIGURATION: "Configuration",
-    ACCOUNT: "Comptes   (non disponible)",
+    ACCOUNT: "Comptes   (pas encore disponible)",
   },
   SETTINGS: {
     BABY_HEADER: "MON BEBE",
@@ -132,13 +71,18 @@ var translationsFR = {
     BABY_WEIGHT: "Poids Naissance",
     BABY_HEIGHT: "Taille Naissance",
     AUTO_MAN_HEADER: "MODE AUTOMATIQUE ET MANUEL",
+    DISPLAY_HEADER: "AFFICHAGE CHAMPS",
     AUTO_MAN_INSTRUCTIONS: "Selectionner les champs à saisir :",
     GENERAL_HEADER: "GENERAL",
+    GENERAL_LANGUAGE: "LANGUE",
+    GENERAL_LANGUAGE_FRENCH: "Français",
+    GENERAL_LANGUAGE_ENGLISH: "Anglais",
+    GENERAL_UNITS: "UNITES",
+    GENERAL_UNITS_STD: "Kg/mL",
+    GENERAL_UNITS_ENG: "Oz/fl oz",
   },
   POPUP: {
     DATEPICKER_TITLE: "Entrez une date",
-    DATEPICKER_WEEK_LIST: ["D", "L", "M", "M", "J", "V", "S"],
-    DATEPICKER_MONT_LIST: ["Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"],
     TITLE_PICTURE_MENU: "GESTIONNAIRE PHOTO",
     OPEN_CAMERA: "Prendre une photo",
     OPEN_GALLERY: "Choisir dans gallerie",

@@ -17,3 +17,8 @@ var MODE_EDIT = 0x02;
 
 var MALE = 0x01;
 var FEMALE = 0x02;
+
+var ENGLISH = "english";
+var FRENCH = "french";
+var KILO = "kilo";
+var OUNCE = "ounce";

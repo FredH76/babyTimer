@@ -13,16 +13,17 @@
       <!-- AUTOMATIC MANUAL HEADER -->
       <div class="item item-divider text-label" style="padding-top:15px;margin-bottom:5px">
         <div class="row row-center">
-          <div class="col col-center">{{'SETTINGS.AUTO_MAN_HEADER' | translate}}</div>
+          <!--<div class="col col-center">{{'SETTINGS.AUTO_MAN_HEADER' | translate}}</div>-->
+          <div class="col col-center">{{'SETTINGS.DISPLAY_HEADER' | translate}}</div>
         </div>
       </div>
 
-      <!-- AUTOMATIC MANUAL INSTRUCTIONS -->
+      <!-- AUTOMATIC MANUAL INSTRUCTIONS 
       <div class="row row-center instruct-row settings-text">
         <div class="col settings-instruct">
           {{'SETTINGS.AUTO_MAN_INSTRUCTIONS' | translate}}
         </div>
-      </div>
+      </div>-->
 
       <!-- AUTOMATIC MANUAL LIST CONFIGURATION -->
       <div class="row row-center instruct-row settings-text">
@@ -81,15 +82,24 @@
           {{'INPUT.NOTE_HEADER' | translate}}
         </div>
       </div>
-    </div>
 
-    <!-- GENERAL -->
-    <div class="item item-divider text-label " style="padding-top:15px;margin-bottom:5px ">
-      <div class="row row-center ">
-        <div class="col col-center ">{{'SETTINGS.GENERAL_HEADER' | translate}}</div>
+      <!-- GENERAL -->
+      <div class="item item-divider text-label " style="padding-top:15px;margin-top:10px;margin-bottom:5px ">
+        <div class="row row-center ">
+          <div class="col col-center ">{{'SETTINGS.GENERAL_HEADER' | translate}}</div>
+        </div>
       </div>
-    </div>
+      <!-- LANGUAGE -->
+      <div class="row row-center language-row">
+        <div class=" col col-50 ">
+          {{'SETTINGS.GENERAL_LANGUAGE' | translate}}
+        </div>
+        <select class="col col-50 language-select" ng-model="confVM.language" ng-options="item.label for item in confVM.languageList" ng-change="confVM.changeLanguage()">
+        </select>
+      </div>
 
+
+    </div>
     <!-- END OF LIST -->
 
   </ion-content>

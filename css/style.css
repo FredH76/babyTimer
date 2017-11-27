@@ -11,6 +11,11 @@
     margin: 20px 20px 5px 0px;
   }
   
+  .button.button-stable.button-outline.bar-button-right {
+    color: darkcyan;
+    border-color: darkcyan
+  }
+  
   .nav-icon-left {
     font-size: 30px;
     margin-right: 15px;
@@ -186,18 +191,19 @@
   }
   /******************************             DIAPER               ***************************/
   
-  @keyframes example {
+  @keyframes right-to-left {
     0% {
-      height: 0px;
+      margin-left: 0px;
     }
     100% {
-      height: 250px;
+      margin-left: 1000px;
     }
   }
-  /*.diapper-item {
-    animation-name: example;
-    animation-duration: 4s;
-}*/
+  
+  .close-right-to-left {
+    animation-name: right-to-left;
+    animation-duration: 1s;
+  }
   
   .diapper-item {
     padding: 10px 20px 20px 20px;
@@ -599,6 +605,17 @@ rzslider .rz-ticks .rz-tick {
   .settings-text {
     font-size: 16px;
     color: #444;
+  }
+  
+  .language-row {
+    padding: 0px 20px 0px 20px;
+  }
+  
+  .language-select {
+    color: darkcyan;
+    border-radius: 5px;
+    border-color: darkcyan;
+    background: white;
   }
   
   .settings-instruct {

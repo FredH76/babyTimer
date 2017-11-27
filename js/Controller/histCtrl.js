@@ -1,8 +1,9 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function ($rootScope, $scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
+  vm.displayConf = null;
   vm.recList = [];
   vm.dayList = [];
   vm.dispList = [];
@@ -23,6 +24,7 @@ angular.module('app.controllers')
     vm.otherMedName = ""; // to be defined item per item
 
   /******************************         INITIALISATION               ************************/
+  vm.displayConf = DBrecord.getDisplayConf();
   refreshRecList();
   vm.editMode = false;
 
@@ -80,6 +82,14 @@ angular.module('app.controllers')
 
 
   /********************************************************************************************/
+  /*                                      EVENT MANAGEMENT
+  /********************************************************************************************/
+  $rootScope.$on('display_configuration_updated', function () {
+    vm.displayConf = DBrecord.getDisplayConf();
+  })
+
+
+  /********************************************************************************************/
   /*                                      TOOL BOX
   /********************************************************************************************/
   function refreshRecList() {
@@ -130,10 +140,11 @@ angular.module('app.controllers')
 
     /* display recList from BOTTOM */
     $timeout(function () {
-      var view = $ionicScrollDelegate.getScrollView();
+      var view = $ionicScrollDelegate.$getByHandle('histView').getScrollView();
       view.resize();
       var y = view.getScrollMax();
       $ionicScrollDelegate.scrollTo(0, y.top);
+      //$ionicScrollDelegate.scrollBottom();
     });
 
   };

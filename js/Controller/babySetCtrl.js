@@ -1,6 +1,7 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function ($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, utils, ionicDatePicker, DBrecord) {
+
   var vm = this;
   vm.nbBaby = 1; // this will be set from DBrecord when several babies
   vm.baby = null;
@@ -46,6 +47,7 @@ angular.module('app.controllers')
   vm.weight = vm.baby.weight;
   vm.height = vm.baby.height;
 
+
   /*********************               OPEN DATE PICKER                     *******************/
   function openDatePicker() {
     var datePickerConf = {
@@ -56,8 +58,8 @@ angular.module('app.controllers')
       todayLabel: $filter('translate')('BUTTON.TODAY'),
       closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: utils.transWeek,
-      monthsList: utils.transMonth,
+      weeksList: utils.getWeekList(),
+      monthsList: utils.getMonthList(),
       templateType: 'popup',
       from: new Date(2017, 7, 1),
       to: new Date(2025, 7, 1),
@@ -102,7 +104,7 @@ angular.module('app.controllers')
     };
 
     // 3 - call cordova camera function
-    $cordovaCamera.getPicture(options).then(function(imageFile) {
+    $cordovaCamera.getPicture(options).then(function (imageFile) {
 
       /*// 4
       onImageSuccess(imageData);
@@ -178,11 +180,11 @@ angular.module('app.controllers')
       saveToPhotoAlbum: true
     };
 
-    $cordovaCamera.getPicture(options).then(function(imageFile) {
+    $cordovaCamera.getPicture(options).then(function (imageFile) {
       vm.picture = imageFile;
       vm.baby.picture = vm.picture;
       DBrecord.saveBaby(vm.baby);
-    }, function(err) {
+    }, function (err) {
       // An error occured. Show a message to the user
     });
 

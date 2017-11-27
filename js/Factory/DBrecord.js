@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function(utils) {
+.factory('DBrecord', function ($filter, utils) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -24,6 +24,12 @@ angular.module('app.factory', [])
     note: true,
   }
 
+  // DEFAULT COUNTRY PREFERENCES
+  var defaultCountryPrefs = {
+    language: null, //$filter('translate')('SETTINGS.GENERAL_ENGLISH'),
+    units: null //$filter('translate')('SETTINGS.GENERAL_UNITS'),
+  }
+
   var service = {
     //version
     getAppVersion: getAppVersion,
@@ -31,12 +37,13 @@ angular.module('app.factory', [])
     patchToV0_1_1: patchToV0_1_1,
     patchToV0_1_3: patchToV0_1_3,
     patchToV0_1_4: patchToV0_1_4,
+    patchToV0_2_0: patchToV0_2_0,
 
     // Settings
     getDisplayConf: getDisplayConf,
     saveDisplayConf: saveDisplayConf,
-    getBabyPict: getBabyPict,
-    saveBabyPict: saveBabyPict,
+    getCountryConf: getCountryConf,
+    setCountryConf: setCountryConf,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -88,20 +95,20 @@ angular.module('app.factory', [])
   }
 
 
-  /*********************              GET BABY PICTURE                      *****************/
-  function getBabyPict() {
-    var picture = null;
-    if (localStorage["config_baby_picture"] === undefined)
-      picture = null;
+  /*********************           GET COUNTRY CONFIGURAITON                *****************/
+  function getCountryConf() {
+    var countryConf = null;
+    if (localStorage["config_country_prefs"] === undefined)
+      countryConf = defaultCountryPrefs;
     else
-      picture = JSON.parse(localStorage["config_baby_picture"]);
-    return picture;
+      countryConf = JSON.parse(localStorage["config_country_prefs"]);
+    return countryConf;
   }
 
 
-  /*********************            SAVE BABY PICTURE                       *****************/
-  function saveBabyPict(picture) {
-    localStorage["config_baby_picture"] = JSON.stringify(picture);
+  /*********************           SET COUNTRY CONFIGURAITON                *****************/
+  function setCountryConf(prefs) {
+    localStorage["config_country_prefs"] = JSON.stringify(prefs);
   }
 
 
@@ -280,6 +287,11 @@ angular.module('app.factory', [])
     }
 
     saveDisplayConf(defaultInputDisplay);
+  }
+
+  // add CONFIG_COUNTRY_PREFS param
+  function patchToV0_2_0() {
+    setCountryConf(defaultCountryPrefs);
   }
 
   /********************************************************************************************/

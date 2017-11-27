@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($document, $rootScope, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function ($document, $rootScope, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.displayConf = null;
@@ -41,7 +41,7 @@ angular.module('app.controllers')
   vm.pooSlider = {};
   vm.enableSave = false;
 
-  vm.test = function() {
+  vm.test = function () {
     /*var elt = document.getElementById("test");
     elt.setAttribute("style", "height:200px");*/
   }
@@ -91,14 +91,14 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
-    case MODE_AUTO:
-      vm.curMode = MODE_AUTO;
-      break;
-    case MODE_EDIT:
-      vm.curMode = MODE_EDIT;
-      break;
-    default:
-      vm.curMode = MODE_MANUAL;
+  case MODE_AUTO:
+    vm.curMode = MODE_AUTO;
+    break;
+  case MODE_EDIT:
+    vm.curMode = MODE_EDIT;
+    break;
+  default:
+    vm.curMode = MODE_MANUAL;
   }
 
   vm.displayConf = DBrecord.getDisplayConf();
@@ -154,7 +154,7 @@ angular.module('app.controllers')
   _initData();
 
   // start timer for each second
-  $interval(function() {
+  $interval(function () {
       // if running state
       if (vm.curState == vm.STATE_RUNNING) {
 
@@ -182,8 +182,8 @@ angular.module('app.controllers')
   );
 
   // update diapper slider after the DOM is loaded
-  $document.ready(function() {
-    $timeout(function() {
+  $document.ready(function () {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
@@ -222,7 +222,7 @@ angular.module('app.controllers')
     vm.breast = !vm.breast;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -239,7 +239,7 @@ angular.module('app.controllers')
     vm.bottle = !vm.bottle;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -256,7 +256,7 @@ angular.module('app.controllers')
     vm.diapper = !vm.diapper;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -393,8 +393,8 @@ angular.module('app.controllers')
       todayLabel: $filter('translate')('BUTTON.TODAY'),
       closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: utils.transWeek,
-      monthsList: utils.transMonth,
+      weeksList: utils.getWeekList(),
+      monthsList: utils.getMonthList(),
       templateType: 'popup',
       from: new Date(2017, 7, 1),
       to: new Date(2025, 7, 1),
@@ -591,8 +591,8 @@ angular.module('app.controllers')
   /********************************************************************************************/
   /*                                      EVENT MANAGEMENT
   /********************************************************************************************/
-  $rootScope.$on('display_configuration_updated',function(){
-    vm.displayConf=DBrecord.getDisplayConf();
+  $rootScope.$on('display_configuration_updated', function () {
+    vm.displayConf = DBrecord.getDisplayConf();
   })
 
 

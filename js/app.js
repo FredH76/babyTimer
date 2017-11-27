@@ -15,8 +15,8 @@ angular.module('app', [
   'app.filters'
 ])
 
-.run(function($ionicPlatform, utils, DBrecord) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform, $translate, $filter, utils, DBrecord) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -39,24 +39,54 @@ angular.module('app', [
         DBrecord.patchToV0_1_3(); // add medecine fields to all records
       }
       if (utils.compVersion(dbVersion, "0.1.4") < 0) {
-        DBrecord.patchToV0_1_4(); // add weight/height fields to all records
+        DBrecord.patchToV0_1_4(); // add config_input_display record + add weight/height fields to all records
+      }
+      if (utils.compVersion(dbVersion, "0.2.0") < 0) {
+        DBrecord.patchToV0_2_0(); // add config_country_prefs record
       }
 
       DBrecord.storeAppVersion(app_version);
     }
 
+    // set language and unit
+    var countryConf = DBrecord.getCountryConf();
+    if (countryConf.language === null) {
+      // DEFAULT : set to local country unit
+      switch ($translate.use()) {
+      case 'fr_FR':
+      case 'fr':
+        countryConf.language = FRENCH;
+        countryConf.units = KILO;
+        $translate.use('fr');
+        break;
+      default:
+        countryConf.language = ENGLISH;
+        countryConf.units = OUNCE;
+        $translate.use('en');
+      }
+      DBrecord.setCountryConf(countryConf);
+    } else {
+      // LOAD from DB
+      switch (countryConf.language) {
+      case (FRENCH):
+        $translate.use('fr');
+        break;
+      case (ENGLISH):
+      default:
+        $translate.use('en');
+      }
+    }
   });
 })
 
-.config(function($ionicConfigProvider, $translateProvider) {
+.config(function ($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
 
-  // add translation table
+  // add translation tables and set fallbacklanguage
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('fr', translationsFR);
   $translateProvider.useSanitizeValueStrategy('escape');
   $translateProvider.fallbackLanguage('fr');
   $translateProvider.determinePreferredLanguage();
-
 });

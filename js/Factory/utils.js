@@ -2,23 +2,10 @@ angular.module('app.factory')
 
 .factory('utils', function ($filter) {
 
-  /*********************            TRANSLATED ARRAY                          *****************/
-  var transWeek = [
-    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1), ($filter('translate')('WEEK.MONDAY')).slice(0, 1), ($filter('translate')('WEEK.TUESDAY')).slice(0, 1), ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1), ($filter('translate')('WEEK.THURSDAY')).slice(0, 1), ($filter('translate')('WEEK.FRIDAY')).slice(0, 1), ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
-  ];
-
-  var transMonth = [
-    ($filter('translate')('MONTH.JANUARY')).slice(0, 3), ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3), ($filter('translate')('MONTH.MARCH')).slice(0, 3), ($filter('translate')('MONTH.APRIL')).slice(0, 3), ($filter('translate')('MONTH.MAY')).slice(0, 3), ($filter('translate')('MONTH.JUNE')).slice(0, 4), ($filter('translate')('MONTH.JULY')).slice(0, 4), ($filter('translate')('MONTH.AUGUST')).slice(0, 3), ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3), ($filter('translate')('MONTH.OCTOBER')).slice(0, 3), ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3), ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
-  ];
-
-
-  // Might use a resource here that returns a JSON array
   var service = {
-    // var
-    transWeek: transWeek,
-    transMonth: transMonth,
-
-    // function
+    getLangList: getLangList,
+    getWeekList : getWeekList,
+    getMonthList: getMonthList,
     formatHour: formatHour,
     formatMinute: formatMinute,
     formatSecond: formatSecond,
@@ -26,6 +13,39 @@ angular.module('app.factory')
     compVersion: compVersion,
   }
   return service;
+
+
+  /*********************                  GET LANGUAGE LIST                   *****************/
+  function getLangList() {
+    var l_langList = [
+      {
+        country: FRENCH,
+        label: ($filter('translate')('SETTINGS.GENERAL_LANGUAGE_FRENCH'))
+      },
+      {
+        country: ENGLISH,
+        label: ($filter('translate')('SETTINGS.GENERAL_LANGUAGE_ENGLISH'))
+      },
+    ];
+
+    return (l_langList);
+  }
+
+  /*********************                  GET WEEK LIST                       *****************/
+  function getWeekList() {
+   var transWeek = [
+    ($filter('translate')('WEEK.SUNDAY')).slice(0, 1), ($filter('translate')('WEEK.MONDAY')).slice(0, 1), ($filter('translate')('WEEK.TUESDAY')).slice(0, 1), ($filter('translate')('WEEK.WEDNESDAY')).slice(0, 1), ($filter('translate')('WEEK.THURSDAY')).slice(0, 1), ($filter('translate')('WEEK.FRIDAY')).slice(0, 1), ($filter('translate')('WEEK.SATURDAY')).slice(0, 1),
+  ];
+    return transWeek;
+  }
+
+  /*********************                  GET MONTH LIST                       *****************/
+  function getMonthList() {
+   var transMonth = [
+    ($filter('translate')('MONTH.JANUARY')).slice(0, 3), ($filter('translate')('MONTH.FEBRUARY')).slice(0, 3), ($filter('translate')('MONTH.MARCH')).slice(0, 3), ($filter('translate')('MONTH.APRIL')).slice(0, 3), ($filter('translate')('MONTH.MAY')).slice(0, 3), ($filter('translate')('MONTH.JUNE')).slice(0, 4), ($filter('translate')('MONTH.JULY')).slice(0, 4), ($filter('translate')('MONTH.AUGUST')).slice(0, 3), ($filter('translate')('MONTH.SEPTEMBER')).slice(0, 3), ($filter('translate')('MONTH.OCTOBER')).slice(0, 3), ($filter('translate')('MONTH.NOVEMBER')).slice(0, 3), ($filter('translate')('MONTH.DECEMBER')).slice(0, 3),
+  ];
+return transMonth; 
+  }
 
   /*********************                  FORMAT hour Display                 *****************/
   function formatHour(hour, pmEnable) {
