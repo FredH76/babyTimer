@@ -9,10 +9,16 @@
     </button>&nbsp;&nbsp;
   </ion-nav-buttons>
 
-  <!-- SAVE BUTTON (RIGHT)-->
   <ion-nav-buttons side="secondary">
+    <!-- LUMINOSITY BUTTON (RIGHT)
+    <button class="button bar-button-image-right" ng-click="inVM.changeLuminosity()">
+      <img class="nav-button-image" ng-src="{{inVM.dayLight?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
+    </button>-->
+    <!-- SAVE BUTTON (RIGHT)-->
     <button class="button button-stable button-outline bar-button-right" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
-      {{'BUTTON.SAVE' | translate}}
+      <div class="button-text">
+        {{'BUTTON.SAVE' | translate}}
+      </div>
     </button>
   </ion-nav-buttons>
 

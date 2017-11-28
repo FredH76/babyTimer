@@ -19,9 +19,9 @@ angular.module('app.controllers')
   vm.editRec = editRec;
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
-  vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN'),
-    vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL'),
-    vm.otherMedName = ""; // to be defined item per item
+  vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN');
+  vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL');
+  vm.otherMedName = ""; // to be defined item per item
 
   /******************************         INITIALISATION               ************************/
   vm.displayConf = DBrecord.getDisplayConf();
@@ -32,6 +32,7 @@ angular.module('app.controllers')
 
   //start clock timer
   $interval(_updateInterval, 60000);
+
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION

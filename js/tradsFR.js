@@ -1,8 +1,8 @@
 var translationsFR = {
   BUTTON: {
-    EDIT: "Modifier",
-    SAVE: "Enregistrer",
-    RESET: "Réinitialiser",
+    EDIT: "Modif.",
+    SAVE: "Enreg.",
+    RESET: "Réinit.",
     CANCEL: "Annuler",
     OK: "OK",
     TODAY: "Aujourd'hui",

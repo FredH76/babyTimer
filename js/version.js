@@ -1,4 +1,8 @@
-var app_version = "0.2.0";
+var app_version = "0.2.1";
+
+/*******************************   version = 0.2.1  ********************************************
+new functionnalities (in progress):
+-add luminosity control
 
 /*******************************   version = 0.2.0  ********************************************
 new functionnalities (in progress):

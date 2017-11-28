@@ -12,8 +12,32 @@
   }
   
   .button.button-stable.button-outline.bar-button-right {
+    width: 50px;
     color: darkcyan;
-    border-color: darkcyan
+    border-color: darkcyan;
+    padding-left: 3px;
+    padding-right: 3px;
+    white-space: nowrap;
+    text-overflow: ".";
+  }
+  
+  .button.bar-button-image-right {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 4px;
+    border: solid 1px darkcyan;
+    border-radius: 5px;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .nav-button-image {
+    height: 30px;
+  }
+  
+  .button-text {
+    overflow: hidden;
+    /* try with string */
   }
   
   .nav-icon-left {
@@ -21,6 +45,11 @@
     margin-right: 15px;
     color: darkcyan;
   }
+  /*.nav-day-icon {
+    height: 100%;
+    border: solid 1px darkcyan;
+    border-radius: 5px;
+  }*/
   
   .nav-icon-left.disabled {
     color: lightgrey;

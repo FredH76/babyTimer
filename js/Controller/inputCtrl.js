@@ -89,6 +89,7 @@ angular.module('app.controllers')
   vm.FEMALE = FEMALE;
 
   /******************************         INITIALISATION               ************************/
+
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
   case MODE_AUTO:
@@ -187,6 +188,7 @@ angular.module('app.controllers')
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
+
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION

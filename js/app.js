@@ -44,6 +44,9 @@ angular.module('app', [
       if (utils.compVersion(dbVersion, "0.2.0") < 0) {
         DBrecord.patchToV0_2_0(); // add config_country_prefs record
       }
+      if (utils.compVersion(dbVersion, "0.2.1") < 0) {
+        DBrecord.patchToV0_2_1(); // add config_dayNight_mode record
+      }
 
       DBrecord.storeAppVersion(app_version);
     }

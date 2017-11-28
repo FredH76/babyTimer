@@ -30,6 +30,14 @@ angular.module('app.factory', [])
     units: null //$filter('translate')('SETTINGS.GENERAL_UNITS'),
   }
 
+  // DEFAULT DAY/NIGHT CONFIGURATION
+  var defaultDayNightPrefs = {
+    modeDayOn: true,
+    modeAuto: false,
+    nightLuminosity: 0.1,
+    autoThreshold: 0.4
+  }
+
   var service = {
     //version
     getAppVersion: getAppVersion,
@@ -38,12 +46,15 @@ angular.module('app.factory', [])
     patchToV0_1_3: patchToV0_1_3,
     patchToV0_1_4: patchToV0_1_4,
     patchToV0_2_0: patchToV0_2_0,
+    patchToV0_2_1: patchToV0_2_1,
 
     // Settings
     getDisplayConf: getDisplayConf,
     saveDisplayConf: saveDisplayConf,
     getCountryConf: getCountryConf,
     setCountryConf: setCountryConf,
+    getDayNightConf: getDayNightConf,
+    setDayNightConf: setDayNightConf,
 
     //baby infos
     createNewBaby: createNewBaby,
@@ -71,7 +82,6 @@ angular.module('app.factory', [])
     return version;
   }
 
-
   /*********************                STORE APP VERSION                  *****************/
   function storeAppVersion(version) {
     localStorage["app_version"] = JSON.stringify(version);
@@ -88,14 +98,13 @@ angular.module('app.factory', [])
     return displayConf;
   }
 
-
   /*********************            SAVE DISPLAY CONFIGURATION              *****************/
   function saveDisplayConf(displayConf) {
     localStorage["config_input_display"] = JSON.stringify(displayConf);
   }
 
 
-  /*********************           GET COUNTRY CONFIGURAITON                *****************/
+  /*********************           GET COUNTRY CONFIGURATION                *****************/
   function getCountryConf() {
     var countryConf = null;
     if (localStorage["config_country_prefs"] === undefined)
@@ -105,10 +114,25 @@ angular.module('app.factory', [])
     return countryConf;
   }
 
-
   /*********************           SET COUNTRY CONFIGURAITON                *****************/
   function setCountryConf(prefs) {
     localStorage["config_country_prefs"] = JSON.stringify(prefs);
+  }
+
+
+  /*********************           GET DAY/NIGHT CONFIGURATION              *****************/
+  function getDayNightConf() {
+    var dayNightConf = null;
+    if (localStorage["config_dayNight_prefs"] === undefined)
+      dayNightConf = defaultDayNightPrefs;
+    else
+      dayNightConf = JSON.parse(localStorage["config_dayNight_prefs"]);
+    return dayNightConf;
+  }
+
+  /*********************           SET DAY/NIGHT CONFIGURATION              *****************/
+  function setDayNightConf(prefs) {
+    localStorage["config_dayNight_prefs"] = JSON.stringify(prefs);
   }
 
 
@@ -292,6 +316,11 @@ angular.module('app.factory', [])
   // add CONFIG_COUNTRY_PREFS param
   function patchToV0_2_0() {
     setCountryConf(defaultCountryPrefs);
+  }
+
+  // add CONFIG_DAYNIGHT_MODE param
+  function patchToV0_2_1() {
+    setDayNightConf(defaultDayNightPrefs);
   }
 
   /********************************************************************************************/
