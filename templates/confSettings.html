@@ -98,6 +98,14 @@
         </select>
       </div>
 
+      <!-- NIGHT LUMINOSITY -->
+      <div class="row row-center light-row">
+        <div class=" col col-50 " style="padding-top:20px">
+          {{'SETTINGS.GENERAL_NIGHT_LUMINOSITY' | translate}}
+        </div>
+        <rzslider id="lumSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="confVM.lumSlider.value" rz-slider-options="confVM.lumSlider.options">
+        </rzslider>
+      </div>
 
     </div>
     <!-- END OF LIST -->

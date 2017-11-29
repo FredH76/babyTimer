@@ -80,6 +80,7 @@ var translationsFR = {
     GENERAL_UNITS: "UNITES",
     GENERAL_UNITS_STD: "Kg/mL",
     GENERAL_UNITS_ENG: "Oz/fl oz",
+    GENERAL_NIGHT_LUMINOSITY: "ECLAIRAGE NUIT",
   },
   POPUP: {
     DATEPICKER_TITLE: "Entrez une date",

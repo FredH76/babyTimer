@@ -15,7 +15,7 @@ angular.module('app', [
   'app.filters'
 ])
 
-.run(function ($ionicPlatform, $translate, $filter, utils, DBrecord) {
+.run(function ($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -79,6 +79,39 @@ angular.module('app', [
         $translate.use('en');
       }
     }
+
+    /* this code is for AUTOMATIC LIGHT SENSOR
+    // initalize luminosity sensor (first reading is often 0)
+    window.plugin.lightsensor.getReading();
+
+    // check luminosity on each user gesture
+    var element = angular.element(document.querySelector('#body'));
+    $ionicGesture.on('tap', function (e) {
+      console.log("catch a user event");
+
+      // check if luminosity is in mode automatique
+      if (DBrecord.getDayNightConf().modeAuto) {
+        //get luminosity value
+        window.plugin.lightsensor.getReading(readLightSuccess);
+
+        function readLightSuccess(params) {
+          console.log("get light success : " + params.intensity, params);
+          var l_dayNightConf = DBrecord.getDayNightConf();
+
+          if (params.intensity > l_dayNightConf.autoThreshold) {
+            l_dayNightConf.modeDayOn = true;
+          } else {
+            // switch to NIGHT mode
+            l_dayNightConf.modeDayOn = false;
+          }
+
+          //save changes
+          DBrecord.setDayNightConf(l_dayNightConf);
+          $rootScope.$broadcast('dayNight_updated');
+        }
+      }
+    }, element);
+    */ // END OF AUTOMATIC LIGHT SENSOR
   });
 })
 

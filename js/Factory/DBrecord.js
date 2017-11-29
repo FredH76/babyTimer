@@ -35,7 +35,7 @@ angular.module('app.factory', [])
     modeDayOn: true,
     modeAuto: false,
     nightLuminosity: 0.1,
-    autoThreshold: 0.4
+    autoThreshold: 4
   }
 
   var service = {

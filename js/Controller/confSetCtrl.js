@@ -9,6 +9,7 @@ angular.module('app.controllers')
   vm.note = null;
   vm.language = null;
   vm.languageList = null;
+  vm.lumSlider = {};
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.goBack = goBack;
@@ -28,6 +29,7 @@ angular.module('app.controllers')
   vm.measure = displayConf.measure;
   vm.note = displayConf.note;
   vm.languageList = utils.getLangList();
+
   switch (DBrecord.getCountryConf().language) {
   case FRENCH:
     vm.language = vm.languageList[0];
@@ -36,6 +38,24 @@ angular.module('app.controllers')
   default:
     vm.language = vm.languageList[1];
   }
+
+  vm.lumSlider = {
+    value: DBrecord.getDayNightConf().nightLuminosity * 100,
+    options: {
+      onStart: _onLumSliderStart,
+      onChange: _onLumSliderChange,
+      onEnd: _onLumSliderEnd,
+      floor: 0,
+      ceil: 30,
+      minLimit: 0,
+      step: 1,
+      showTicks: true,
+      ticksArray: [0, 5, 10, 15, 20, 25, 30],
+      translate: function (value) {
+        return value + '%';
+      },
+    }
+  };
 
   /****************************        GO back         ****************************************/
   function goBack() {
@@ -111,4 +131,37 @@ angular.module('app.controllers')
 
     $rootScope.$broadcast('language_changed');
   }
+
+  /*********************           Start LUMINOSITY SLIDER                   *****************/
+  function _onLumSliderStart() {
+    // if we are in a WEBVIEW: use Cordova features
+    if (ionic.Platform.isWebView()) {
+      cordova.plugins.brightness.setBrightness(parseFloat(vm.lumSlider.value / 100));
+    }
+  }
+
+  /*********************           Change LUMINOSITY SLIDER                   *****************/
+  function _onLumSliderChange() {
+    // if we are in a WEBVIEW: use Cordova features
+    if (ionic.Platform.isWebView()) {
+      cordova.plugins.brightness.setBrightness(parseFloat(vm.lumSlider.value / 100));
+    }
+  }
+
+  /*********************             End  LUMINOSITY SLIDER                   *****************/
+  function _onLumSliderEnd() {
+    var dayNightConf = DBrecord.getDayNightConf();
+
+    //save change in DB
+    dayNightConf.nightLuminosity = parseFloat(vm.lumSlider.value / 100);
+    DBrecord.setDayNightConf(dayNightConf);
+
+    // if we are in a WEBVIEW: use Cordova features
+    if (ionic.Platform.isWebView()) {
+      if (dayNightConf.modeDayOn) // if DayMode: go back to system luminosity    
+        cordova.plugins.brightness.setBrightness(10); // invalid parameter to let system take brightness control
+    }
+  }
+
+
 });

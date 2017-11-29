@@ -640,6 +640,11 @@ rzslider .rz-ticks .rz-tick {
     padding: 0px 20px 0px 20px;
   }
   
+  .row + .row.light-row {
+    margin-top: 10px;
+    padding: 0px 20px 0px 20px;
+  }
+  
   .language-select {
     color: darkcyan;
     border-radius: 5px;

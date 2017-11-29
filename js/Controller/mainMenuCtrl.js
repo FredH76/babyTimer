@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('mainMenuCtrl', function ($scope, $ionicHistory, $state, $ionicPlatform, $ionicPopup, utils, DBrecord) {
+.controller('mainMenuCtrl', function ($rootScope, $scope, $ionicHistory, $state, $ionicPlatform, $ionicPopup, utils, DBrecord) {
   var vm = this;
 
   vm.nbBaby = 1;
@@ -32,6 +32,14 @@ angular.module('app.controllers')
     */
 
   });
+
+  /********************************************************************************************/
+  /*                                      EVENT MANAGEMENT
+  /********************************************************************************************/
+  $rootScope.$on('dayNight_updated', function () {
+    vm.modeDayOn = DBrecord.getDayNightConf().modeDayOn;
+    _setLuminosity();
+  })
 
 
   /********************************************************************************************/
