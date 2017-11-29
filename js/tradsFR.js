@@ -12,6 +12,7 @@ var translationsFR = {
     MANUAL: "Manuel",
     EDIT: "Edition",
     HISTORIC: "Historique",
+    GRAPHIC: "Graphiques",
     SETTINGS: "Réglages",
   },
   PAGE_TITLE: {
@@ -19,6 +20,7 @@ var translationsFR = {
     MANUAL: "Saisie manuelle",
     EDIT: "Mode Edition",
     HISTORIC: "Historique",
+    GRAPHIC: "Graphiques",
     MENU: "Réglages",
     BABY_INFOS: "Informations Bébé",
     BABIES_INFOS: "Informations Bébés",

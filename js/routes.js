@@ -68,6 +68,18 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tab.graphic', {
+    cache: true,
+    url: '/graphic',
+    views: {
+      'tab-graphic': {
+        templateUrl: 'templates/tab-graph.html',
+        controller: 'graphCtrl',
+        controllerAs: 'grphVM'
+      }
+    }
+  })
+
   .state('babySettings', {
     cache: false,
     url: '/babySettings',

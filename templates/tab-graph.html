@@ -1,0 +1,13 @@
+<ion-view view-title="{{'PAGE_TITLE.GRAPHIC' | translate}}">
+
+  <ion-nav-buttons side="secondary">
+  </ion-nav-buttons>
+
+  <ion-content>
+    <!-- REFRESHER -->
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
+    </ion-refresher>
+
+    COUCOU : GRAPHIC HERE {{grphVM.myVar}}
+  </ion-content>
+</ion-view>
