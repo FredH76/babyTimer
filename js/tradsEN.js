@@ -74,7 +74,7 @@ var translationsEN = {
     BABY_HEIGHT: "Height",
     AUTO_MAN_HEADER: "AUTOMATIC / MANUAL MODE",
     DISPLAY_HEADER: "DISPLAY",
-    AUTO_MAN_INSTRUCTIONS: "Choose which field to use :",
+    AUTO_MAN_INSTRUCTIONS: "Select which field you want to edit and display",
     GENERAL_HEADER: "GENERAL",
     GENERAL_LANGUAGE: "LANGUAGE",
     GENERAL_LANGUAGE_FRENCH: "French",
@@ -84,6 +84,7 @@ var translationsEN = {
     GENERAL_UNITS_ENG: "Oz/fl oz",
     GENERAL_NIGHT_LUMINOSITY: "NIGTH INTENSITY",
   },
+  GRAPH: {},
   POPUP: {
     DATEPICKER_TITLE: "Pick a Date",
     TITLE_PICTURE_MENU: "PICTURE MANAGER",

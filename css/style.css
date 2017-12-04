@@ -705,6 +705,72 @@ rzslider .rz-ticks .rz-tick {
   .scroll-content {
     overflow-y: auto;
   }
+  
+  .slider {
+    height: 100%;
+  }
+  
+  .slider-slide {
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+    font-weight: 300;
+  }
+  
+  .graph-header {
+    padding: 30px 20px 10px 20px;
+    color: #666;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .weight-chart-container {
+    position: relative;
+    margin: auto;
+    height: 400px;
+    width: 80vw;
+  }
+  
+  .feeding-chart-container {
+    position: relative;
+    margin: auto;
+    height: 200px;
+    width: 80vw;
+  }
+  
+  .graph-duration-row {
+    text-align: left;
+    padding: 0px 60px 0px 40px;
+    height: 34px;
+  }
+  
+  .graph-upto-row {
+    text-align: left;
+    padding-top: 30px !important;
+    padding: 40px 60px 0px 40px;
+    height: 30px;
+  }
+  
+  .graph-select {
+    color: darkcyan;
+    padding-left: 15px;
+    border-radius: 10px;
+    border-color: darkcyan;
+    background: white;
+  }
+  
+  .graph-time {
+    border: 1px solid darkcyan;
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-left: 20px;
+    font-size: 14px;
+    height: 34px;
+    color: darkcyan;
+    vertical-align: middle;
+    font-weight: 400;
+  }
   /*-------------------------------------------OLD--------------------------------------------*/
   /******************************             TIME HEADER (UP)         ************************/
   

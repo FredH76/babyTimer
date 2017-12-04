@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function ($filter, utils) {
+.factory('DBrecord', function($filter, utils) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -68,6 +68,11 @@ angular.module('app.factory', [])
     delRec: delRec,
     getRecList: getRecList,
     _createRecUID: _createRecUID,
+
+    // graph data
+    getMeasureData: getMeasureData,
+    getBreastData: getBreastData,
+    getBottleData: getBottleData,
 
   }
   return service;
@@ -146,6 +151,8 @@ angular.module('app.factory', [])
 
   /*********************                  GET BABY INFO                     *****************/
   function getBabyInfo(babyUID) {
+    if (babyUID == null || babyUID == undefined)
+      babyUID = getBabyUIDList()[0];
     var babyInfo = JSON.parse(localStorage[babyUID]);
     if (babyInfo === undefined)
       return null;
@@ -235,6 +242,118 @@ angular.module('app.factory', [])
 
     return sortedRecList;*/
     return recList;
+
+  }
+
+  /*********************                  GET MEASURE DATA                    *****************/
+  function getMeasureData() {
+    var prefix = RECORD_PREFIX;
+    var dataSet = {
+      weight: [],
+      height: []
+    };
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        rec = JSON.parse(localStorage[property]);
+        // extract data
+        if (rec.measure == true) {
+          if (rec.weight > 0) {
+            l_weight_data = {};
+            l_weight_data.x = new Date(rec.startTime);
+            l_weight_data.y = rec.weight;
+            dataSet.weight.push(l_weight_data);
+          }
+          if (rec.height > 0) {
+            l_height_data = {};
+            l_height_data.x = new Date(rec.startTime);
+            l_height_data.y = rec.height;
+            dataSet.height.push(l_height_data);
+          }
+        }
+      }
+    }
+
+    return dataSet;
+  }
+
+  /*********************                  GET BREAST DATA                    *****************/
+  function getBreastData() {
+    var prefix = RECORD_PREFIX;
+    var breastRawData = [];
+    var dataSet = {
+      number: [],
+      sumDuration: [],
+      avgDuration: [],
+    };
+
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        rec = JSON.parse(localStorage[property]);
+        // extract breast raw data
+        if (rec.breast == true) {
+          var l_data = {};
+          l_data.date = new Date(rec.startTime);
+          l_data.duration = rec.duration;
+          breastRawData.push(l_data);
+        }
+      }
+    }
+
+    // merge data into day data
+    var nbrecords = breastRawData.length;
+    for (var i = 0; i < nbrecords;) {
+      var curDay = breastRawData[i].date;
+      var number = 1;
+      var total = breastRawData[i].duration;
+      var average = null; // will be compute at the end
+      i++;
+      for (; i < nbrecords; i++) {
+        if (breastRawData[i].date.toDateString() == curDay.toDateString()) {
+          number++;
+          total += breastRawData[i].duration;
+        } else
+          break;
+      }
+
+      l_breast_number = {};
+      l_breast_number.x = curDay;
+      l_breast_number.y = number;
+      dataSet.number.push(l_breast_number);
+
+      l_breast_sumduration = {};
+      l_breast_sumduration.x = curDay;
+      l_breast_sumduration.y = parseInt(total / 60);
+      dataSet.sumDuration.push(l_breast_sumduration);
+
+      l_breast_avgDuration = {};
+      l_breast_avgDuration.x = curDay;
+      l_breast_avgDuration.y = parseInt(total / number / 60);
+      dataSet.avgDuration.push(l_breast_avgDuration);
+    }
+
+    return dataSet;
+  }
+
+  /*********************                  GET BOTTLE DATA                   *****************/
+  function getBottleData() {
+    var prefix = RECORD_PREFIX;
+    var dataSet = {
+      number: [],
+      sumQuantity: [],
+      avgQuantity: [],
+    };
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+        rec = JSON.parse(localStorage[property]);
+        // extract data
+      }
+    }
 
   }
 

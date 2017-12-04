@@ -1,6 +1,6 @@
 angular.module('app.routes', [])
 
-.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
 
@@ -69,7 +69,7 @@ angular.module('app.routes', [])
   })
 
   .state('tab.graphic', {
-    cache: true,
+    cache: false,
     url: '/graphic',
     views: {
       'tab-graphic': {
@@ -99,6 +99,7 @@ angular.module('app.routes', [])
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/tab/manual/1/null');
   //$urlRouterProvider.otherwise('/tab/settings');
-  $urlRouterProvider.otherwise('/tab/historic');
+  //$urlRouterProvider.otherwise('/tab/historic');
+  $urlRouterProvider.otherwise('/tab/graphic');
 
 }]);

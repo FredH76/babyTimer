@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($rootScope, $scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function($rootScope, $scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
   vm.displayConf = null;
@@ -85,7 +85,7 @@ angular.module('app.controllers')
   /********************************************************************************************/
   /*                                      EVENT MANAGEMENT
   /********************************************************************************************/
-  $rootScope.$on('display_configuration_updated', function () {
+  $rootScope.$on('display_configuration_updated', function() {
     vm.displayConf = DBrecord.getDisplayConf();
   })
 
@@ -140,7 +140,7 @@ angular.module('app.controllers')
     _refreshDayList();
 
     /* display recList from BOTTOM */
-    $timeout(function () {
+    $timeout(function() {
       var view = $ionicScrollDelegate.$getByHandle('histView').getScrollView();
       view.resize();
       var y = view.getScrollMax();
@@ -165,7 +165,7 @@ angular.module('app.controllers')
       }
       if (alreadyInList === false) {
         // set show state
-        // if (recTime.getDate() == (new Date()).getDate())
+        //if (recTime.getDate() == (new Date()).getDate())
         recTime.show = true;
         vm.dayList.push(recTime);
       }

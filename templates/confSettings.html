@@ -27,7 +27,10 @@
 
       <!-- AUTOMATIC MANUAL LIST CONFIGURATION -->
       <div class="row row-center instruct-row settings-text">
-        <div class="col col-15 left-radio">
+        <div class="col col-50 col-top">
+          {{'SETTINGS.AUTO_MAN_INSTRUCTIONS' | translate}}
+        </div>
+        <div class="col col-10">
           <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
         <div class="col col-70" style="color:grey">
@@ -35,7 +38,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text">
-        <div class="col col-15 left-radio" ng-click="confVM.onClickMale()">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
         <div class="col col-70" style="color:grey">
@@ -43,7 +47,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMedecine()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.medecine? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -51,7 +56,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickDiapper()">
-        <div class=" col col-15 left-radio">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.diapper? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -59,7 +65,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickBath()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.bath? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -67,7 +74,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMeasure()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.measure? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -75,7 +83,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickNote()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.note? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">

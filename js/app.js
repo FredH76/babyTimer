@@ -9,14 +9,15 @@ angular.module('app', [
   'ionic',
   'ngCordova',
   'pascalprecht.translate',
+  'chart.js',
   'app.routes',
   'app.controllers',
   'app.factory',
   'app.filters'
 ])
 
-.run(function ($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
-  $ionicPlatform.ready(function () {
+.run(function($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
+  $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -56,27 +57,27 @@ angular.module('app', [
     if (countryConf.language === null) {
       // DEFAULT : set to local country unit
       switch ($translate.use()) {
-      case 'fr_FR':
-      case 'fr':
-        countryConf.language = FRENCH;
-        countryConf.units = KILO;
-        $translate.use('fr');
-        break;
-      default:
-        countryConf.language = ENGLISH;
-        countryConf.units = OUNCE;
-        $translate.use('en');
+        case 'fr_FR':
+        case 'fr':
+          countryConf.language = FRENCH;
+          countryConf.units = KILO;
+          $translate.use('fr');
+          break;
+        default:
+          countryConf.language = ENGLISH;
+          countryConf.units = OUNCE;
+          $translate.use('en');
       }
       DBrecord.setCountryConf(countryConf);
     } else {
       // LOAD from DB
       switch (countryConf.language) {
-      case (FRENCH):
-        $translate.use('fr');
-        break;
-      case (ENGLISH):
-      default:
-        $translate.use('en');
+        case (FRENCH):
+          $translate.use('fr');
+          break;
+        case (ENGLISH):
+        default:
+          $translate.use('en');
       }
     }
 
@@ -115,7 +116,7 @@ angular.module('app', [
   });
 })
 
-.config(function ($ionicConfigProvider, $translateProvider) {
+.config(function($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
 

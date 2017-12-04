@@ -3,11 +3,70 @@
   <ion-nav-buttons side="secondary">
   </ion-nav-buttons>
 
-  <ion-content>
-    <!-- REFRESHER -->
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
-    </ion-refresher>
+  <ion-content scroll="false">
+    <ion-slide-box on-slide-changed="slideHasChanged($index)">
 
-    COUCOU : GRAPHIC HERE {{grphVM.myVar}}
+      <ion-slide scroll="true">
+        <ion-scroll style="height: 100%">
+          <!-- REFRESHER -->
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
+          </ion-refresher>
+
+          <!-- BREAST FEEDING HEADER -->
+          <div class="graph-header">{{'GRAPH.BREAST_FEEDING_HEADER' | translate}}</div>
+
+          <!-- BREAST NUMBER  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="breastFeedingNbChart">
+            </canvas>
+          </div>
+
+          <!-- BREAST SUM/AVG  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="breastFeedingSumChart">
+            </canvas>
+          </div>
+          <br>
+
+          <!-- BREAST DURATION CHOICE -->
+          <div class="row row-center graph-duration-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_CHOICE' | translate}}
+            </div>
+            <select class="col col-50 graph-select" ng-model="grphVM.duration" ng-options="item.label for item in grphVM.durationList" ng-change="grphVM.changeDuration()">
+            </select>
+          </div>
+
+          <!-- BREAST UNTIL DATE CHOICE -->
+          <div class="row row-center graph-upto-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_TO_DAY' | translate}}
+            </div>
+            <div class="col col-50 graph-time">
+              <div ng-click="grphVM.openDatePicker()">
+                {{grphVM.endDate | todayOrNot}}
+              </div>
+            </div>
+          </div>
+
+          <!-- EMPTY AREA FOR SCROLL BOTTOM -->
+          <div style="height:70px">
+          </div>
+        </ion-scroll>
+      </ion-slide>
+
+      <!-- WEIGHT GRAPH -->
+      <ion-slide scroll="true">
+        <ion-scroll style="height: 100%">
+          <div class="graph-header">{{'GRAPH.WEIGHT_FIRST_MONTH' | translate}}</div>
+          <div class="weight-chart-container">
+            <canvas id="weightChart">
+            </canvas>
+          </div>
+        </ion-scroll>
+      </ion-slide>
+
+    </ion-slide-box>
   </ion-content>
+
 </ion-view>
