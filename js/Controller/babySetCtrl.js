@@ -22,6 +22,8 @@ angular.module('app.controllers')
   vm.onClickFemale = onClickFemale;
   vm.changeWeight = changeWeight;
   vm.changeHeight = changeHeight;
+  vm.importBaby = importBaby;
+  vm.exportBaby = exportBaby;
 
   /******************************       POPUP  DECLARATION             ************************/
   var picturePopup = null;
@@ -65,10 +67,15 @@ angular.module('app.controllers')
       to: new Date(2025, 7, 1),
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
-      closeOnSelect: false,
+      closeOnSelect: true,
       disableWeekdays: []
     };
     ionicDatePicker.openDatePicker(datePickerConf);
+
+    $timeout(function() {
+      var elt = document.getElementsByClassName("selected_date_full");
+      elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
+    }, 200);
   };
 
   function _onDatePicked(val) { //Mandatory
@@ -225,22 +232,32 @@ angular.module('app.controllers')
     DBrecord.saveBaby(vm.baby);
   }
 
-  /*********************                 change Weight                      *****************/
+  /*********************                 change Weight                        *****************/
   function changeWeight() {
     vm.baby.weight = vm.weight;
     DBrecord.saveBaby(vm.baby);
   }
 
-  /*********************                 change Height                      *****************/
+  /*********************                 change Height                        *****************/
   function changeHeight() {
     vm.baby.height = vm.height;
     DBrecord.saveBaby(vm.baby);
   }
 
+  /*********************                 IMPORT BABY                          *****************/
+  function importBaby() {
+    DBrecord.importBaby(vm.baby.uid);
+  }
 
-  /****************************        POPUP MANAGEMENT             ****************************/
+  /*********************                 EXPORT BABY                          *****************/
+  function exportBaby() {
+    DBrecord.exportBaby(vm.baby.uid);
+  }
 
-  //--------------------------            PICTURE                   ----------------------------/
+
+  /****************************        POPUP MANAGEMENT             ***************************/
+
+  //--------------------------            PICTURE                   ---------------------------/
   // SHOW popup to choose between Picture/Gallery/delete/cancel
   function pop_pictureMenu() {
     picturePopup = $ionicPopup.show({
@@ -251,7 +268,7 @@ angular.module('app.controllers')
     });
   }
 
-  /*********************                 Cancel picture Menu                   *****************/
+  /*********************                 Cancel picture Menu                   ****************/
   function cancel_menu() {
     picturePopup.close();
   }

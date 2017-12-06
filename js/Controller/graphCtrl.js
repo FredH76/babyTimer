@@ -3,28 +3,39 @@ angular.module('app.controllers')
 .controller('graphCtrl', function($document, $rootScope, $scope, $filter, $timeout, utils, ionicDatePicker, DBrecord, fileManager) {
   var vm = this;
 
+  vm.babyName = null;
+  vm.breastSumChoice = true;
   vm.durationList = null;
   vm.duration = null;
   vm.startDate = null;
   vm.endDate = null;
-  var lineColor = null;
-  var backgroundColor = null;
+  var lineColor = [];
+  var backgroundColor = [];
   vm.weightChart = null;
   var measureData = null;
   var weightLabel = [];
   var weightConfig = null;
   vm.breastNbChart = null;
   var breastDataSets = null;
-  var breastDataLabel = [];
   var breastNbConfig = null;
+  var breastSumAvgConfig = null;
+  vm.bottleNbChart = null;
+  var bottleDataSets = null;
+  var bottleNbConfig = null;
+  var bottleSumAvgConfig = null;
+
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.TODAY_TEXT = $filter('translate')('GRAPH.TODAY_TEXT');
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.doRefresh = doRefresh;
-  vm.openDatePicker = openDatePicker;
+  vm.onBreastSumClick = onBreastSumClick;
+  vm.onBreastAverageClick = onBreastAverageClick;
+  vm.onBottleSumClick = onBottleSumClick;
+  vm.onBottleAverageClick = onBottleAverageClick;
   vm.changeDuration = changeDuration;
+  vm.openDatePicker = openDatePicker;
 
   /******************************         INITIALISATION               ************************/
   vm.durationList = utils.getDurationList();
@@ -34,27 +45,35 @@ angular.module('app.controllers')
 
   // set COLOR depending on baby gender
   var baby = DBrecord.getBabyInfo();
+  /*if(baby == null){
+    DBrecord.loadDemoBaby();
+    baby = DBrecord.getBabyInfo();
+  }*/
+  vm.babyName = baby.firstname;
   if (baby.gender == MALE) {
     // color for boy (darkTurquoise #00CED1)
-    lineColor = 'rgb(0, 206, 209)'; //#00CED1;
-    backgroundColor = 'rgba(0, 206, 209, 0.1)';
+    lineColor = ['rgb(0, 206, 209)', 'rgb(0, 153, 204)', 'rgb(0, 96, 128)']; //#00CED1;
+    backgroundColor = ['rgba(0, 206, 209, 0.1)', 'rgba(0, 153, 204,0.2)', 'rgba(0, 96, 128, 0.2)'];
   } else {
     // color for girl (LightPink #FFB6C1)
-    lineColor = 'rgb(255, 128, 147)';
-    backgroundColor = 'rgba(255, 128, 147, 0.1)';
+    lineColor = ['rgb(255, 128, 147)', 'rgb(255, 102, 125)'];
+    backgroundColor = ['rgba(255, 128, 147, 0.1)', 'rgba(255, 102, 125, 0.2)'];
   }
+
+  // get BREAST data to display
+  breastData = DBrecord.getBreastData();
+  // update breast Data (label and sets):
+  _updateBreastDataSets(vm.startDate, vm.endDate);
+
+  // get BOTTLE  data to display
+  bottleData = DBrecord.getBottleData();
+  // update bottle Data (label and sets):
+  _updateBottleDataSets(vm.startDate, vm.endDate);
 
   // get MEASURE data to display
   measureData = DBrecord.getMeasureData();
-
-  // get BREAST FEEDING data to display
-  breastData = DBrecord.getBreastData();
-
   // create weightLabel:
   weightLabel = _createWeightAxisLabel();
-
-  // update breast Data (label and sets):
-  _updateBreastDataSets(vm.startDate, vm.endDate);
 
   //---------------------------   INIT CHART DEFAULT OPTIONS   --------------------------------
   Chart.defaults.global.animation.duration = 0;
@@ -62,18 +81,17 @@ angular.module('app.controllers')
   Chart.defaults.global.title.display = true;
   Chart.defaults.global.title.padding = 15;
   Chart.defaults.global.title.fontSize = 12;
-  Chart.defaults.global.elements.line.borderColor = lineColor;
-  Chart.defaults.global.elements.line.backgroundColor = backgroundColor;
-  Chart.defaults.global.elements.rectangle.borderColor = lineColor;
-  Chart.defaults.global.elements.rectangle.backgroundColor = backgroundColor;
+  Chart.defaults.global.elements.line.borderColor = lineColor[0];
+  Chart.defaults.global.elements.line.backgroundColor = backgroundColor[0];
+  Chart.defaults.global.elements.rectangle.borderColor = lineColor[0];
+  Chart.defaults.global.elements.rectangle.backgroundColor = backgroundColor[0];
   Chart.defaults.global.elements.point.radius = 3;
   Chart.defaults.global.elements.point.hoverRadius = 10;
-
   Chart.defaults.scale.ticks.beginAtZero = true;
 
-  // TOOLTIPS: default property
-  Chart.defaults.global.tooltips.enabled = true;
-  Chart.defaults.global.tooltips.mode = 'nearest';
+  //TOOLTIPS: default property
+  Chart.defaults.global.tooltips.enabled = false;
+  /*Chart.defaults.global.tooltips.mode = 'nearest';
   Chart.defaults.global.tooltips.position = 'top'; // self made positioner
   Chart.defaults.global.tooltips.caretPadding = 0;
   Chart.defaults.global.tooltips.caretSize = 0;
@@ -91,15 +109,16 @@ angular.module('app.controllers')
   function formatTooltipDateTitle(tooltipItem, chart) {
     var date = new Date(tooltipItem[0].xLabel);
     return date.toLocaleDateString();
-  };
+  };*/
 
   //---------------------------     INIT WEIGHT CHART CONFIG    --------------------------------
+  var minWeight_y = measureData.length > 0 ? measureData.weight[0].y - .5 : 2;
+  var maxWeight_y = measureData.length > 0 ? measureData.weight[0].y + 1 : 5;
   weightConfig = {
     type: 'line',
     data: {
       labels: weightLabel,
       datasets: [{
-        //borderColor: lineColor, // for drawing lines and points
         data: measureData.weight,
         spanGaps: false,
       }],
@@ -140,19 +159,19 @@ angular.module('app.controllers')
         }],
         yAxes: [{
           ticks: {
-            min: measureData.weight[0].y - .5,
-            max: measureData.weight[0].y + 1,
+            min: minWeight_y,
+            max: maxWeight_y,
           },
         }],
       },
-      tooltips: {
+      /*tooltips: {
         callbacks: {
           title: formatTooltipDateTitle,
           label: function(tooltipItem) {
             return tooltipItem.yLabel + ' kg';
           },
         },
-      },
+      },*/
 
     }
   };
@@ -168,7 +187,7 @@ angular.module('app.controllers')
     },
     options: {
       title: {
-        text: $filter('translate')('GRAPH.BREAST_FEEDING_TITLE'),
+        text: $filter('translate')('GRAPH.BREAST_NUMBER_TITLE'),
       },
     }
   };
@@ -191,12 +210,46 @@ angular.module('app.controllers')
     }
   };
 
+  //---------------------------     INIT BOTTLE CHART CONFIG    --------------------------------
+  bottleNbConfig = {
+    type: 'bar',
+    data: {
+      labels: bottleDataSets.label, // define x-label to display (must fit to total data number)
+      datasets: [{
+        data: bottleDataSets.number,
+      }],
+    },
+    options: {
+      title: {
+        text: $filter('translate')('GRAPH.BOTTLE_NUMBER_TITLE'),
+      },
+    }
+  };
+
+  //-----------------------     INIT BOTTLE SUM/AVG CHART CONFIG    ---------------------------
+  bottleSumAvgConfig = {
+    type: 'bar',
+    data: {
+      labels: bottleDataSets.label, // define x-label to display (must fit to total data number)
+      datasets: [{
+        data: bottleDataSets.sumQuantity,
+        type: 'line',
+        lineTension: 0,
+      }],
+    },
+    options: {
+      title: {
+        text: $filter('translate')('GRAPH.BOTTLE_SUM_TITLE'),
+      },
+    }
+  };
+
   /*********************               OPEN DATE PICKER                     *******************/
   function openDatePicker() {
     var datePickerConf = {
       callback: _onDatePicked, //WARNING: callback is Mandatory!
       inputDate: vm.endDate,
-      titleLabel: $filter('translate')('POPUP.DATEPICKER_TITLE'),
+      //titleLabel: $filter('translate')('POPUP.DATEPICKER_TITLE'),
       setLabel: $filter('translate')('BUTTON.OK'),
       todayLabel: $filter('translate')('BUTTON.TODAY'),
       closeLabel: $filter('translate')('BUTTON.CANCEL'),
@@ -208,10 +261,15 @@ angular.module('app.controllers')
       to: new Date(2025, 7, 1),
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
-      closeOnSelect: false,
+      closeOnSelect: true,
       disableWeekdays: []
     };
     ionicDatePicker.openDatePicker(datePickerConf);
+
+    $timeout(function() {
+      var elt = document.getElementsByClassName("selected_date_full");
+      elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
+    }, 200);
   };
 
   function _onDatePicked(val) { //Mandatory
@@ -230,15 +288,23 @@ angular.module('app.controllers')
         vm.weightChart = new Chart(ctx1, weightConfig);
 
         // initialize BREAST NB CHART
-        var ctx2 = document.getElementById("breastFeedingNbChart");
+        var ctx2 = document.getElementById("breastNbChart");
         vm.breastNbChart = new Chart(ctx2, breastNbConfig);
 
         // initialize BREAST SUM CHART
-        var ctx2 = document.getElementById("breastFeedingSumChart");
+        var ctx2 = document.getElementById("breastSumChart");
         vm.breastSumAvgChart = new Chart(ctx2, breastSumAvgConfig);
 
+        // initialize BOTTLE NB CHART
+        var ctx3 = document.getElementById("bottleNbChart");
+        vm.bottleNbChart = new Chart(ctx3, bottleNbConfig);
+
+        // initialize BOTTLE SUM CHART
+        var ctx4 = document.getElementById("bottleSumChart");
+        vm.bottleSumAvgChart = new Chart(ctx4, bottleSumAvgConfig);
+
       },
-      50
+      100
     );
   });
 
@@ -253,26 +319,115 @@ angular.module('app.controllers')
 
   /******************************       REFRESH DISPLAY                ************************/
   function doRefresh() {
+    vm.weightChart.update();
+    vm.breastNbChart.update();
+    vm.breastSumAvgChart.update();
+    vm.bottleSumAvgChart.update();
+
     $scope.$broadcast('scroll.refreshComplete');
   }
 
-  /******************************       CHANGE DURATION REFERENCE      ************************/
+  /******************************       ON BREAST SUM CLICK            ************************/
+  function onBreastSumClick() {
+    vm.breastSumChoice = true;
+    breastSumAvgConfig.data.datasets[0].data = breastDataSets.sumDuration;
+    breastSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
+    //breastSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[0];
+    breastSumAvgConfig.options.animation.duration = 200;
+    breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
+    vm.breastSumAvgChart.update();
+  }
+
+  /******************************      ON BREAST AVERAGE CLICK         ************************/
+  function onBreastAverageClick() {
+    vm.breastSumChoice = false;
+    breastSumAvgConfig.data.datasets[0].data = breastDataSets.avgDuration;
+    breastSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
+    //breastSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[1];
+    breastSumAvgConfig.options.animation.duration = 200;
+    breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
+    vm.breastSumAvgChart.update();
+  }
+
+  /******************************        ON BOTTLE SUM CLICK           ************************/
+  function onBottleSumClick() {
+    vm.bottleSumChoice = true;
+    bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.sumQuantity;
+    bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
+    //bottleSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[0];
+    bottleSumAvgConfig.options.animation.duration = 200;
+    bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BOTTLE_SUM_TITLE');
+    vm.bottleSumAvgChart.update();
+  }
+
+  /******************************      ON BOTTLE AVERAGE CLICK         ************************/
+  function onBottleAverageClick() {
+    vm.bottleSumChoice = false;
+    bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.avgQuantity;
+    bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
+    //bottleSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[1];
+    bottleSumAvgConfig.options.animation.duration = 200;
+    bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BOTTLE_AVG_TITLE');
+    vm.bottleSumAvgChart.update();
+  }
+
+  /******************************      CHANGE DURATION REFERENCE       ************************/
   function changeDuration() {
     vm.startDate = new Date(moment(vm.endDate).subtract(vm.duration.nbDay, 'days'));
+
+    // for BREAST //////////////////////////////////////////////////////////////////////////////
     _updateBreastDataSets(vm.startDate, vm.endDate);
 
+    // set up animation
+    breastSumAvgConfig.options.animation.duration = 0;
+
+    // set up Data for 
     breastNbConfig.data.labels = breastDataSets.label;
     breastSumAvgConfig.data.labels = breastDataSets.label;
-
     breastNbConfig.data.datasets[0].data = breastDataSets.number;
-    breastSumAvgConfig.data.datasets[0].data = breastDataSets.sumDuration;
+    if (vm.breastSumChoice) {
+      breastSumAvgConfig.data.datasets[0].data = breastDataSets.sumDuration;
+      breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
+    } else {
+      breastSumAvgConfig.data.datasets[0].data = breastDataSets.avgDuration;
+      breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
+    }
 
+    // set up scale
     breastNbConfig.options.scales.xAxes[0].ticks.min = breastDataSets.label[0];
     breastNbConfig.options.scales.xAxes[0].ticks.max = breastDataSets.label[breastDataSets.label.length - 1];
     breastSumAvgConfig.options.scales.xAxes[0].ticks.min = breastDataSets.label[0];
     breastSumAvgConfig.options.scales.xAxes[0].ticks.max = breastDataSets.label[breastDataSets.label.length - 1];
+
     vm.breastNbChart.update();
     vm.breastSumAvgChart.update()
+
+    // for BOTTLE //////////////////////////////////////////////////////////////////////////////
+    _updateBottleDataSets(vm.startDate, vm.endDate);
+
+    // set up animation
+    bottleSumAvgConfig.options.animation.duration = 0;
+
+    // set up Data for 
+    bottleNbConfig.data.labels = bottleDataSets.label;
+    bottleSumAvgConfig.data.labels = bottleDataSets.label;
+    bottleNbConfig.data.datasets[0].data = bottleDataSets.number;
+    if (vm.bottleSumChoice) {
+      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.sumDuration;
+      bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
+    } else {
+      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.avgDuration;
+      bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
+    }
+
+    // set up scale
+    bottleSumAvgConfig.options.scales.xAxes[0].ticks.min = bottleDataSets.label[0];
+    bottleSumAvgConfig.options.scales.xAxes[0].ticks.max = bottleDataSets.label[bottleDataSets.label.length - 1];
+    bottleSumAvgConfig.options.scales.xAxes[0].ticks.min = bottleDataSets.label[0];
+    bottleSumAvgConfig.options.scales.xAxes[0].ticks.max = bottleDataSets.label[bottleDataSets.label.length - 1];
+
+    vm.bottleNbChart.update();
+    vm.bottleSumAvgChart.update()
   }
 
   /********************************************************************************************/
@@ -331,6 +486,45 @@ angular.module('app.controllers')
     return breastDataSets;
   }
 
+  /***************************   UPDATE BOTTLE DATA (LABEL & SETS)     ************************/
+  function _updateBottleDataSets(startDate, endDate) {
+    var nbDay = parseInt((endDate - startDate) / (24 * 60 * 60 * 1000));
+    var curDay = moment(startDate);
+
+    // reset data
+    bottleDataSets = {};
+    bottleDataSets.label = [];
+    bottleDataSets.number = [];
+    bottleDataSets.sumQuantity = [];
+    bottleDataSets.avgQuantity = [];
+
+    for (var i = 0; i <= nbDay; i++) {
+      var l_number = null;
+      var l_sumQuantity = null;
+      var l_avgQuantity = null;
+
+      // scan original bottleData to find a data corresponding to current day
+      for (var j = 0; j < bottleData.number.length; j++) {
+        var tp1 = (new Date(bottleData.number[j].x)).toDateString();
+        var tp2 = (new Date(curDay)).toDateString();
+        if ((new Date(bottleData.number[j].x)).toDateString() ==
+          (new Date(curDay).toDateString())) {
+          l_number = bottleData.number[j].y;
+          l_sumQuantity = bottleData.sumQuantity[j].y;
+          l_avgQuantity = bottleData.avgQuantity[j].y;
+        }
+      }
+      bottleDataSets.label.push(curDay.format('D MMM'));
+      bottleDataSets.number.push(l_number);
+      bottleDataSets.sumQuantity.push(l_sumQuantity);
+      bottleDataSets.avgQuantity.push(l_avgQuantity);
+
+      curDay.add(1, 'days');
+    }
+
+    return bottleDataSets;
+  }
+
   /********************************************************************************************/
   /*                            CONFIGURATION EXAMPLE FOR CHART
   /********************************************************************************************/
@@ -342,14 +536,14 @@ angular.module('app.controllers')
   //Chart.defaults.global.elements.line.stepped = true; 
 
   // example of COMMON USED OPTIONs to configure a CHART
-  var exampleConfig = {
+  /*var exampleConfig = {
     type: 'line',
     data: {
       labels: [], // define x-label to display (must fit to total data number)
       datasets: [{
         label: "", //used in tooltip, between colored square and value
         backgroundcolor: 'rgb(255, 99, 132)', // for what and where?
-        borderColor: lineColor, // for drawing lines and points
+        borderColor: lineColor[0], // for drawing lines and points
         borderWidth: 4, // drawing line width
         data: [], // or [{x,y}] for time
         yAxisID: 'first-y-axis', // to select y axis to be linked to
@@ -365,7 +559,7 @@ angular.module('app.controllers')
         caretSize: 0,
         displayColors: false, // show the line color before
         callbacks: {
-          title: formatTooltipDateTitle,
+          //title: formatTooltipDateTitle,
           label: function(tooltipItem) {
             return tooltipItem.yLabel + ' kg';
           },
@@ -443,6 +637,6 @@ angular.module('app.controllers')
         }]
       }
     }
-  };
+  };*/
 
 })

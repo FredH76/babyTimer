@@ -1,11 +1,208 @@
 angular.module('app.factory')
 
-.factory('fileManager', function() {
+.factory('fileManager', function($timeout) {
 
   var service = {
+    saveData: saveData,
+    importData: importData,
     loadWeightData: loadWeightData,
   }
   return service;
+
+  /*****************************************************************************************/
+  /*********************                 SAVE DATA                         *****************/
+  /*****************************************************************************************/
+  function saveData(fileName, fileType, data) {
+    var fullName = null;
+    var blobData = null;
+
+    fileType = fileType || JSON_FILE;
+
+    switch (fileType) {
+      case JSON_FILE:
+        fullName = fileName + "." + JSON_EXT;
+        blobData = JSON.stringify(data);
+        break;
+      case BABY_FILE:
+        fullName = fileName + "." + BABY_EXT;
+        // blobData = _formatToBABY(data);
+        break;
+      case CSV_FILE:
+        fullName = fileName + "." + CSV_EXT;
+        // blobData = _formatToCSV(data);
+        break;
+      case TXT_FILE:
+        fullName = fileName + "." + TXT_EXT;
+        // blobData = _formatToTXT(data);
+        break;
+      default:
+        fullName = fileName + "." + JSON_EXT;
+        blobData = JSON.stringify(data);
+    }
+
+    // request quota (needed for Chrome)
+    var requestedBytes = 1024 * 100; // 100KB
+    navigator.webkitPersistentStorage.requestQuota(requestedBytes, quotaSuccess, onError);
+
+    // request file system
+    function quotaSuccess(grantedBytes) {
+      //Taking care of the browser-specific prefix
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.requestFileSystem(PERSISTENT, grantedBytes, requestSuccess, onError);
+    }
+
+    // create file
+    function requestSuccess(fileSystem) {
+      fileSystem.root.getFile( // fileSystem.root is a FileSystemDirectoryEntry object
+        fullName, {
+          create: true
+        }, createSuccess, onError);
+    }
+
+    // write into file 
+    function createSuccess(fileEntry) { // fileEntry is a FileSystemFileEntry object
+      fileEntry.createWriter(function(fileWriter) {
+
+          fileWriter.onwriteend = function(e) {
+            //copy file in external directory
+            _copyFile(fileEntry);
+          };
+
+          fileWriter.onerror = function(e) {
+            onError(e);
+          };
+
+          // fileWriter.seek(fileWriter.length); // Start write position at EOF.
+
+          // Create a new Blob and write it to log.txt.
+          var blob = new Blob([blobData], {
+            type: 'text/plain'
+          });
+          fileWriter.write(blob);
+        },
+        onError
+      );
+    }
+
+    function onError(e) {
+      console.error('FILE ERROR: ', e);
+    }
+
+  }
+
+  /*****************************************************************************************/
+  /*********************                 IMPORT DATA                       *****************/
+  /*****************************************************************************************/
+  function importData(fileName, fileType, importSuccess) {
+    var fullName = null;
+
+    fileType = fileType || JSON_FILE;
+
+    switch (fileType) {
+      case JSON_FILE:
+        fullName = fileName + "." + JSON_EXT;
+        break;
+      case BABY_FILE:
+        fullName = fileName + "." + BABY_EXT;
+        break;
+      case CSV_FILE:
+        fullName = fileName + "." + CSV_EXT;
+        break;
+      case TXT_FILE:
+        fullName = fileName + "." + TXT_EXT;
+        break;
+      default:
+        fullName = fileName + "." + JSON_EXT;
+    }
+
+    // request quota (needed for Chrome)
+    var requestedBytes = 1024 * 100; // 100KB
+    navigator.webkitPersistentStorage.requestQuota(requestedBytes, quotaSuccess, onError);
+
+    // request file system
+    function quotaSuccess(grantedBytes) {
+      //Taking care of the browser-specific prefix
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.requestFileSystem(PERSISTENT, grantedBytes, requestSuccess, onError);
+    }
+
+    // create file
+    function requestSuccess(fileSystem) {
+      fileSystem.root.getFile( // fileSystem.root is a FileSystemDirectoryEntry object
+        fullName, {
+          create: false
+        }, getSuccess, onError);
+    }
+
+    // read from file 
+    function getSuccess(fileEntry) { // fileEntry is a FileSystemFileEntry object
+      fileEntry.file(function(file) {
+          var reader = new FileReader();
+
+          reader.onloadend = function(e) {
+            parseFile(this.result);
+          };
+
+          reader.readAsText(file);
+        },
+        onError
+      );
+    }
+
+    // convert read data
+    function parseFile(fileData) {
+      var data = {};
+      switch (fileType) {
+        case JSON_FILE:
+          data = JSON.parse(fileData);
+          break;
+        case BABY_FILE:
+          //data = parseCSV(this.result); // TODO : implent CSV parsing
+          //break;
+        case CSV_FILE:
+          //data = parseCSV(this.result); // TODO : implent CSV parsing
+          //break;
+        case TXT_FILE:
+          //data = parseTXT(this.result); // TODO : implent TXT parsing
+          //break;
+        default:
+          data = JSON.parse(fileData);
+      }
+    }
+
+    function onError(e) {
+      console.error('READ FILE ERROR: ', e);
+    }
+
+  }
+
+
+  /*********************          COPY FILE IN EXTERNAL DIRECTORY            *****************/
+  function _copyFile(fileEntry) { // file Entry is a FileSystemFileEntry object
+
+    // copy file only if not a browser
+    if (ionic.Platform.isWebView()) {
+      if (ionic.Platform.isAndroid())
+        appFileDir = cordova.file.externalDataDirectory;
+      else
+        appFileDir = cordova.file.dataDirectory;
+
+      var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+      window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(destDir) {
+          fileEntry.copyTo(
+            destDir,
+            name,
+            copySuccess,
+            fail
+          );
+        },
+        fail);
+
+      function copySuccess(e) {
+        console.log('COPY file success', fileEntry);
+      }
+    }
+  }
 
 
   /*********************                 LOAD WEIGHT DATA                  *****************/

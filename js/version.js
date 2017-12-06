@@ -1,7 +1,14 @@
 var app_version = "0.2.1";
 
-/*******************************   version = 0.2.1  ********************************************
+
+
+/*******************************   version = 0.3.0  ********************************************
 new functionnalities (in progress):
+-add chart 
+- TODO : reformat DB record : replace bottleContent by quantity !
+
+/*******************************   version = 0.2.1  ********************************************
+new functionnalities:
 -add luminosity control
 
 /*******************************   version = 0.2.0  ********************************************

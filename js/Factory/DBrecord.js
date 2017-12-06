@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function($filter, utils) {
+.factory('DBrecord', function($filter, utils, fileManager) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -69,10 +69,16 @@ angular.module('app.factory', [])
     getRecList: getRecList,
     _createRecUID: _createRecUID,
 
+    // file
+    exportBaby: exportBaby,
+    importBaby: importBaby,
+
+
     // graph data
     getMeasureData: getMeasureData,
     getBreastData: getBreastData,
     getBottleData: getBottleData,
+
 
   }
   return service;
@@ -245,6 +251,45 @@ angular.module('app.factory', [])
 
   }
 
+  /*********************                 EXPORT BABY INFO                  *****************/
+  function exportBaby(babyUID, fileType) {
+    var prefix = RECORD_PREFIX;
+    var data = {};
+
+    fileType = fileType || JSON_FILE;
+
+    // store BABY UID
+    data[babyUID] = JSON.parse(localStorage[babyUID]);
+
+    // store BABY REC
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix && localStorage[property].uid == babyUID) {
+        data[property] = JSON.parse(localStorage[property]);
+      }
+    }
+
+    // save in local/external file system (external for debug)
+    fileManager.saveData(babyUID, fileType, data);
+
+
+  }
+
+  /*********************                 IMPORT BABY INFO                  *****************/
+  function importBaby(babyUID, fileType) {
+    var data = null;
+    // import from local/external file system (external for debug)
+    fileManager.importData(babyUID, BBY_FILE, importSuccess, true);
+
+    function importSuccess(data) {
+      // copy every property to LocalStorage
+      for (var property in data) {
+        localStorage[property] = JSON.stringify(data[property]);
+      };
+    };
+  }
+
+
   /*********************                  GET MEASURE DATA                    *****************/
   function getMeasureData() {
     var prefix = RECORD_PREFIX;
@@ -341,6 +386,7 @@ angular.module('app.factory', [])
   /*********************                  GET BOTTLE DATA                   *****************/
   function getBottleData() {
     var prefix = RECORD_PREFIX;
+    var bottleRawData = [];
     var dataSet = {
       number: [],
       sumQuantity: [],
@@ -351,10 +397,49 @@ angular.module('app.factory', [])
     for (var property in localStorage) {
       if (property.slice(0, prefix.length) == prefix) {
         rec = JSON.parse(localStorage[property]);
-        // extract data
+        // extract bottle raw data
+        if (rec.bottle == true) {
+          var l_data = {};
+          l_data.date = new Date(rec.startTime);
+          l_data.quantity = rec.quantity;
+          bottleRawData.push(l_data);
+        }
       }
     }
 
+    // merge data into day data
+    var nbrecords = bottleRawData.length;
+    for (var i = 0; i < nbrecords;) {
+      var curDay = bottleRawData[i].date;
+      var number = 1;
+      var total = bottleRawData[i].quantity;
+      var average = null; // will be compute at the end
+      i++;
+      for (; i < nbrecords; i++) {
+        if (bottleRawData[i].date.toDateString() == curDay.toDateString()) {
+          number++;
+          total += bottleRawData[i].quantity;
+        } else
+          break;
+      }
+
+      l_bottle_number = {};
+      l_bottle_number.x = curDay;
+      l_bottle_number.y = number;
+      dataSet.number.push(l_bottle_number);
+
+      l_bottle_sumQuantity = {};
+      l_bottle_sumQuantity.x = curDay;
+      l_bottle_sumQuantity.y = parseInt(total);
+      dataSet.sumQuantity.push(l_bottle_sumQuantity);
+
+      l_bottle_avgQuantity = {};
+      l_bottle_avgQuantity.x = curDay;
+      l_bottle_avgQuantity.y = parseInt(total / number);
+      dataSet.avgQuantity.push(l_bottle_avgQuantity);
+    }
+
+    return dataSet;
   }
 
   /********************************************************************************************/

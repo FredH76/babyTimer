@@ -58,7 +58,7 @@ angular.module('app.filters', [])
 .filter('todayOrNot', function(utils, $filter) {
   return function(date) {
     if (date.toDateString() == (new Date()).toDateString())
-      return $filter('translate')('BUTTON.TODAY');
+      return $filter('translate')('GRAPH.TODAY_TEXT');
     else return date.toLocaleDateString();
   }
 });

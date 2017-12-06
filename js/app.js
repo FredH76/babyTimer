@@ -17,6 +17,7 @@ angular.module('app', [
 ])
 
 .run(function($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

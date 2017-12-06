@@ -106,17 +106,14 @@ angular.module('app.controllers')
 
       dispItem.UID = vm.recList[i].UID;
 
-      // set time
+      // set properties
       dispItem.time = new Date(vm.recList[i].startTime);
-      var test = dispItem.time.getTime();
-
-      // set duration and side
       dispItem.leftSide = vm.recList[i].leftSide;
       dispItem.rightSide = vm.recList[i].rightSide;
       dispItem.breast = vm.recList[i].breast;
       dispItem.duration = vm.recList[i].duration;
       dispItem.bottle = vm.recList[i].bottle;
-      dispItem.bottleContent = vm.recList[i].bottleContent;
+      dispItem.quantity = vm.recList[i].quantity;
       dispItem.diapper = vm.recList[i].diapper;
       dispItem.peeLevel = vm.recList[i].peeLevel;
       dispItem.pooLevel = vm.recList[i].pooLevel;
