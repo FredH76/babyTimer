@@ -3,6 +3,7 @@ angular.module('app.controllers')
 .controller('graphCtrl', function($document, $rootScope, $scope, $filter, $timeout, utils, ionicDatePicker, DBrecord, fileManager) {
   var vm = this;
 
+  var refreshTimeout = null;
   vm.babyName = null;
   vm.breastSumChoice = true;
   vm.durationList = null;
@@ -16,10 +17,14 @@ angular.module('app.controllers')
   var weightLabel = [];
   var weightConfig = null;
   vm.breastNbChart = null;
+  vm.breastSumAvgChart = null;
+  vm.breastSumChoice = null;
   var breastDataSets = null;
   var breastNbConfig = null;
   var breastSumAvgConfig = null;
   vm.bottleNbChart = null;
+  vm.bottleSumAvgChart = null;
+  vm.bottleSumChoice = null;
   var bottleDataSets = null;
   var bottleNbConfig = null;
   var bottleSumAvgConfig = null;
@@ -38,8 +43,9 @@ angular.module('app.controllers')
   vm.openDatePicker = openDatePicker;
 
   /******************************         INITIALISATION               ************************/
+  refreshTimeout = 10;
   vm.durationList = utils.getDurationList();
-  vm.duration = vm.durationList[0];
+  vm.duration = vm.durationList[2];
   vm.endDate = new Date;
   vm.startDate = new Date(moment(vm.endDate).subtract(vm.duration.nbDay, 'days'));
 
@@ -52,12 +58,36 @@ angular.module('app.controllers')
   vm.babyName = baby.firstname;
   if (baby.gender == MALE) {
     // color for boy (darkTurquoise #00CED1)
-    lineColor = ['rgb(0, 206, 209)', 'rgb(0, 153, 204)', 'rgb(0, 96, 128)']; //#00CED1;
-    backgroundColor = ['rgba(0, 206, 209, 0.1)', 'rgba(0, 153, 204,0.2)', 'rgba(0, 96, 128, 0.2)'];
+    //lineColor = ['#00CED1', '#74A2D2', '#00C795', '#6DD1B8']; //#00CED1;
+    lineColor = [
+      'rgb(0, 206, 209)', //#00CED1;
+      'rgb(116, 162, 210)',
+      'rgb(0, 199, 149)',
+      'rgb(109, 209, 184)'
+    ];
+    backgroundColor = [
+      'rgba(0, 206, 209, 0.1)',
+      'rgba(116, 162, 210, 0.1)',
+      'rgba(0, 199, 149, 0.1)',
+      'rgba(109, 209, 184, 0.1 )',
+    ];
   } else {
     // color for girl (LightPink #FFB6C1)
-    lineColor = ['rgb(255, 128, 147)', 'rgb(255, 102, 125)'];
-    backgroundColor = ['rgba(255, 128, 147, 0.1)', 'rgba(255, 102, 125, 0.2)'];
+    //lineColor = ['#F68097', '#FF8B7F', '#FF6281', '#F278B6', '#FD61B9'];
+    lineColor = [
+      'rgb(246, 128, 151)',
+      'rgb(255, 139, 127)',
+      'rgb(242, 120, 182)',
+      'rgb(242, 120, 182)',
+      'rgb(253, 97, 185)'
+    ]
+    backgroundColor = [
+      'rgba(246, 128, 151, 0.1)',
+      'rgba(255, 139, 127, 0.1)',
+      'rgba(242, 120, 182, 0.1)',
+      'rgba(242, 120, 182, 0.1)',
+      'rgba(253, 97, 185, 0.1)'
+    ];
   }
 
   // get BREAST data to display
@@ -82,12 +112,12 @@ angular.module('app.controllers')
   Chart.defaults.global.title.padding = 15;
   Chart.defaults.global.title.fontSize = 12;
   Chart.defaults.global.elements.line.borderColor = lineColor[0];
-  Chart.defaults.global.elements.line.backgroundColor = backgroundColor[0];
+  //Chart.defaults.global.elements.line.backgroundColor = backgroundColor[0];
   Chart.defaults.global.elements.rectangle.borderColor = lineColor[0];
-  Chart.defaults.global.elements.rectangle.backgroundColor = backgroundColor[0];
-  Chart.defaults.global.elements.point.radius = 3;
+  //Chart.defaults.global.elements.rectangle.backgroundColor = backgroundColor[0];
+  Chart.defaults.global.elements.point.radius = 0; //  0 <=> NOTHING
   Chart.defaults.global.elements.point.hoverRadius = 10;
-  Chart.defaults.scale.ticks.beginAtZero = true;
+  //Chart.defaults.scale.ticks.beginAtZero = true;
 
   //TOOLTIPS: default property
   Chart.defaults.global.tooltips.enabled = false;
@@ -112,14 +142,16 @@ angular.module('app.controllers')
   };*/
 
   //---------------------------     INIT WEIGHT CHART CONFIG    --------------------------------
-  var minWeight_y = measureData.length > 0 ? measureData.weight[0].y - .5 : 2;
-  var maxWeight_y = measureData.length > 0 ? measureData.weight[0].y + 1 : 5;
+  var minWeight_y = measureData.weight.length > 0 ? measureData.weight[0].y - .5 : 2;
+  var maxWeight_y = measureData.weight.length > 0 ? measureData.weight[0].y + 1 : 5;
   weightConfig = {
     type: 'line',
     data: {
       labels: weightLabel,
       datasets: [{
         data: measureData.weight,
+        borderColor: lineColor[2],
+        backgroundColor: backgroundColor[2],
         spanGaps: false,
       }],
     },
@@ -164,6 +196,11 @@ angular.module('app.controllers')
           },
         }],
       },
+      elements: {
+        point: {
+          radius: 3
+        }
+      },
       /*tooltips: {
         callbacks: {
           title: formatTooltipDateTitle,
@@ -180,9 +217,11 @@ angular.module('app.controllers')
   breastNbConfig = {
     type: 'bar',
     data: {
-      labels: breastDataSets.label, // define x-label to display (must fit to total data number)
+      // labels: breastDataSets.label, // define x-label. Set by changeDuration()
       datasets: [{
-        data: breastDataSets.number,
+        // data: breastDataSets.number, // Set by changeDuration()
+        borderColor: lineColor[0],
+        backgroundColor: backgroundColor[0],
       }],
     },
     options: {
@@ -193,12 +232,15 @@ angular.module('app.controllers')
   };
 
   //-----------------------     INIT BREAST SUM/AVG CHART CONFIG    ---------------------------
+  vm.breastSumChoice = true;
   breastSumAvgConfig = {
     type: 'bar',
     data: {
-      labels: breastDataSets.label, // define x-label to display (must fit to total data number)
+      //labels: breastDataSets.label, // define x-label. Set by changeDuration()
       datasets: [{
-        data: breastDataSets.sumDuration,
+        // data: breastDataSets.sumDuration, // Set by changeDuration()
+        borderColor: lineColor[0],
+        backgroundColor: backgroundColor[0],
         type: 'line',
         lineTension: 0,
       }],
@@ -214,9 +256,11 @@ angular.module('app.controllers')
   bottleNbConfig = {
     type: 'bar',
     data: {
-      labels: bottleDataSets.label, // define x-label to display (must fit to total data number)
+      //labels: bottleDataSets.label, // define x-label. Set by changeDuration()
       datasets: [{
-        data: bottleDataSets.number,
+        // data: bottleDataSets.number, // Set by changeDuration()
+        borderColor: lineColor[1],
+        backgroundColor: backgroundColor[1],
       }],
     },
     options: {
@@ -227,14 +271,17 @@ angular.module('app.controllers')
   };
 
   //-----------------------     INIT BOTTLE SUM/AVG CHART CONFIG    ---------------------------
+  vm.bottleSumChoice = true;
   bottleSumAvgConfig = {
     type: 'bar',
     data: {
-      labels: bottleDataSets.label, // define x-label to display (must fit to total data number)
+      //labels: bottleDataSets.label, // define x-label. Set by changeDuration()
       datasets: [{
-        data: bottleDataSets.sumQuantity,
+        //data: bottleDataSets.sumQuantity, // Set by changeDuration()
         type: 'line',
         lineTension: 0,
+        borderColor: lineColor[1],
+        backgroundColor: backgroundColor[1],
       }],
     },
     options: {
@@ -259,7 +306,7 @@ angular.module('app.controllers')
       templateType: 'popup',
       from: new Date(2017, 6, 1),
       to: new Date(2025, 7, 1),
-      showTodayButton: true,
+      showTodayButton: false,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: true,
       disableWeekdays: []
@@ -267,9 +314,10 @@ angular.module('app.controllers')
     ionicDatePicker.openDatePicker(datePickerConf);
 
     $timeout(function() {
-      var elt = document.getElementsByClassName("selected_date_full");
-      elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
-    }, 200);
+        var elt = document.getElementsByClassName("selected_date_full");
+        elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
+      },
+      refreshTimeout);
   };
 
   function _onDatePicked(val) { //Mandatory
@@ -280,7 +328,6 @@ angular.module('app.controllers')
 
   // APPLY CHART CONFIGURATION
   $document.ready(function() {
-    //changeDuration();
 
     $timeout(function() {
         // initialize WEIGHT CHART
@@ -292,19 +339,20 @@ angular.module('app.controllers')
         vm.breastNbChart = new Chart(ctx2, breastNbConfig);
 
         // initialize BREAST SUM CHART
-        var ctx2 = document.getElementById("breastSumChart");
-        vm.breastSumAvgChart = new Chart(ctx2, breastSumAvgConfig);
+        var ctx3 = document.getElementById("breastSumChart");
+        vm.breastSumAvgChart = new Chart(ctx3, breastSumAvgConfig);
 
         // initialize BOTTLE NB CHART
-        var ctx3 = document.getElementById("bottleNbChart");
-        vm.bottleNbChart = new Chart(ctx3, bottleNbConfig);
+        var ctx4 = document.getElementById("bottleNbChart");
+        vm.bottleNbChart = new Chart(ctx4, bottleNbConfig);
 
         // initialize BOTTLE SUM CHART
-        var ctx4 = document.getElementById("bottleSumChart");
-        vm.bottleSumAvgChart = new Chart(ctx4, bottleSumAvgConfig);
+        var ctx5 = document.getElementById("bottleSumChart");
+        vm.bottleSumAvgChart = new Chart(ctx5, bottleSumAvgConfig);
 
+        changeDuration();
       },
-      100
+      200
     );
   });
 
@@ -331,7 +379,7 @@ angular.module('app.controllers')
   function onBreastSumClick() {
     vm.breastSumChoice = true;
     breastSumAvgConfig.data.datasets[0].data = breastDataSets.sumDuration;
-    breastSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
+    //breastSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
     //breastSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[0];
     breastSumAvgConfig.options.animation.duration = 200;
     breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
@@ -342,7 +390,7 @@ angular.module('app.controllers')
   function onBreastAverageClick() {
     vm.breastSumChoice = false;
     breastSumAvgConfig.data.datasets[0].data = breastDataSets.avgDuration;
-    breastSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
+    //breastSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
     //breastSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[1];
     breastSumAvgConfig.options.animation.duration = 200;
     breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
@@ -353,7 +401,7 @@ angular.module('app.controllers')
   function onBottleSumClick() {
     vm.bottleSumChoice = true;
     bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.sumQuantity;
-    bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
+    //bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[0];
     //bottleSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[0];
     bottleSumAvgConfig.options.animation.duration = 200;
     bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BOTTLE_SUM_TITLE');
@@ -364,7 +412,7 @@ angular.module('app.controllers')
   function onBottleAverageClick() {
     vm.bottleSumChoice = false;
     bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.avgQuantity;
-    bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
+    //bottleSumAvgConfig.data.datasets[0].borderColor = lineColor[1];
     //bottleSumAvgConfig.data.datasets[0].backgroundColor = backgroundColor[1];
     bottleSumAvgConfig.options.animation.duration = 200;
     bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BOTTLE_AVG_TITLE');
@@ -381,19 +429,20 @@ angular.module('app.controllers')
     // set up animation
     breastSumAvgConfig.options.animation.duration = 0;
 
-    // set up Data for 
+    // set up Data 
     breastNbConfig.data.labels = breastDataSets.label;
     breastSumAvgConfig.data.labels = breastDataSets.label;
     breastNbConfig.data.datasets[0].data = breastDataSets.number;
     if (vm.breastSumChoice) {
       breastSumAvgConfig.data.datasets[0].data = breastDataSets.sumDuration;
-      breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
     } else {
       breastSumAvgConfig.data.datasets[0].data = breastDataSets.avgDuration;
-      breastSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
     }
 
-    // set up scale
+    // set up Y scale
+    breastNbConfig.options.scales.yAxes[0].ticks.min = Math.max(_min(breastDataSets.number) - 1, 0);
+
+    // set up X scale
     breastNbConfig.options.scales.xAxes[0].ticks.min = breastDataSets.label[0];
     breastNbConfig.options.scales.xAxes[0].ticks.max = breastDataSets.label[breastDataSets.label.length - 1];
     breastSumAvgConfig.options.scales.xAxes[0].ticks.min = breastDataSets.label[0];
@@ -413,21 +462,22 @@ angular.module('app.controllers')
     bottleSumAvgConfig.data.labels = bottleDataSets.label;
     bottleNbConfig.data.datasets[0].data = bottleDataSets.number;
     if (vm.bottleSumChoice) {
-      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.sumDuration;
-      bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_SUM_TITLE');
+      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.sumQuantity;
     } else {
-      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.avgDuration;
-      bottleSumAvgConfig.options.title.text = $filter('translate')('GRAPH.BREAST_AVG_TITLE');
+      bottleSumAvgConfig.data.datasets[0].data = bottleDataSets.avgQuantity;
     }
 
-    // set up scale
-    bottleSumAvgConfig.options.scales.xAxes[0].ticks.min = bottleDataSets.label[0];
-    bottleSumAvgConfig.options.scales.xAxes[0].ticks.max = bottleDataSets.label[bottleDataSets.label.length - 1];
+    // set up Y scale
+    bottleNbConfig.options.scales.yAxes[0].ticks.min = Math.max(_min(bottleDataSets.number) - 1, 0);
+
+    // set up X scale
+    bottleNbConfig.options.scales.xAxes[0].ticks.min = bottleDataSets.label[0];
+    bottleNbConfig.options.scales.xAxes[0].ticks.max = bottleDataSets.label[bottleDataSets.label.length - 1];
     bottleSumAvgConfig.options.scales.xAxes[0].ticks.min = bottleDataSets.label[0];
     bottleSumAvgConfig.options.scales.xAxes[0].ticks.max = bottleDataSets.label[bottleDataSets.label.length - 1];
 
     vm.bottleNbChart.update();
-    vm.bottleSumAvgChart.update()
+    vm.bottleSumAvgChart.update();
   }
 
   /********************************************************************************************/
@@ -516,13 +566,22 @@ angular.module('app.controllers')
       }
       bottleDataSets.label.push(curDay.format('D MMM'));
       bottleDataSets.number.push(l_number);
-      bottleDataSets.sumQuantity.push(l_sumQuantity);
-      bottleDataSets.avgQuantity.push(l_avgQuantity);
+      bottleDataSets.sumQuantity.push(l_sumQuantity || 0);
+      bottleDataSets.avgQuantity.push(l_avgQuantity || 0);
 
       curDay.add(1, 'days');
     }
 
     return bottleDataSets;
+  }
+
+  function _min(array) {
+    min = array[0];
+    for (var i = 1; i < array.length; i++) {
+      if (array[i] !== null && array[i] < min)
+        min = array[i];
+    }
+    return (min || 0);
   }
 
   /********************************************************************************************/

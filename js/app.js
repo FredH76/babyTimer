@@ -57,6 +57,7 @@ angular.module('app', [
     var countryConf = DBrecord.getCountryConf();
     if (countryConf.language === null) {
       // DEFAULT : set to local country unit
+      var test = $translate.use();
       switch ($translate.use()) {
         case 'fr_FR':
         case 'fr':
@@ -81,6 +82,9 @@ angular.module('app', [
           $translate.use('en');
       }
     }
+
+    //create demo baby
+    //DBrecord.createDemoBaby();
 
     /* this code is for AUTOMATIC LIGHT SENSOR
     // initalize luminosity sensor (first reading is often 0)

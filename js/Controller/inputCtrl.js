@@ -400,7 +400,7 @@ angular.module('app.controllers')
       templateType: 'popup',
       from: new Date(2017, 6, 1),
       to: new Date(2025, 11, 31),
-      showTodayButton: true,
+      showTodayButton: false,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: true,
       disableWeekdays: []
@@ -537,8 +537,7 @@ angular.module('app.controllers')
       l_rec.vitamin = vm.vitamin;
       l_rec.paracetamol = vm.paracetamol;
       l_rec.otherMed = vm.otherMed;
-      l_rec.otherMedName = vm.otherMedName;
-    } else {
+      l_rec.otherMedName = vm.otherMedName;    } else {
       delete l_rec.medecine;
       delete l_rec.vitamin;
       delete l_rec.paracetamol;

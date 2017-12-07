@@ -128,8 +128,7 @@
 /******************************             AUTOMATIC TAB            *************************
 /********************************************************************************************/
   /******************************             CHRONO TIMER           **************************/
-  
-  @media screen and (max-width: 320px) {
+  /*@media screen and (max-width: 320px) {
     .time_display {
       font-size: 45px;
     }
@@ -139,6 +138,10 @@
     .time_display {
       font-size: 45px;
     }
+  }*/
+  
+  .time_display {
+    font-size: 45px;
   }
   
   .date-row {
@@ -715,6 +718,13 @@ rzslider .rz-ticks .rz-tick {
     background-color: #fff;
     text-align: center;
     font-weight: 300;
+  }
+  
+  .slider-pager {
+    bottom: 0px;
+    height: 30px;
+    padding-top: 2px;
+    background: rgba(255, 255, 255, 0.5);
   }
   
   .graph-row-header {

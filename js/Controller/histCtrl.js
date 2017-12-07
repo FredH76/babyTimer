@@ -161,12 +161,14 @@ angular.module('app.controllers')
         }
       }
       if (alreadyInList === false) {
-        // set show state
-        //if (recTime.getDate() == (new Date()).getDate())
-        recTime.show = true;
         vm.dayList.push(recTime);
       }
     }
+
+    // set show state (only last day)
+    if (vm.dayList.length != 0)
+      vm.dayList[vm.dayList.length - 1].show = true;
+
   }
 
   function _updateInterval() {

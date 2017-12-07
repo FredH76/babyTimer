@@ -1,8 +1,9 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
 
   var vm = this;
+  vm.babyList = DBrecord.getBabyInfoList();
   vm.nbBaby = 1; // this will be set from DBrecord when several babies
   vm.baby = null;
   vm.picture = null;
@@ -65,7 +66,7 @@ angular.module('app.controllers')
       templateType: 'popup',
       from: new Date(2017, 6, 1),
       to: new Date(2025, 7, 1),
-      showTodayButton: true,
+      showTodayButton: false,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: true,
       disableWeekdays: []
@@ -246,7 +247,10 @@ angular.module('app.controllers')
 
   /*********************                 IMPORT BABY                          *****************/
   function importBaby() {
-    DBrecord.importBaby(vm.baby.uid);
+    //create demo baby
+    DBrecord.createDemoBaby();
+
+    //DBrecord.importBaby(vm.baby.uid);
   }
 
   /*********************                 EXPORT BABY                          *****************/
