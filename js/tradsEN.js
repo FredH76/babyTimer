@@ -23,7 +23,7 @@ var translationsEN = {
     GRAPHIC: "Charts",
     MENU: "Settings",
     BABY_INFOS: "Baby Information",
-    BABIES_INFOS: "Baby Information",
+    BABIES_LIST: "Babies List",
     CONFIGURATION: "Configuration",
   },
   INPUT: {
@@ -55,8 +55,7 @@ var translationsEN = {
     BREAK_HEADER: "PREVIOUS FEEDING :",
   },
   MENU: {
-    BABY_INFOS: "Baby Information",
-    BABIES_INFOS: "Baby Information",
+    BABY_LIST: "Babies List",
     CONFIGURATION: "Configuration",
     ACCOUNT: "Account   (not yet available)",
   },

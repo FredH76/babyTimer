@@ -48,11 +48,13 @@
   <script src="js/tradsFR.js"></script>
   <script src="js/tradsEN.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/Controller/settingsCtrl.js"></script>
   <script src="js/Controller/mainMenuCtrl.js"></script>
   <script src="js/Controller/confSetCtrl.js"></script>
   <script src="js/Controller/inputCtrl.js"></script>
   <script src="js/Controller/histCtrl.js"></script>
   <script src="js/Controller/graphCtrl.js"></script>
+  <script src="js/Controller/babyListCtrl.js"></script>
   <script src="js/Controller/babySetCtrl.js"></script>
   <script src="js/Factory/DBrecord.js"></script>
   <script src="js/Factory/fileManager.js"></script>
@@ -73,13 +75,8 @@
             <!--HEADER for BABY INFO-->
             <ion-item class="item-divider side-header item-icon-right" menu-toggle style="color:#444; background-color:#f5f5f5; padding-left:20px">
               <i class="icon ion-chevron-right menu-chevron"></i>
-              <div class="row row-center" style="height:100%" ui-sref="babySettings">
-                <div ng-if="menVM.nbBaby<=1">
-                  {{'MENU.BABY_INFOS' | translate}}
-                </div>
-                <div ng-if="menVM.nbBaby>1">
-                  {{'MENU.BABIES_INFOS' | translate}}
-                </div>
+              <div class="row row-center" style="height:100%" ui-sref="babyList">
+                {{'MENU.BABY_LIST' | translate}}
               </div>
             </ion-item>
 

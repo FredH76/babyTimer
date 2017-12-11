@@ -6,8 +6,11 @@ var translationsFR = {
     CANCEL: "Annuler",
     OK: "OK",
     TODAY: "Aujourd'hui",
-    IMPORT: "importer",
-    EXPORT: "exporter",
+    IMPORT: "Importer",
+    EXPORT: "Exporter",
+    DELETE: "Supprimer",
+    ADD_NEW_BABY: "Ajouter nouveau bébé",
+    ADD_DEMO_BABY: "Créer bébé démo (1 mois)",
   },
   TAB_TITLE: {
     AUTOMATIC: "Automatique",
@@ -25,7 +28,7 @@ var translationsFR = {
     GRAPHIC: "Graphiques",
     MENU: "Réglages",
     BABY_INFOS: "Informations Bébé",
-    BABIES_INFOS: "Informations Bébés",
+    BABIES_LIST: "Liste Bébés",
     CONFIGURATION: "Configuration",
   },
   INPUT: {
@@ -57,12 +60,13 @@ var translationsFR = {
     BREAK_HEADER: "REPAS PRECEDENT :",
   },
   MENU: {
-    BABY_INFOS: "Informations bébé",
-    BABIES_INFOS: "Information bébés",
+    BABY_LIST: "Liste Bébés",
     CONFIGURATION: "Configuration",
     ACCOUNT: "Comptes   (pas encore disponible)",
   },
   SETTINGS: {
+    NEW_BABY_FIRSTNAME: "Nouveau Bébé",
+    DEMO_BABY_FIRSTNAME: "Bébé Démo",
     BABY_HEADER: "MON BEBE",
     BABY_DEFAULT_NAME: "Bébé",
     BABY_FIRSTNAME: "Prénom",

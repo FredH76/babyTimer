@@ -1,0 +1,80 @@
+<ion-view view-title="{{'PAGE_TITLE.BABIES_LIST' | translate}}">
+
+  <!-- BACK BUTTON (LEFT)-->
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="lstVM.goBack()">
+    </button>&nbsp;&nbsp;
+  </ion-nav-buttons>
+
+  <ion-nav-buttons side="secondary">
+    <!-- EDIT BUTTON (RIGHT)-->
+    <button class="button button-stable button-outline bar-button-right" ng-click="lstVM.switchEditMode()">
+      <div class="button-text">
+        {{lstVM.editMode?('BUTTON.OK' | translate):('BUTTON.EDIT' | translate)}}
+      </div>
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <!-- BABY LIST -->
+    <ion-list show-delete="lstVM.editMode">
+      <!--<ion-list> -->
+
+      <!-- BABY HEADER -->
+      <ion-item ng-repeat="babyItem in lstVM.babyList" style="padding:0px" class="baby-item-content">
+        <!-- DELETE ICON -->
+        <ion-delete-button class="ion-minus-circled" ng-click="lstVM.deleteBaby(babyItem)"></ion-delete-button>
+
+        <!--<div class="item item-divider item-avatar text-label item-icon-right" style="padding-top:15px" ng-click="lstVM.toggleShowState(babyItem, $event)">-->
+        <div class="item item-divider item-avatar text-label item-icon-right" style="padding-top:15px" ng-click="lstVM.editBaby(babyItem)">
+
+          <!-- AVATAR -->
+          <img ng-src="{{babyItem.picture !== null ? babyItem.picture : (babyItem.gender == lstVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
+
+          <!-- SELECTED BABY ICON-->
+          <i class="icon ion-ios-heart click-baby" style="padding-right:40px" ng-style="babyItem.uid != lstVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=lstVM.selectBaby(babyItem)></i>
+
+          <!-- SHOW MORE ICON -->
+          <!-- ion-android-more-horizontal / ion-android-more-horizontal / ion-plus-circled / 
+              ion-ios-plus-outline -->
+          <i class="icon ion-chevron-right" style="font-size:25px"></i>
+
+          <!-- BABY NAME -->
+          <div class="row row-center" style="padding-left:50px">
+            <div class="col col-center">
+              {{babyItem.firstname}}
+            </div>
+          </div>
+        </div>
+
+      </ion-item>
+      <!-- END OF BABY'S INFO LIST -->
+
+    </ion-list>
+
+    <div>
+      <div class="row bottom-button-row" style="margin-top:15px">
+        <!-- ADD BABY BUTTON -->
+        <div class="col">
+          <button class="button button-block button-positive button-outline" ng-click="lstVM.addBaby()">
+            {{'BUTTON.ADD_NEW_BABY' | translate}}
+          </button>
+        </div>
+      </div>
+
+      <div class="row bottom-button-row">
+        <!-- DELETE BABY BUTTON -->
+        <div class="col">
+          <button class="button button-block button-positive button-outline" ng-click="lstVM.createDemoBaby()" ng-disabled="lstVM.demoBabyExist">
+            {{'BUTTON.ADD_DEMO_BABY' | translate}}
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+
+  </ion-content>
+
+</ion-view>

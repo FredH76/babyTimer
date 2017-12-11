@@ -1,11 +1,7 @@
 <ion-view view-title="{{'PAGE_TITLE.HISTORIC' | translate}}">
 
   <ion-nav-buttons side="secondary">
-    <!-- LUMINOSITY BUTTON (RIGHT)
-    <button class="button bar-button-image-right" ng-click="histVM.changeLuminosity()">
-      <img class="nav-button-image" ng-src="{{histVM.dayLight?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
-    </button>-->
-    <!-- SAVE BUTTON (RIGHT)-->
+    <!-- EDIT BUTTON (RIGHT)-->
     <button class="button button-stable button-outline bar-button-right" ng-click="histVM.switchEditMode()">
       <div class="button-text">
         {{histVM.editMode?('BUTTON.OK' | translate):('BUTTON.EDIT' | translate)}}

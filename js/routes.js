@@ -1,6 +1,6 @@
 angular.module('app.routes', [])
 
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
 
@@ -80,12 +80,23 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('babyList', {
+    cache: false,
+    url: '/babyList',
+    templateUrl: 'templates/babyList.html',
+    controller: 'babyListCtrl',
+    controllerAs: 'lstVM'
+  })
+
   .state('babySettings', {
     cache: false,
     url: '/babySettings',
     templateUrl: 'templates/babySettings.html',
     controller: 'babySettingsCtrl',
-    controllerAs: 'babyVM'
+    controllerAs: 'babyVM',
+    params: {
+      babyUID: null,
+    }
   })
 
   .state('confSettings', {
@@ -100,6 +111,8 @@ angular.module('app.routes', [])
   //$urlRouterProvider.otherwise('/tab/manual/1/null');
   //$urlRouterProvider.otherwise('/tab/settings');
   //$urlRouterProvider.otherwise('/tab/historic');
-  $urlRouterProvider.otherwise('/tab/graphic');
+  //$urlRouterProvider.otherwise('/tab/graphic');
+  $urlRouterProvider.otherwise('/babyList');
+
 
 }]);

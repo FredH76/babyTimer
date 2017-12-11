@@ -26,6 +26,23 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   vm.displayConf = DBrecord.getDisplayConf();
   refreshRecList();
+
+  $scope.$on('$ionicView.loaded', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+  $scope.$on('$ionicView.beforeEnter', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+  $scope.$on('$ionicView.afterEnter', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+
   vm.editMode = false;
 
   _updateInterval();
@@ -136,7 +153,7 @@ angular.module('app.controllers')
 
     _refreshDayList();
 
-    /* display recList from BOTTOM */
+    /* display recList from BOTTOM 
     $timeout(function() {
       var view = $ionicScrollDelegate.$getByHandle('histView').getScrollView();
       view.resize();
@@ -144,7 +161,7 @@ angular.module('app.controllers')
       $ionicScrollDelegate.scrollTo(0, y.top);
       //$ionicScrollDelegate.scrollBottom();
     });
-
+    */
   };
 
 

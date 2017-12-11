@@ -7,12 +7,14 @@ angular.module('app.factory', [])
   // DEFAULT BABY STRUCTURE  
   var defaultBaby = {
     uid: BABY_UID_PREFIX + "0",
-    name: "My new",
-    firstname: "baby",
+    name: "",
+    firstname: "new baby",
     birthday: new Date(),
     gender: MALE,
-    weight: 3.5,
-    height: 50,
+    weight: 0,
+    height: 0,
+    picture: null,
+    show: true,
   }
 
   // DEFAULT DISPLAY CONFIGURATION STRUCTURE  
@@ -57,12 +59,16 @@ angular.module('app.factory', [])
     setDayNightConf: setDayNightConf,
 
     //baby infos
+    setCurBaby: setCurBaby,
+    getCurBaby: getCurBaby,
     createNewBaby: createNewBaby,
     createDemoBaby: createDemoBaby,
+    doesDemoBabyExist: doesDemoBabyExist,
     getBabyInfo: getBabyInfo,
     getBabyUIDList: getBabyUIDList,
     getBabyInfoList: getBabyInfoList,
     saveBaby: saveBaby,
+    deleteBaby: deleteBaby,
 
     // records
     loadRec: loadRec,
@@ -148,12 +154,27 @@ angular.module('app.factory', [])
     localStorage["config_dayNight_prefs"] = JSON.stringify(prefs);
   }
 
+  /*********************              GET CURRENT BABY UID                  *****************/
+  function getCurBaby() {
+    var uid = null;
+    if (localStorage["config_current_baby"] !== undefined)
+      uid = JSON.parse(localStorage["config_current_baby"]);
+    return uid;
+  }
+
+  /*********************              SET CURRENT BABY                      *****************/
+  function setCurBaby(babyUID) {
+    localStorage["config_current_baby"] = JSON.stringify(babyUID);
+  }
+
 
   /*********************                  CREATE NEW BABY                   *****************/
   function createNewBaby() {
     var uid = _createBabyUID();
     var baby = defaultBaby;
     baby.uid = uid;
+    baby.firstname = $filter('translate')('SETTINGS.NEW_BABY_FIRSTNAME');
+    baby.firstname += " " + (getBabyUIDList().length + 1);
     localStorage[uid] = JSON.stringify(baby);
     return uid;
   }
@@ -164,7 +185,7 @@ angular.module('app.factory', [])
     //1- create demo baby entry
     var demoBaby = angular.copy(defaultBaby);
     demoBaby.uid = BABY_UID_PREFIX + "demo";
-    demoBaby.firstname = "my sweet angel";
+    demoBaby.firstname = $filter('translate')('SETTINGS.DEMO_BABY_FIRSTNAME');;
     demoBaby.name = "DEMO";
     demoBaby.birthday = moment().subtract(28, 'days').hours(0).minutes(0).seconds(0).toDate();
     demoBaby.gender = MALE;
@@ -361,6 +382,16 @@ angular.module('app.factory', [])
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
 
+    return (demoBaby.uid);
+  }
+
+  /*********************              DOES DEMO BABY EXIST                  *****************/
+  function doesDemoBabyExist() {
+    var uid = BABY_UID_PREFIX + "demo";
+    if (localStorage[uid] == undefined)
+      return false;
+    else
+      return true;
   }
 
 
@@ -371,8 +402,10 @@ angular.module('app.factory', [])
     var babyInfo = JSON.parse(localStorage[babyUID]);
     if (babyInfo === undefined)
       return null;
-    else
+    else {
+      babyInfo.birthday = new Date(babyInfo.birthday);
       return babyInfo;
+    }
   }
 
   /*********************                  GET BABY LIST                      *****************/
@@ -397,16 +430,38 @@ angular.module('app.factory', [])
     // go through every property of LocalStorage
     for (var property in localStorage) {
       if (property.slice(0, prefix.length) == prefix) {
-        babyInfoList.push(JSON.parse(localStorage[property]));
+        var l_baby = JSON.parse(localStorage[property]);
+        l_baby.birthday = new Date(l_baby.birthday);
+        babyInfoList.push(l_baby);
+        //babyInfoList[l_baby.uid] = l_baby;
       }
     }
     return babyInfoList;
   }
+
+
   /*********************                  SAVE BABY                          *****************/
   function saveBaby(baby) {
+    if (baby.$$hashKey)
+      delete baby.$$hashKey;
     localStorage[baby.uid] = JSON.stringify(baby);
   }
 
+  /*********************                  DELETE BABY                        *****************/
+  function deleteBaby(baby) {
+    var prefix = RECORD_PREFIX;
+
+    // delete baby info
+    localStorage.removeItem(baby.uid);
+
+    // delete all baby record
+    for (var property in localStorage) {
+      var t = localStorage[property];
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == baby.uid) {
+        localStorage.removeItem(property);
+      }
+    }
+  }
 
   /*********************                  LOAD RECORD                        *****************/
   function loadRec(recUID) {
