@@ -13,14 +13,15 @@ var translationsFR = {
     ADD_DEMO_BABY: "Créer bébé démo (1 mois)",
   },
   TAB_TITLE: {
+    SETTINGS: "Réglages",
     AUTOMATIC: "Automatique",
     MANUAL: "Manuel",
     EDIT: "Edition",
     HISTORIC: "Historique",
     GRAPHIC: "Graphiques",
-    SETTINGS: "Réglages",
   },
   PAGE_TITLE: {
+    SETTINGS: "Réglages",
     AUTOMATIC: "Mode automatique",
     MANUAL: "Saisie manuelle",
     EDIT: "Mode Edition",
