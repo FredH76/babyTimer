@@ -1,4 +1,24 @@
-var app_version = "0.1.4";
+var app_version = "0.2.1";
+
+
+
+/*******************************   version = 0.3.0  ********************************************
+new functionnalities (in progress):
+-add chart 
+- TODO : reformat DB record : replace bottleContent by quantity !
+
+/*******************************   version = 0.2.1  ********************************************
+new functionnalities:
+-add luminosity control
+
+/*******************************   version = 0.2.0  ********************************************
+new functionnalities (in progress):
+- historic tab displays only fields selected in configuration menu
+- color right bar button (in darkcyan)
+- french/english language choice
+- full english translation
+bug fixed:
+- historic tab display is back from last entry
 
 /*******************************   version = 0.1.4  ********************************************
 new functionnalities :

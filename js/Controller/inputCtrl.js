@@ -89,6 +89,7 @@ angular.module('app.controllers')
   vm.FEMALE = FEMALE;
 
   /******************************         INITIALISATION               ************************/
+
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
     case MODE_AUTO:
@@ -108,7 +109,7 @@ angular.module('app.controllers')
   vm.babyGender = vm.baby.gender;
 
   vm.peeSlider = {
-    value: 2,
+    value: 0,
     options: {
       onEnd: _onSliderPee,
       floor: 0,
@@ -118,7 +119,7 @@ angular.module('app.controllers')
   };
 
   vm.pooSlider = {
-    value: 3,
+    value: 0,
     options: {
       onEnd: _onSliderPoo,
       floor: 0,
@@ -187,6 +188,7 @@ angular.module('app.controllers')
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
+
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
@@ -393,17 +395,22 @@ angular.module('app.controllers')
       todayLabel: $filter('translate')('BUTTON.TODAY'),
       closeLabel: $filter('translate')('BUTTON.CANCEL'),
       mondayFirst: true,
-      weeksList: utils.transWeek,
-      monthsList: utils.transMonth,
+      weeksList: utils.getWeekList(),
+      monthsList: utils.getMonthList(),
       templateType: 'popup',
-      from: new Date(2017, 7, 1),
-      to: new Date(2025, 7, 1),
-      showTodayButton: true,
+      from: new Date(2017, 6, 1),
+      to: new Date(2025, 11, 31),
+      showTodayButton: false,
       dateFormat: 'dd MMMM yyyy',
-      closeOnSelect: false,
+      closeOnSelect: true,
       disableWeekdays: []
     };
     ionicDatePicker.openDatePicker(datePickerConf);
+
+    $timeout(function() {
+      var elt = document.getElementsByClassName("selected_date_full");
+      elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
+    }, 200);
   };
 
   function _onDatePicked(val) { //Mandatory
@@ -422,8 +429,8 @@ angular.module('app.controllers')
       inputTime: vm.selHour * 60 * 60 + parseInt(vm.selMin / 5) * 5 * 60,
       format: 24,
       step: 5,
-      setLabel: 'Set',
-      closeLabel: 'Cancel'
+      setLabel: $filter('translate')('BUTTON.OK'),
+      closeLabel: $filter('translate')('BUTTON.CANCEL'),
     };
     ionicTimePicker.openTimePicker(timePickerConf);
   };
@@ -446,7 +453,7 @@ angular.module('app.controllers')
   /*  rec.leftSide
   /*  rec.rightSide
   /*  rec.bottle
-  /*  rec.bottleContent
+  /*  rec.quantity
   /*  rec.medecine
   /*  rec.vitamin
   /*  rec.paracetamol
@@ -483,6 +490,10 @@ angular.module('app.controllers')
       }
       l_rec.breast = true;
       l_rec.duration = vm.duration; // in secondes
+
+      // add SIDE info
+      l_rec.leftSide = vm.leftSide;
+      l_rec.rightSide = vm.rightSide;
     }
 
     // if mode MANUAL or EDIT
@@ -493,68 +504,83 @@ angular.module('app.controllers')
       l_startTime.setMinutes(vm.selMin);
       l_rec.startTime = l_startTime;
 
-      // add BREAST info
+      // add BREAST and SIDE info
       // breast
-      l_rec.breast = vm.breast;
-      l_rec.duration = vm.breastSlider.value * 60; // in secondes
+      if (vm.breast) {
+        l_rec.breast = vm.breast;
+        l_rec.duration = vm.breastSlider.value * 60; // in secondes
+        l_rec.leftSide = vm.leftSide;
+        l_rec.rightSide = vm.rightSide;
+      } else {
+        delete l_rec.breast;
+        delete l_rec.duration;
+        delete l_rec.leftSide;
+        delete l_rec.rightSide;
+      }
     }
 
     // add BOTTLE info
-    l_rec.bottle = vm.bottle;
-    if (l_rec.bottle)
-      l_rec.bottleContent = vm.bottleSlider.value;
-    else
-      l_rec.bottleContent = 0;
-
-    // add SIDE info
-    l_rec.leftSide = vm.leftSide;
-    l_rec.rightSide = vm.rightSide;
+    if (vm.bottle) {
+      l_rec.bottle = vm.bottle;
+      if (l_rec.bottle)
+        l_rec.quantity = vm.bottleSlider.value;
+      else
+        l_rec.quantity = 0;
+    } else {
+      delete l_rec.bottle;
+      delete l_rec.quantity;
+    }
 
     // add MEDECINE info
-    l_rec.medecine = vm.medecine;
-    if (l_rec.medecine) {
+    if (vm.medecine) {
       l_rec.medecine = vm.medecine;
       l_rec.vitamin = vm.vitamin;
       l_rec.paracetamol = vm.paracetamol;
       l_rec.otherMed = vm.otherMed;
-      l_rec.otherMedName = vm.otherMedName;
-    } else {
-      l_rec.medecine = false;
-      l_rec.vitamin = false;
-      l_rec.paracetamol = false;
-      l_rec.otherMed = false;
-      l_rec.otherMedName = "";
+      l_rec.otherMedName = vm.otherMedName;    } else {
+      delete l_rec.medecine;
+      delete l_rec.vitamin;
+      delete l_rec.paracetamol;
+      delete l_rec.otherMed;
+      delete l_rec.otherMedName;
     }
 
     // add DIAPPER/PEE/POO info
-    l_rec.diapper = vm.diapper;
-    if (l_rec.diapper) {
+    if (vm.diapper) {
+      l_rec.diapper = vm.diapper;
       l_rec.peeLevel = vm.peeSlider.value;
       l_rec.pooLevel = vm.pooSlider.value;
     } else {
-      l_rec.peeLevel = 0;
-      l_rec.pooLevel = 0;
+      delete l_rec.diapper;
+      delete l_rec.peeLevel;
+      delete l_rec.pooLevel;
     }
 
     // add BATH info
-    l_rec.bath = vm.bath;
+    if (vm.bath)
+      l_rec.bath = vm.bath;
+    else
+      delete l_rec.bath;
 
     // add MEASURE info
-    l_rec.measure = vm.measure;
-    if (l_rec.measure) {
+    if (vm.measure) {
+      l_rec.measure = vm.measure;
       l_rec.weight = vm.weight;
       l_rec.height = vm.height;
     } else {
-      l_rec.weight = 0;
-      l_rec.height = 0;
+      delete l_rec.measure;
+      delete l_rec.weight;
+      delete l_rec.height;
     }
 
     // add MESSAGE info
-    l_rec.message = vm.message;
-    if (l_rec.message)
+    if (vm.message) {
+      l_rec.message = vm.message;
       l_rec.msgTxt = vm.msgTxt;
-    else
-      l_rec.msgTxt = "";
+    } else {
+      delete l_rec.message;
+      delete l_rec.msgTxt;
+    }
 
     // if MODE_EDIT : delete original record
     if (vm.curMode == MODE_EDIT) {
@@ -591,8 +617,8 @@ angular.module('app.controllers')
   /********************************************************************************************/
   /*                                      EVENT MANAGEMENT
   /********************************************************************************************/
-  $rootScope.$on('display_configuration_updated',function(){
-    vm.displayConf=DBrecord.getDisplayConf();
+  $rootScope.$on('display_configuration_updated', function() {
+    vm.displayConf = DBrecord.getDisplayConf();
   })
 
 
@@ -623,8 +649,8 @@ angular.module('app.controllers')
       vm.bottleSlider.value = 0;
       // diapper
       vm.diapper = false;
-      vm.peeSlider.value = null;
-      vm.pooSlider.value = null;
+      vm.peeSlider.value = 0;
+      vm.pooSlider.value = 0;
       // bath
       vm.bath = false;
       // medecine
@@ -657,8 +683,8 @@ angular.module('app.controllers')
       vm.bottleSlider.value = 0;
       // diapper
       vm.diapper = false;
-      vm.peeSlider.value = null;
-      vm.pooSlider.value = null;
+      vm.peeSlider.value = 0;
+      vm.pooSlider.value = 0;
       // bath :
       vm.bath = false;
       // medecine
@@ -689,33 +715,33 @@ angular.module('app.controllers')
       // day
       vm.startTime = new Date(loaded_rec.startTime);
       // side
-      vm.leftSide = loaded_rec.leftSide;
-      vm.rightSide = loaded_rec.rightSide;
+      vm.leftSide = loaded_rec.leftSide || false;
+      vm.rightSide = loaded_rec.rightSide || false;
       // breast
-      vm.breast = loaded_rec.breast;
-      vm.breastSlider.value = loaded_rec.duration / 60;
+      vm.breast = loaded_rec.breast || false;
+      vm.breastSlider.value = loaded_rec.duration / 60 || 0;
       // bootle
-      vm.bottle = loaded_rec.bottle;
-      vm.bottleSlider.value = loaded_rec.bottleContent;
+      vm.bottle = loaded_rec.bottle || false;
+      vm.bottleSlider.value = loaded_rec.quantity || 0;
       // diapper
-      vm.diapper = loaded_rec.diapper;
-      vm.peeSlider.value = loaded_rec.peeLevel;
-      vm.pooSlider.value = loaded_rec.pooLevel;
+      vm.diapper = loaded_rec.diapper || false;
+      vm.peeSlider.value = loaded_rec.peeLevel || 0;
+      vm.pooSlider.value = loaded_rec.pooLevel || 0;
       // bath 
-      vm.bath = loaded_rec.bath;
+      vm.bath = loaded_rec.bath || false;
       // medecine
-      vm.medecine = loaded_rec.medecine;
-      vm.vitamin = loaded_rec.vitamin;
-      vm.paracetamol = loaded_rec.paracetamol;
-      vm.otherMed = loaded_rec.otherMed;
-      vm.otherMedName = loaded_rec.otherMedName;
+      vm.medecine = loaded_rec.medecine || false;
+      vm.vitamin = loaded_rec.vitamin || false;
+      vm.paracetamol = loaded_rec.paracetamol || false;
+      vm.otherMed = loaded_rec.otherMed || false;
+      vm.otherMedName = loaded_rec.otherMedName || "";
       // measure
-      vm.measure = loaded_rec.measure;
-      vm.weight = loaded_rec.weight;
-      vm.height = loaded_rec.height;
+      vm.measure = loaded_rec.measure || false;
+      vm.weight = loaded_rec.weight || 0;
+      vm.height = loaded_rec.height || 0;
       // message
-      vm.message = loaded_rec.message;
-      vm.msgTxt = loaded_rec.msgTxt;
+      vm.message = loaded_rec.message || false;
+      vm.msgTxt = loaded_rec.msgTxt || "";
     }
 
     // string day

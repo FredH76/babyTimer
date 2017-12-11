@@ -11,11 +11,45 @@
     margin: 20px 20px 5px 0px;
   }
   
+  .button.button-stable.button-outline.bar-button-right {
+    width: 50px;
+    color: darkcyan;
+    border-color: darkcyan;
+    padding-left: 3px;
+    padding-right: 3px;
+    white-space: nowrap;
+    text-overflow: ".";
+  }
+  
+  .button.bar-button-image-right {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 4px;
+    border: solid 1px darkcyan;
+    border-radius: 5px;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .nav-button-image {
+    height: 30px;
+  }
+  
+  .button-text {
+    overflow: hidden;
+    /* try with string */
+  }
+  
   .nav-icon-left {
     font-size: 30px;
     margin-right: 15px;
     color: darkcyan;
   }
+  /*.nav-day-icon {
+    height: 100%;
+    border: solid 1px darkcyan;
+    border-radius: 5px;
+  }*/
   
   .nav-icon-left.disabled {
     color: lightgrey;
@@ -94,8 +128,7 @@
 /******************************             AUTOMATIC TAB            *************************
 /********************************************************************************************/
   /******************************             CHRONO TIMER           **************************/
-  
-  @media screen and (max-width: 320px) {
+  /*@media screen and (max-width: 320px) {
     .time_display {
       font-size: 45px;
     }
@@ -105,6 +138,10 @@
     .time_display {
       font-size: 45px;
     }
+  }*/
+  
+  .time_display {
+    font-size: 45px;
   }
   
   .date-row {
@@ -186,18 +223,19 @@
   }
   /******************************             DIAPER               ***************************/
   
-  @keyframes example {
+  @keyframes right-to-left {
     0% {
-      height: 0px;
+      margin-left: 0px;
     }
     100% {
-      height: 250px;
+      margin-left: 1000px;
     }
   }
-  /*.diapper-item {
-    animation-name: example;
-    animation-duration: 4s;
-}*/
+  
+  .close-right-to-left {
+    animation-name: right-to-left;
+    animation-duration: 1s;
+  }
   
   .diapper-item {
     padding: 10px 20px 20px 20px;
@@ -207,8 +245,8 @@
   .diapper-item.ng-hide .row-diapper,
   .diapper-item.ng-hide .row-diapper .col {
     padding-top: 0px;
-    padding-bottom: 0px;
-    height: 0px;
+    /*padding-bottom: 0px;
+    height: 0px;*/
     -webkit-transition: 0.2s all linear;
     transition: 0.2s all linear;
   }
@@ -579,9 +617,22 @@ rzslider .rz-ticks .rz-tick {
     font-size: 25px !important;
   }
   
+  .item.baby-item-content {
+    background: #f5f5f5
+  }
+  
+  .item-content {
+    padding: 0px !important;
+  }
+  
   .side-header {
     height: 63px;
     vertical-align: bottom;
+  }
+  
+  .babyAvatar {
+    border: solid 1px lightgrey;
+    margin-top: -5px
   }
   
   .baby-picture {
@@ -599,6 +650,22 @@ rzslider .rz-ticks .rz-tick {
   .settings-text {
     font-size: 16px;
     color: #444;
+  }
+  
+  .language-row {
+    padding: 0px 20px 0px 20px;
+  }
+  
+  .row + .row.light-row {
+    margin-top: 10px;
+    padding: 0px 20px 0px 20px;
+  }
+  
+  .language-select {
+    color: darkcyan;
+    border-radius: 5px;
+    border-color: darkcyan;
+    background: white;
   }
   
   .settings-instruct {
@@ -653,6 +720,76 @@ rzslider .rz-ticks .rz-tick {
   
   .scroll-content {
     overflow-y: auto;
+  }
+  
+  .slider {
+    height: 100%;
+  }
+  
+  .slider-slide {
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+    font-weight: 300;
+  }
+  
+  .slider-pager {
+    bottom: 0px;
+    height: 30px;
+    padding-top: 2px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  
+  .graph-row-header {
+    padding-top: 5px;
+    vertical-align: middle;
+  }
+  
+  .weight-chart-container {
+    position: relative;
+    margin: auto;
+    height: 400px;
+    width: 80vw;
+  }
+  
+  .feeding-chart-container {
+    position: relative;
+    margin: auto;
+    height: 200px;
+    width: 80vw;
+  }
+  
+  .graph-duration-row {
+    text-align: left;
+    padding: 0px 60px 0px 40px;
+    height: 34px;
+  }
+  
+  .graph-upto-row {
+    text-align: left;
+    padding-top: 30px !important;
+    padding: 40px 60px 0px 40px;
+    height: 30px;
+  }
+  
+  .graph-select {
+    color: darkcyan;
+    padding-left: 15px;
+    border-radius: 10px;
+    border-color: darkcyan;
+    background: white;
+  }
+  
+  .graph-time {
+    border: 1px solid darkcyan;
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-left: 20px;
+    font-size: 14px;
+    height: 34px;
+    color: darkcyan;
+    vertical-align: middle;
+    font-weight: 400;
   }
   /*-------------------------------------------OLD--------------------------------------------*/
   /******************************             TIME HEADER (UP)         ************************/

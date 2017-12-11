@@ -9,10 +9,16 @@
     </button>&nbsp;&nbsp;
   </ion-nav-buttons>
 
-  <!-- SAVE BUTTON (RIGHT)-->
   <ion-nav-buttons side="secondary">
-    <button class="button button-stable button-outline" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
-      {{'BUTTON.SAVE' | translate}}
+    <!-- LUMINOSITY BUTTON (RIGHT)
+    <button class="button bar-button-image-right" ng-click="inVM.changeLuminosity()">
+      <img class="nav-button-image" ng-src="{{inVM.dayLight?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
+    </button>-->
+    <!-- SAVE BUTTON (RIGHT)-->
+    <button class="button button-stable button-outline bar-button-right" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+      <div class="button-text">
+        {{'BUTTON.SAVE' | translate}}
+      </div>
     </button>
   </ion-nav-buttons>
 
@@ -366,7 +372,7 @@
         <div class="item" ng-show="inVM.measure">
           <div class="row row-center measure-row">
             <!-- WEIGHT  -->
-            <div class="col col-center col-15" style="margin-left:10px">
+            <div class="col col-center" style="margin-left:10px">
               {{'INPUT.MEASURE_WEIGHT' | translate}}
             </div>
             <div class="col col-right col-20">
@@ -377,7 +383,7 @@
             </div>
 
             <!-- HEIGTH -->
-            <div class="col col-center col-15">
+            <div class="col col-center">
               {{'INPUT.MEASURE_HEIGHT' | translate}}
             </div>
             <div class="col col-center col-20 settings-text">

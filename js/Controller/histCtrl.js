@@ -1,8 +1,9 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function($rootScope, $scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
+  vm.displayConf = null;
   vm.recList = [];
   vm.dayList = [];
   vm.dispList = [];
@@ -18,18 +19,37 @@ angular.module('app.controllers')
   vm.editRec = editRec;
 
   /******************************      DEFINE CONSTANT for HTML        ************************/
-  vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN'),
-    vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL'),
-    vm.otherMedName = ""; // to be defined item per item
+  vm.vitaminName = $filter('translate')('INPUT.MEDECINE_VITAMIN');
+  vm.paracetamolName = $filter('translate')('INPUT.MEDECINE_PARACETAMOL');
+  vm.otherMedName = ""; // to be defined item per item
 
   /******************************         INITIALISATION               ************************/
+  vm.displayConf = DBrecord.getDisplayConf();
   refreshRecList();
+
+  $scope.$on('$ionicView.loaded', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+  $scope.$on('$ionicView.beforeEnter', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+  $scope.$on('$ionicView.afterEnter', function() {
+    var temp = true; // Anything you can think of
+    $ionicScrollDelegate.scrollBottom();
+  });
+
+
   vm.editMode = false;
 
   _updateInterval();
 
   //start clock timer
   $interval(_updateInterval, 60000);
+
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
@@ -80,6 +100,14 @@ angular.module('app.controllers')
 
 
   /********************************************************************************************/
+  /*                                      EVENT MANAGEMENT
+  /********************************************************************************************/
+  $rootScope.$on('display_configuration_updated', function() {
+    vm.displayConf = DBrecord.getDisplayConf();
+  })
+
+
+  /********************************************************************************************/
   /*                                      TOOL BOX
   /********************************************************************************************/
   function refreshRecList() {
@@ -95,17 +123,14 @@ angular.module('app.controllers')
 
       dispItem.UID = vm.recList[i].UID;
 
-      // set time
+      // set properties
       dispItem.time = new Date(vm.recList[i].startTime);
-      var test = dispItem.time.getTime();
-
-      // set duration and side
       dispItem.leftSide = vm.recList[i].leftSide;
       dispItem.rightSide = vm.recList[i].rightSide;
       dispItem.breast = vm.recList[i].breast;
       dispItem.duration = vm.recList[i].duration;
       dispItem.bottle = vm.recList[i].bottle;
-      dispItem.bottleContent = vm.recList[i].bottleContent;
+      dispItem.quantity = vm.recList[i].quantity;
       dispItem.diapper = vm.recList[i].diapper;
       dispItem.peeLevel = vm.recList[i].peeLevel;
       dispItem.pooLevel = vm.recList[i].pooLevel;
@@ -128,14 +153,15 @@ angular.module('app.controllers')
 
     _refreshDayList();
 
-    /* display recList from BOTTOM */
-    $timeout(function () {
-      var view = $ionicScrollDelegate.getScrollView();
+    /* display recList from BOTTOM 
+    $timeout(function() {
+      var view = $ionicScrollDelegate.$getByHandle('histView').getScrollView();
       view.resize();
       var y = view.getScrollMax();
       $ionicScrollDelegate.scrollTo(0, y.top);
+      //$ionicScrollDelegate.scrollBottom();
     });
-
+    */
   };
 
 
@@ -152,12 +178,14 @@ angular.module('app.controllers')
         }
       }
       if (alreadyInList === false) {
-        // set show state
-        // if (recTime.getDate() == (new Date()).getDate())
-        recTime.show = true;
         vm.dayList.push(recTime);
       }
     }
+
+    // set show state (only last day)
+    if (vm.dayList.length != 0)
+      vm.dayList[vm.dayList.length - 1].show = true;
+
   }
 
   function _updateInterval() {

@@ -1,11 +1,14 @@
 <ion-view view-title="{{'PAGE_TITLE.HISTORIC' | translate}}">
 
-  <!-- CONFIG BUTTON (in Nav Bar)-->
   <ion-nav-buttons side="secondary">
-    <button class="button button-stable button-outline" ng-click="histVM.switchEditMode()">
-      {{histVM.editMode?('BUTTON.OK' | translate):('BUTTON.EDIT' | translate)}}
+    <!-- EDIT BUTTON (RIGHT)-->
+    <button class="button button-stable button-outline bar-button-right" ng-click="histVM.switchEditMode()">
+      <div class="button-text">
+        {{histVM.editMode?('BUTTON.OK' | translate):('BUTTON.EDIT' | translate)}}
+      </div>
     </button>
   </ion-nav-buttons>
+
 
   <!-- DURATION BREAK HEADER 
   <div class="item item-divider fixed-header text-label">
@@ -22,7 +25,7 @@
   <ion-content class="has-fixed-header">
 -->
 
-  <ion-content>
+  <ion-content delegate-handle="histView">
 
     <!-- REFRESHER -->
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="histVM.doRefresh()">
@@ -112,7 +115,7 @@
                   <!-- CONTENT -->
                   <div class="col col-15 col-center" ng-if="item.bottle == true">
                     <div style="width:100%; text-align:left">
-                      {{item.bottleContent}}
+                      {{item.quantity}}
                       <br>ml
                     </div>
                   </div>
@@ -123,16 +126,16 @@
                   </div>
 
                   <!-- MEDECINE : ICON -->
-                  <div class="col col-15" style="text-align:right;margin-left:-25px">
-                    <div ng-if="item.medecine == false">
-                      <img ng-src="img/medecine-off.png" style="height:33px">
-                    </div>
+                  <div class="col col-15" style="text-align:right;margin-left:-25px" ng-if="histVM.displayConf.medecine">
                     <div ng-if="item.medecine == true">
                       <img ng-src="img/medecine-on.png" style="height:33px">
                     </div>
+                    <div ng-if="item.medecine != true">
+                      <img ng-src="img/medecine-off.png" style="height:33px">
+                    </div>
                   </div>
                   <!-- MEDECINE : DETAIL -->
-                  <div class="col col-15 med-infos">
+                  <div class="col col-15 med-infos" ng-if="histVM.displayConf.medecine">
                     <!-- VITAMIN -->
                     <div ng-if="item.medecine && item.vitamin" class="status-checked">{{histVM.vitaminName.slice(0,4)}}</div>
                     <div ng-if="!item.medecine || !item.vitamin">--</div>
@@ -145,10 +148,7 @@
                   </div>
 
                   <!-- PEE -->
-                  <div class="col col-10" style="text-align:right;margin-left:-22px">
-                    <div ng-if="item.diapper == false">
-                      <img ng-src="img/diapper-off.jpg" style="height:30px">
-                    </div>
+                  <div class="col col-10" style="text-align:right;margin-left:-22px" ng-if="histVM.displayConf.diapper">
                     <div ng-if="item.diapper == true">
                       <div ng-if="item.peeLevel == 0">
                         <img ng-src="img/diapper-on-0.jpg" style="height:30px">
@@ -163,13 +163,13 @@
                         <img ng-src="img/diapper-pee3.jpg" style="height:30px">
                       </div>
                     </div>
+                    <div ng-if="item.diapper != true">
+                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                    </div>
                   </div>
 
                   <!-- POO -->
-                  <div class="col col-10" style="text-align:right">
-                    <div ng-if="item.diapper == false">
-                      <img ng-src="img/diapper-off.jpg" style="height:30px">
-                    </div>
+                  <div class="col col-10" style="text-align:right" ng-if="histVM.displayConf.diapper">
                     <div ng-if="item.diapper == true">
                       <div ng-if="item.pooLevel == 0">
                         <img ng-src="img/diapper-on-0.jpg" style="height:30px">
@@ -184,10 +184,13 @@
                         <img ng-src="img/diapper-poo3.jpg" style="height:30px">
                       </div>
                     </div>
+                    <div ng-if="item.diapper != true">
+                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                    </div>
                   </div>
 
                   <!-- BATH -->
-                  <div class="col col-10" style="text-align:center;margin-left: 10px">
+                  <div class="col col-10" style="text-align:center;margin-left: 10px" ng-if="histVM.displayConf.bath">
                     <div ng-if="item.bath">
                       <img ng-src="img/bath-on.png" style="height:28px">
                     </div>
@@ -198,7 +201,7 @@
 
                 </div>
 
-                <div class="row row-center " ng-if="item.message">
+                <div class="row row-center " ng-if="item.message && histVM.displayConf.note">
                   <div class="col col-90 note">
                     {{item.msgTxt}}
                   </div>
@@ -208,6 +211,7 @@
 
             </div>
           </div>
+
         </div>
       </div>
 

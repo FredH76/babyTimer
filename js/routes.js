@@ -68,12 +68,35 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tab.graphic', {
+    cache: false,
+    url: '/graphic',
+    views: {
+      'tab-graphic': {
+        templateUrl: 'templates/tab-graph.html',
+        controller: 'graphCtrl',
+        controllerAs: 'grphVM',
+      }
+    }
+  })
+
+  .state('babyList', {
+    cache: false,
+    url: '/babyList',
+    templateUrl: 'templates/babyList.html',
+    controller: 'babyListCtrl',
+    controllerAs: 'lstVM'
+  })
+
   .state('babySettings', {
     cache: false,
     url: '/babySettings',
     templateUrl: 'templates/babySettings.html',
     controller: 'babySettingsCtrl',
-    controllerAs: 'babyVM'
+    controllerAs: 'babyVM',
+    params: {
+      babyUID: null,
+    }
   })
 
   .state('confSettings', {
@@ -87,6 +110,9 @@ angular.module('app.routes', [])
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/tab/manual/1/null');
   //$urlRouterProvider.otherwise('/tab/settings');
-  $urlRouterProvider.otherwise('/tab/historic');
+  //$urlRouterProvider.otherwise('/tab/historic');
+  //$urlRouterProvider.otherwise('/tab/graphic');
+  $urlRouterProvider.otherwise('/babyList');
+
 
 }]);

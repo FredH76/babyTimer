@@ -13,20 +13,24 @@
       <!-- AUTOMATIC MANUAL HEADER -->
       <div class="item item-divider text-label" style="padding-top:15px;margin-bottom:5px">
         <div class="row row-center">
-          <div class="col col-center">{{'SETTINGS.AUTO_MAN_HEADER' | translate}}</div>
+          <!--<div class="col col-center">{{'SETTINGS.AUTO_MAN_HEADER' | translate}}</div>-->
+          <div class="col col-center">{{'SETTINGS.DISPLAY_HEADER' | translate}}</div>
         </div>
       </div>
 
-      <!-- AUTOMATIC MANUAL INSTRUCTIONS -->
+      <!-- AUTOMATIC MANUAL INSTRUCTIONS 
       <div class="row row-center instruct-row settings-text">
         <div class="col settings-instruct">
           {{'SETTINGS.AUTO_MAN_INSTRUCTIONS' | translate}}
         </div>
-      </div>
+      </div>-->
 
       <!-- AUTOMATIC MANUAL LIST CONFIGURATION -->
       <div class="row row-center instruct-row settings-text">
-        <div class="col col-15 left-radio">
+        <div class="col col-50 col-top">
+          {{'SETTINGS.AUTO_MAN_INSTRUCTIONS' | translate}}
+        </div>
+        <div class="col col-10">
           <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
         <div class="col col-70" style="color:grey">
@@ -34,7 +38,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text">
-        <div class="col col-15 left-radio" ng-click="confVM.onClickMale()">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i class="icon ion-ios-checkmark-outline" style="font-size: 26px;color:grey"></i>
         </div>
         <div class="col col-70" style="color:grey">
@@ -42,7 +47,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMedecine()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.medecine? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -50,7 +56,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickDiapper()">
-        <div class=" col col-15 left-radio">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.diapper? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -58,7 +65,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickBath()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.bath? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -66,7 +74,8 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickMeasure()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.measure? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
@@ -74,22 +83,40 @@
         </div>
       </div>
       <div class="row row-center instruct-row settings-text" ng-click="confVM.onClickNote()">
-        <div class=" col col-15 left-radio ">
+        <div class="col col-50"></div>
+        <div class="col col-10">
           <i ng-class="confVM.note? 'icon ion-ios-checkmark-outline': 'icon ion-ios-circle-outline' " style="font-size: 26px "></i>
         </div>
         <div class="col col-70 ">
           {{'INPUT.NOTE_HEADER' | translate}}
         </div>
       </div>
-    </div>
 
-    <!-- GENERAL -->
-    <div class="item item-divider text-label " style="padding-top:15px;margin-bottom:5px ">
-      <div class="row row-center ">
-        <div class="col col-center ">{{'SETTINGS.GENERAL_HEADER' | translate}}</div>
+      <!-- GENERAL -->
+      <div class="item item-divider text-label " style="padding-top:15px;margin-top:10px;margin-bottom:5px ">
+        <div class="row row-center ">
+          <div class="col col-center ">{{'SETTINGS.GENERAL_HEADER' | translate}}</div>
+        </div>
       </div>
-    </div>
+      <!-- LANGUAGE -->
+      <div class="row row-center language-row">
+        <div class=" col col-50 ">
+          {{'SETTINGS.GENERAL_LANGUAGE' | translate}}
+        </div>
+        <select class="col col-50 language-select" ng-model="confVM.language" ng-options="item.label for item in confVM.languageList" ng-change="confVM.changeLanguage()">
+        </select>
+      </div>
 
+      <!-- NIGHT LUMINOSITY -->
+      <div class="row row-center light-row">
+        <div class=" col col-50 " style="padding-top:20px">
+          {{'SETTINGS.GENERAL_NIGHT_LUMINOSITY' | translate}}
+        </div>
+        <rzslider id="lumSlider" rz-slider-tpl-url="templates/myRzSliderTpl.html" rz-slider-model="confVM.lumSlider.value" rz-slider-options="confVM.lumSlider.options">
+        </rzslider>
+      </div>
+
+    </div>
     <!-- END OF LIST -->
 
   </ion-content>
