@@ -156,10 +156,12 @@ angular.module('app.factory', [])
 
   /*********************              GET CURRENT BABY UID                  *****************/
   function getCurBaby() {
-    var uid = null;
-    if (localStorage["config_current_baby"] !== undefined)
-      uid = JSON.parse(localStorage["config_current_baby"]);
-    return uid;
+    var baby = null;
+    if (localStorage["config_current_baby"] !== undefined){
+      var uid = JSON.parse(localStorage["config_current_baby"]);
+      baby = JSON.parse(localStorage[uid]);
+    }
+    return baby;
   }
 
   /*********************              SET CURRENT BABY                      *****************/

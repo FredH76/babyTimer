@@ -29,7 +29,7 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   vm.editMode = false;
   vm.babyList = DBrecord.getBabyInfoList();
-  vm.selectedBabyUID = DBrecord.getCurBaby();
+  vm.selectedBabyUID = DBrecord.getCurBaby().uid;
   vm.demoBabyExist = DBrecord.doesDemoBabyExist();
 
 

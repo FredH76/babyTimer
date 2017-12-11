@@ -1,18 +1,27 @@
+<!--<ion-view view-title="{{inVM.curMode==inVM.MODE_AUTO? ('PAGE_TITLE.AUTOMATIC' | translate)
 <ion-view view-title="{{inVM.curMode==inVM.MODE_AUTO? ('PAGE_TITLE.AUTOMATIC' | translate)
                       :inVM.curMode==inVM.MODE_EDIT?('PAGE_TITLE.EDIT' | translate)
-                      :('PAGE_TITLE.MANUAL' | translate)}}">
+                      :('PAGE_TITLE.MANUAL' | translate)}}">-->
+<ion-view view-title="">
+
 
   <!-- BACK BUTTON (LEFT)-->
   <ion-nav-buttons side="left">
-    <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="inVM.goBack()" ng-if="inVM.curMode === inVM.MODE_EDIT">
-    </button>&nbsp;&nbsp;
+    <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="inVM.goBack()" ng-if="inVM.curMode === inVM.MODE_EDIT" style="margin-right:-20px"> &nbsp;&nbsp;
+    </button>
+    <div class="nav-avatar-img">
+      <img class="nav-button-image" ng-src="{{indVM.baby.picture !== null ? indVM.baby.picture : (indVM.baby.gender == indVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
+    </div>
+    <div class="nav-avatar-name">
+      <div class="row row-center">
+        <div class="col col-center">
+          baby name
+        </div>
+      </div>
+    </div>
   </ion-nav-buttons>
 
   <ion-nav-buttons side="secondary">
-    <!-- LUMINOSITY BUTTON (RIGHT)
-    <button class="button bar-button-image-right" ng-click="inVM.changeLuminosity()">
-      <img class="nav-button-image" ng-src="{{inVM.dayLight?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
-    </button>-->
     <!-- SAVE BUTTON (RIGHT)-->
     <button class="button button-stable button-outline bar-button-right" ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
       <div class="button-text">
@@ -21,20 +30,7 @@
     </button>
   </ion-nav-buttons>
 
-  <!--
-  <ion-nav-buttons side="secondary">
-    <div>
-      <div>
-        <i class="icon ion-android-checkbox-outline nav-icon-left" ng-class="inVM.enableSave?'':'disabled'" ng-click="inVM.save()"></i>
-        <!--<img ng-src="img/save-active.png" class="nav-icon-left">--
-      </div>
-    </div>
-  </ion-nav-buttons>-->
-
-
-  <!--<ion-content class="" ng-class="inVM.enableSave?'has-button-bar':''">-->
   <ion-content>
-
     <div class="list">
 
       <!-- MODE AUTO : CHRONOMETER PANEL -->
@@ -123,7 +119,10 @@
 
         <!-- DAY DISPLAY -->
         <div class="row date-row">
-          <div class="col">
+          <div class="col col-10 col-center">
+            <i class="icon ion-calendar icon-input"></i>
+          </div>
+          <div class="col col-90" style="margin-left:5px">
             <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openDatePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
               {{inVM.selDay.toLocaleDateString()}}
             </div>
@@ -132,7 +131,10 @@
 
         <!-- TIME DISPLAY -->
         <div class="row date-row">
-          <div class="col">
+          <div class="col col-10 col-center">
+            <i class="icon ion-clock icon-input"></i>
+          </div>
+          <div class="col col-90" style="margin-left:5px">
             <div class="time_display_sm" ng-click="inVM.curMode!==inVM.MODE_AUTO?inVM.openTimePicker():''" ng-class="inVM.curMode===inVM.MODE_AUTO?'disabled':''">
               {{inVM.selHour}}:{{inVM.selMin}}
             </div>

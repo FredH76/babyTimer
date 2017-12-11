@@ -120,8 +120,8 @@ angular.module('app.routes', [])
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/manual/1/null');
-  //$urlRouterProvider.otherwise('/tab/settings');
+  //$urlRouterProvider.otherwise('/tab/manual/1/null');
+  $urlRouterProvider.otherwise('/tab/settings');
   //$urlRouterProvider.otherwise('/tab/historic');
   //$urlRouterProvider.otherwise('/tab/graphic');
   //$urlRouterProvider.otherwise('/babyList');

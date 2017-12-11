@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function ($scope, $state, $stateParams, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function ($scope, $state, $stateParams, $ionicHistory, $ionicNavBarDelegate, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
 
   var vm = this;
   vm.baby = null;
@@ -32,7 +32,8 @@ angular.module('app.controllers')
 
   /******************************         INITIALISATION               ************************/
   vm.baby = DBrecord.getBabyInfo($stateParams.babyUID);
-  vm.selectedBabyUID = DBrecord.getCurBaby();
+  vm.selectedBabyUID = DBrecord.getCurBaby().uid;
+  $ionicNavBarDelegate.showBackButton(false);
 
   /*********************               OPEN DATE PICKER                     *******************/
   function openDatePicker() {

@@ -11,6 +11,27 @@
     margin: 20px 20px 5px 0px;
   }
   
+  .nav-avatar-img {
+    height: 36px;
+    margin: -1px;
+    margin-left: 20px;
+    padding: 2px;
+    border: solid 1px darkgrey;
+    border-radius: 20px;
+    background: white;
+  }
+  
+  .nav-avatar-name {
+    text-align: left;
+    padding-left: 10px;
+    font: inherit;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 17px;
+    font-weight: 500;
+    color: #444;
+  }
+  
   .button.button-stable.button-outline.bar-button-right {
     width: 50px;
     color: darkcyan;
@@ -140,12 +161,26 @@
     }
   }*/
   
+  .ion-calendar.icon-input {
+    font-size: 25px;
+    color: darkcyan;
+  }
+  
+  .ion-clock.icon-input {
+    font-size: 30px;
+    color: darkcyan;
+  }
+  
   .time_display {
     font-size: 45px;
   }
   
   .date-row {
-    padding: 5px 15px 10px 15px;
+    padding: 5px 15px 10px 20px;
+  }
+  
+  .date-row {
+    padding: 5px 15px 10px 20px;
   }
   /******************************             CHRONO SIDE ROW        **************************/
   

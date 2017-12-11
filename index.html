@@ -49,7 +49,7 @@
   <script src="js/tradsEN.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/Controller/settingsCtrl.js"></script>
-  <script src="js/Controller/mainMenuCtrl.js"></script>
+  <script src="js/Controller/indexCtrl.js"></script>
   <script src="js/Controller/confSetCtrl.js"></script>
   <script src="js/Controller/inputCtrl.js"></script>
   <script src="js/Controller/histCtrl.js"></script>
@@ -61,21 +61,37 @@
   <script src="js/Factory/utils.js"></script>
 </head>
 
-<body ng-app="app" animation="slide-left-right-ios7" id="body">
-  <div>
-
+<body ng-app="app" animation="slide-left-right-ios7" id="body" ng-controller="indexCtrl as indVM">
+  <ion-view view-title="">
     <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
+
+      <ion-nav-title></ion-nav-title>
+
+      <!-- BABY AVATAR BUTTONS -->
+      <ion-nav-buttons side="left">
+        <div class="nav-avatar-img">
+          <img class="nav-button-image" ng-src="{{indVM.baby.picture !== null ? indVM.baby.picture : (indVM.baby.gender == indVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
+        </div>
+        <div class="nav-avatar-name">
+          <div class="row row-center">
+            <div class="col col-center">
+              {{indVM.baby.firstname}}
+            </div>
+          </div>
+        </div>
+      </ion-nav-buttons>
+
       <ion-nav-buttons side="right">
         <!-- LUMINOSITY BUTTON (RIGHT)-->
-        <button class="button bar-button-image-right" ng-click="menVM.toggleLuminosity()">
-          <img class="nav-button-image" ng-src="{{menVM.modeDayOn?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
+        <button class="button bar-button-image-right" ng-click="indVM.toggleLuminosity()">
+          <img class="nav-button-image" ng-src="{{indVM.modeDayOn?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
-  </div>
+  </ion-view>
 </body>
 
 </html>
