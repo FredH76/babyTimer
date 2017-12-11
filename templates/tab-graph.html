@@ -1,0 +1,181 @@
+<ion-view view-title="{{'PAGE_TITLE.GRAPHIC' | translate}}">
+
+  <ion-nav-buttons side="secondary">
+  </ion-nav-buttons>
+
+  <ion-content scroll="false">
+    <ion-slide-box on-slide-changed="slideHasChanged($index)">
+
+
+      <!-- BREAST SLIDE -->
+      <ion-slide scroll="true">
+        <ion-scroll style="height: 100%">
+<!-- REFRESHER 
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
+          </ion-refresher>-->          <!-- BREAST FEEDING HEADER -->
+          <div class="item item-divider text-label">
+            <div class="row row-center graph-row-header">
+              <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
+              <div class="col col-center" style="text-align:left">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
+            </div>
+          </div>
+          <br>
+
+          <!-- BREAST NUMBER  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="breastNbChart">
+            </canvas>
+          </div>
+
+          <!-- BREAST SUM/AVG  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="breastSumChart">
+            </canvas>
+          </div>
+          <!-- BREAST SUM/AVG CHOICE DISPLAY -->
+          <div class="row row-center graph-duration-row" style="margin-top:-10px;margin-bottom:10px">
+            <!-- SUM radio button -->
+            <div class="col col-5 col-center" ng-click="grphVM.onBreastSumClick()">
+              <i ng-class="grphVM.breastSumChoice?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size : 20px"></i>
+            </div>
+            <div class="col col-40" ng-click="grphVM.onBreastSumClick()">
+              {{'GRAPH.BREAST_SUM_CHOICE' | translate}}
+            </div>
+
+            <!-- AVERAGE side radio button -->
+            <div class="col col-5" ng-click="grphVM.onBreastAverageClick()">
+              <i ng-class="!grphVM.breastSumChoice?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' " style="font-size : 20px"></i>
+            </div>
+            <div class="col col-50" ng-click="grphVM.onBreastAverageClick()">
+              {{'GRAPH.BREAST_AVG_CHOICE' | translate}}
+            </div>
+          </div>
+          <br>
+
+          <!-- DURATION CHOICE -->
+          <div class="row row-center graph-duration-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_CHOICE' | translate}}
+            </div>
+            <select class="col col-50 graph-select" ng-model="grphVM.duration" ng-options="item.label for item in grphVM.durationList" ng-change="grphVM.changeDuration()">
+            </select>
+          </div>
+
+          <!-- UNTIL DATE CHOICE -->
+          <div class="row row-center graph-upto-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_TO_DAY' | translate}}
+            </div>
+            <div class="col col-50 graph-time">
+              <div ng-click="grphVM.openDatePicker()">
+                {{grphVM.endDate | todayOrNot}}
+              </div>
+            </div>
+          </div>
+
+          <!-- EMPTY AREA FOR SCROLL BOTTOM -->
+          <div style="height:70px">
+          </div>
+        </ion-scroll>
+      </ion-slide>
+
+      <!-- BOTTLE SLIDE -->
+      <ion-slide scroll="true">
+        <ion-scroll style="height: 100%">
+          <!-- REFRESHER 
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
+          </ion-refresher> -->
+
+          <!-- BOTTLE HEADER -->
+          <div class="item item-divider text-label">
+            <div class="row row-center graph-row-header">
+              <img src="img/bottle-on.png" style="height:40px; margin-left:8px; margin-right:8px">
+              <div class="col" style="text-align:left">{{'INPUT.BOTTLE_HEADER' | translate}}</div>
+            </div>
+          </div>
+          <br>
+
+          <!-- BOTTLE NUMBER  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="bottleNbChart">
+            </canvas>
+          </div>
+
+          <!-- BOTTLE SUM/AVG  CHART -->
+          <div class="feeding-chart-container">
+            <canvas id="bottleSumChart">
+            </canvas>
+          </div>
+          <!-- BOTTLE SUM/AVG CHOICE DISPLAY -->
+          <div class="row row-center graph-duration-row" style="margin-top:-10px;margin-bottom:10px">
+            <!-- SUM radio button -->
+            <div class="col col-5 col-center" ng-click="grphVM.onBottleSumClick()">
+              <i ng-class="grphVM.bottleSumChoice?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline'" style="font-size : 20px"></i>
+            </div>
+            <div class="col col-40" ng-click="grphVM.onBottleSumClick()">
+              {{'GRAPH.BOTTLE_SUM_CHOICE' | translate}}
+            </div>
+
+            <!-- AVERAGE side radio button -->
+            <div class="col col-5" ng-click="grphVM.onBottleAverageClick()">
+              <i ng-class="!grphVM.bottleSumChoice?'icon ion-ios-checkmark-outline':'icon ion-ios-circle-outline' " style="font-size : 20px"></i>
+            </div>
+            <div class="col col-50" ng-click="grphVM.onBottleAverageClick()">
+              {{'GRAPH.BOTTLE_AVG_CHOICE' | translate}}
+            </div>
+          </div>
+          <br>
+
+          <!-- DURATION CHOICE -->
+          <div class="row row-center graph-duration-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_CHOICE' | translate}}
+            </div>
+            <select class="col col-50 graph-select" ng-model="grphVM.duration" ng-options="item.label for item in grphVM.durationList" ng-change="grphVM.changeDuration()">
+            </select>
+          </div>
+
+          <!-- UNTIL DATE CHOICE -->
+          <div class="row row-center graph-upto-row">
+            <div class=" col col-50">
+              {{'GRAPH.DURATION_TO_DAY' | translate}}
+            </div>
+            <div class="col col-50 graph-time">
+              <div ng-click="grphVM.openDatePicker()">
+                {{grphVM.endDate | todayOrNot}}
+              </div>
+            </div>
+          </div>
+
+          <!-- EMPTY AREA FOR SCROLL BOTTOM -->
+          <div style="height:70px">
+          </div>
+        </ion-scroll>
+      </ion-slide>
+
+      <!-- WEIGHT GRAPH -->
+      <ion-slide scroll="true">
+        <ion-scroll style="height: 100%">
+          <!-- REFRESHER 
+          <ion-refresher pulling-text="Pull to refresh..." on-refresh="grphVM.doRefresh()">
+          </ion-refresher> -->
+
+          <!-- WEIGHT HEADER -->
+          <div class="item item-divider text-label">
+            <div class="row row-center graph-row-header">
+              <img src="img/measure-on.png" style="width:36px; margin-left:2px; margin-right:2px">
+              <div class="col" style="text-align:left">{{'INPUT.MEASURE_HEADER' | translate}}</div>
+            </div>
+          </div>
+          <br>
+          <div class="weight-chart-container">
+            <canvas id="weightChart">
+            </canvas>
+          </div>
+        </ion-scroll>
+      </ion-slide>
+
+    </ion-slide-box>
+  </ion-content>
+
+</ion-view>
