@@ -71,22 +71,25 @@
 
       <!-- BABY AVATAR BUTTONS -->
       <ion-nav-buttons side="left">
-        <div class="nav-avatar-img">
-          <img class="nav-button-image" ng-src="{{indVM.baby.picture !== null ? indVM.baby.picture : (indVM.baby.gender == indVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
+        <div class="nav-avatar-img" ng-click="indVM.pop_SelBaby()">
+          <img class="babyAvatar" ng-src="{{indVM.baby.picture !== null ? indVM.baby.picture : (indVM.baby.gender == indVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}">
         </div>
-        <div class="nav-avatar-name">
-          <div class="row row-center">
-            <div class="col col-center">
+        <div class="nav-avatar-name" ng-click="indVM.pop_SelBaby()">
+          <div class=" row row-center ">
+            <div class="col col-center ">
               {{indVM.baby.firstname}}
+            </div>
+            <div class="col col-10 col-center " style="padding-left:0px">
+              <i class="icon ion-android-sync" style="color:darkcyan; font-size:18px"></i>
             </div>
           </div>
         </div>
       </ion-nav-buttons>
 
-      <ion-nav-buttons side="right">
+      <ion-nav-buttons side="right ">
         <!-- LUMINOSITY BUTTON (RIGHT)-->
-        <button class="button bar-button-image-right" ng-click="indVM.toggleLuminosity()">
-          <img class="nav-button-image" ng-src="{{indVM.modeDayOn?'img/day-on-night-off.png':'img/day-off-night-on.png'}}">
+        <button class="button bar-button-image-right " ng-click="indVM.toggleLuminosity() ">
+          <img class="nav-button-image " ng-src="{{indVM.modeDayOn? 'img/day-on-night-off.png': 'img/day-off-night-on.png'}} ">
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>

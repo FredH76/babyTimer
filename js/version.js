@@ -1,11 +1,12 @@
-var app_version = "0.2.1";
+var app_version = "1.0.1";
 
 
 
-/*******************************   version = 0.3.0  ********************************************
-new functionnalities (in progress):
--add chart 
+/*******************************   version = 1.0.1  ********************************************
+new functionnalities :
+- add chart 
 - TODO : reformat DB record : replace bottleContent by quantity !
+-TO Be UPDATED when overwritten by version 1.1.0
 
 /*******************************   version = 0.2.1  ********************************************
 new functionnalities:

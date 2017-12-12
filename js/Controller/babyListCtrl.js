@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('babyListCtrl', function ($scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
+.controller('babyListCtrl', function ($rootScope, $scope, $state, $ionicHistory, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
 
   var vm = this;
   vm.editMode = null;
@@ -55,8 +55,11 @@ angular.module('app.controllers')
 
   /*********************                   SELECT BABY                        *****************/
   function selectBaby(baby) {
-    vm.selectedBabyUID = baby.uid
-    DBrecord.setCurBaby(vm.selectedBabyUID);
+    if (vm.selectedBabyUID != baby.uid) {
+      vm.selectedBabyUID = baby.uid;
+      DBrecord.setCurBaby(vm.selectedBabyUID);
+      $rootScope.$broadcast('update_baby_selection');
+    }
   }
 
 

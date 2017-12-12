@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('indexCtrl', function ($rootScope, $scope, $ionicHistory, $state, $ionicPlatform, $ionicPopup, DBrecord) {
+.controller('indexCtrl', function ($rootScope, $scope, $ionicHistory, $state, $ionicPlatform, $ionicPopup, $filter, DBrecord) {
   var vm = this;
 
   vm.baby = DBrecord.getCurBaby();
@@ -8,7 +8,17 @@ angular.module('app.controllers')
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.toggleLuminosity = toggleLuminosity;
+  vm.pop_SelBaby = pop_SelBaby;
 
+  /******************************      DEFINE CONSTANT for HTML        ************************/
+  vm.MALE = MALE;
+  vm.FEMALE = FEMALE;
+
+  /******************************       POPUP  DECLARATION             ************************/
+  var selBabyPopup = null;
+  $scope.pop_SelBaby = pop_SelBaby;
+  $scope.selectBaby = selectBaby;
+  $scope.cancel = cancel;
 
   /******************************         INITIALISATION               ************************/
   vm.modeDayOn = DBrecord.getDayNightConf().modeDayOn;
@@ -45,7 +55,7 @@ angular.module('app.controllers')
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
   /********************************************************************************************/
 
-  /******************************     SWITCH INTENSITY                ************************/
+  /******************************     SWITCH INTENSITY                 ************************/
   function toggleLuminosity() {
     var dayNightConf = DBrecord.getDayNightConf();
 
@@ -58,11 +68,50 @@ angular.module('app.controllers')
     _setLuminosity();
   }
 
+  /******************************      POP SELECT BABY                 ************************/
+  function pop_SelBaby() {
+    $scope.babyList = DBrecord.getBabyInfoList();
+    $scope.selectedBabyUID = DBrecord.getCurBaby().uid;
+    $scope.MALE = MALE;
+    selBabyPopup = $ionicPopup.show({
+      title: $filter('translate')('POPUP.TITLE_SELECT_BABY_MENU'),
+      cssClass: 'popup-title sel-popup',
+      templateUrl: 'templates/pop_baby_list.html',
+      scope: $scope,
+    });
+  }
+
+  /*********************                 Select Baby                           ****************/
+  function selectBaby(baby) {
+    var l_curBaby = DBrecord.getCurBaby();
+    if (l_curBaby.uid != baby.uid) {
+      DBrecord.setCurBaby(baby.uid);
+      $rootScope.$broadcast('update_baby_selection');
+      selBabyPopup.close();
+    }
+  }
+
+  /*********************                 Cancel Select Baby                    ****************/
+  function cancel() {
+    selBabyPopup.close();
+  }
+
+  /********************************************************************************************/
+  /*                                      EVENT MANAGEMENT
+  /********************************************************************************************/
+  $rootScope.$on('update_baby_selection', function () {
+    vm.baby = DBrecord.getCurBaby();
+  })
+
+  $rootScope.$on('update_baby_infos', function () {
+    vm.baby = DBrecord.getCurBaby();
+  })
+
   /********************************************************************************************/
   /*                                      TOOL BOX
   /********************************************************************************************/
 
-  /******************************     SET INTENSITY                ************************/
+  /******************************        SET INTENSITY                 ************************/
   function _setLuminosity() {
     var dayNightConf = DBrecord.getDayNightConf();
 

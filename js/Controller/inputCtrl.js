@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('inputCtrl', function($document, $rootScope, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
+.controller('inputCtrl', function ($document, $rootScope, $scope, $state, $stateParams, $ionicHistory, $interval, $timeout, $filter, ionicDatePicker, ionicTimePicker, utils, DBrecord) {
   var vm = this;
 
   vm.displayConf = null;
@@ -41,7 +41,7 @@ angular.module('app.controllers')
   vm.pooSlider = {};
   vm.enableSave = false;
 
-  vm.test = function() {
+  vm.test = function () {
     /*var elt = document.getElementById("test");
     elt.setAttribute("style", "height:200px");*/
   }
@@ -92,19 +92,19 @@ angular.module('app.controllers')
 
   // set up current mode (AUTO/EDIT/MANUAL)
   switch (parseInt($stateParams.mode)) {
-    case MODE_AUTO:
-      vm.curMode = MODE_AUTO;
-      break;
-    case MODE_EDIT:
-      vm.curMode = MODE_EDIT;
-      break;
-    default:
-      vm.curMode = MODE_MANUAL;
+  case MODE_AUTO:
+    vm.curMode = MODE_AUTO;
+    break;
+  case MODE_EDIT:
+    vm.curMode = MODE_EDIT;
+    break;
+  default:
+    vm.curMode = MODE_MANUAL;
   }
 
   vm.displayConf = DBrecord.getDisplayConf();
 
-  vm.baby = DBrecord.getBabyInfo(DBrecord.getBabyUIDList()[0]);
+  vm.baby = DBrecord.getCurBaby();
   vm.babyName = vm.baby.firstname;
   vm.babyGender = vm.baby.gender;
 
@@ -155,7 +155,7 @@ angular.module('app.controllers')
   _initData();
 
   // start timer for each second
-  $interval(function() {
+  $interval(function () {
       // if running state
       if (vm.curState == vm.STATE_RUNNING) {
 
@@ -183,8 +183,8 @@ angular.module('app.controllers')
   );
 
   // update diapper slider after the DOM is loaded
-  $document.ready(function() {
-    $timeout(function() {
+  $document.ready(function () {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   });
@@ -224,7 +224,7 @@ angular.module('app.controllers')
     vm.breast = !vm.breast;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -241,7 +241,7 @@ angular.module('app.controllers')
     vm.bottle = !vm.bottle;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -258,7 +258,7 @@ angular.module('app.controllers')
     vm.diapper = !vm.diapper;
     // enable SAVE/CANCEL BUTTON
     vm.enableSave = true;
-    $timeout(function() {
+    $timeout(function () {
       $scope.$broadcast('rzSliderForceRender');
     }, 10);
   }
@@ -407,7 +407,7 @@ angular.module('app.controllers')
     };
     ionicDatePicker.openDatePicker(datePickerConf);
 
-    $timeout(function() {
+    $timeout(function () {
       var elt = document.getElementsByClassName("selected_date_full");
       elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
     }, 200);
@@ -537,7 +537,8 @@ angular.module('app.controllers')
       l_rec.vitamin = vm.vitamin;
       l_rec.paracetamol = vm.paracetamol;
       l_rec.otherMed = vm.otherMed;
-      l_rec.otherMedName = vm.otherMedName;    } else {
+      l_rec.otherMedName = vm.otherMedName;
+    } else {
       delete l_rec.medecine;
       delete l_rec.vitamin;
       delete l_rec.paracetamol;
@@ -617,8 +618,12 @@ angular.module('app.controllers')
   /********************************************************************************************/
   /*                                      EVENT MANAGEMENT
   /********************************************************************************************/
-  $rootScope.$on('display_configuration_updated', function() {
+  $rootScope.$on('display_configuration_updated', function () {
     vm.displayConf = DBrecord.getDisplayConf();
+  })
+
+  $rootScope.$on('update_baby_selection', function () {
+    vm.baby = DBrecord.getCurBaby(); //xxx
   })
 
 

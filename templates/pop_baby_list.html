@@ -1,0 +1,26 @@
+<div ng-repeat="babyItem in babyList" class="sel-popup">
+
+  <div class="item item-divider item-avatar item-icon-right" ng-click=selectBaby(babyItem)>
+
+    <!-- AVATAR -->
+    <img ng-src="{{babyItem.picture !== null ? babyItem.picture : (babyItem.gender == MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
+
+    <!-- SELECTED BABY ICON-->
+    <i class="icon ion-ios-heart click-baby" style="padding-right:0px" ng-style="babyItem.uid != selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}"></i>
+
+    <!-- BABY NAME -->
+    <div class="row row-center" style="padding-left:57px; height: 100%">
+      <div class="col col-center col-75">
+        {{babyItem.firstname}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-center" style="width: 100%">
+  <div class="col" style="padding-left:20px; padding-right:20px">
+    <button class="button button-block button-positive button-outline button-small" ng-click="cancel()">
+      {{'POPUP.CANCEL' | translate}}
+    </button>
+  </div>
+</div>

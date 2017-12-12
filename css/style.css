@@ -12,10 +12,12 @@
   }
   
   .nav-avatar-img {
-    height: 36px;
-    margin: -1px;
     margin-left: 20px;
-    padding: 2px;
+  }
+  
+  .nav-avatar-img .babyAvatar {
+    height: 37px;
+    margin: -2px;
     border: solid 1px darkgrey;
     border-radius: 20px;
     background: white;
@@ -23,7 +25,8 @@
   
   .nav-avatar-name {
     text-align: left;
-    padding-left: 10px;
+    padding-top: 2px;
+    padding-left: 4px;
     font: inherit;
     text-align: center;
     vertical-align: middle;
@@ -671,9 +674,28 @@ rzslider .rz-ticks .rz-tick {
   }
   
   .baby-picture {
-    width: 50%;
+    width: 90%;
     border: solid 5px darkturquoise;
     border-radius: 10px;
+  }
+  
+  .babycamera {
+    padding-left: 3%;
+    padding-top: 3%;
+    position: absolute;
+    width: 14%;
+    opacity: 0.2;
+  }
+  
+  .col-baby-heart {
+    text-align: center;
+    font-size: 40px;
+  }
+  
+  .babyinfo input:disabled,
+  .settings-time.disabled {
+    background: lightgrey;
+    color: grey;
   }
   
   .settings-row {
@@ -743,6 +765,7 @@ rzslider .rz-ticks .rz-tick {
   }
   
   .popup-container .popup {
+    background: #f5f5f5;
     border-radius: 10px;
   }
   
@@ -751,6 +774,32 @@ rzslider .rz-ticks .rz-tick {
     border-top-right-radius: 10px;
     background: lightgrey;
     color: #444;
+  }
+  
+  .sel-popup .popup-body {
+    padding: 0px;
+  }
+  
+  .sel-popup-text {
+    padding: 10px 20px 10px 20px;
+  }
+  
+  .sel-popup .item {
+    height: 50px;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  .sel-popup .babyAvatar {
+    margin-top: -9px;
+    width: 35px !important;
+    height: 35px !important;
+  }
+  
+  .button-sel-popup {
+    margin-left: 15px;
+    margin-right: 15px;
   }
   
   .scroll-content {

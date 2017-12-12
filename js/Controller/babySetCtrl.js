@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('babySettingsCtrl', function ($scope, $state, $stateParams, $ionicHistory, $ionicNavBarDelegate, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
+.controller('babySettingsCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicHistory, $ionicNavBarDelegate, $ionicPopup, $cordovaCamera, $cordovaFile, $filter, $timeout, utils, ionicDatePicker, DBrecord) {
 
   var vm = this;
   vm.baby = null;
@@ -29,6 +29,7 @@ angular.module('app.controllers')
   /******************************      DEFINE CONSTANT for HTML        ************************/
   vm.MALE = MALE;
   vm.FEMALE = FEMALE;
+  vm.BABY_DEMO_UID = DBrecord.getBabyDemoUID();
 
   /******************************         INITIALISATION               ************************/
   vm.baby = DBrecord.getBabyInfo($stateParams.babyUID);
@@ -75,8 +76,9 @@ angular.module('app.controllers')
     if (backView) {
       backView.go();
     } else {
-      $state.go('tab.historic');
+      $state.go('tab.settings');
     }
+    //$state.go('tab.settings');
   }
 
   /*********************                 Open Camera                          *****************/
@@ -98,6 +100,8 @@ angular.module('app.controllers')
     $cordovaCamera.getPicture(options).then(function (imageFile) {
       vm.baby.picture = imageFile;
       DBrecord.saveBaby(vm.baby);
+      if (vm.selectedBabyUID == vm.baby.uid)
+        $rootScope.$broadcast('update_baby_infos');
     });
   }
 
@@ -122,6 +126,9 @@ angular.module('app.controllers')
     $cordovaCamera.getPicture(options).then(function (imageFile) {
       vm.baby.picture = imageFile;
       DBrecord.saveBaby(vm.baby);
+      if (vm.selectedBabyUID == vm.baby.uid)
+        $rootScope.$broadcast('update_baby_infos');
+
     });
 
   }
@@ -136,8 +143,9 @@ angular.module('app.controllers')
   /*********************                   SELECT BABY                        *****************/
   function selectBaby() {
     if (vm.selectedBabyUID != vm.baby.uid) {
-      vm.selectedBabyUID = vm.baby.uid
+      vm.selectedBabyUID = vm.baby.uid;
       DBrecord.setCurBaby(vm.selectedBabyUID);
+      $rootScope.$broadcast('update_baby_selection');
     }
   }
 
@@ -149,6 +157,8 @@ angular.module('app.controllers')
   /*********************                 change Firstame                      *****************/
   function changeFirstname() {
     DBrecord.saveBaby(vm.baby);
+    if (vm.selectedBabyUID == vm.baby.uid)
+      $rootScope.$broadcast('update_baby_infos');
   }
 
   /*********************          Click on MALE RADIO BUTTON                  *****************/

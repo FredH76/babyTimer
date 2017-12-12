@@ -1,4 +1,5 @@
-<ion-view view-title="{{'PAGE_TITLE.BABY_INFOS' | translate}}">
+<!--<ion-view view-title="{{'PAGE_TITLE.BABY_INFOS' | translate}}">-->
+<ion-view view-title="{{babyVM.baby.firstname}}">
 
   <!-- BACK BUTTON (LEFT)-->
   <ion-nav-buttons side="left">
@@ -8,29 +9,31 @@
 
   <ion-content>
 
-    <!-- BABY HEADER -->
+    <!-- BABY HEADER --
     <div class="item item-divider item-avatar text-label item-icon-right" style="padding-top:15px">
-      <!-- AVATAR -->
+      <!-- AVATAR --
       <img ng-src="{{babyVM.baby.picture !== null ? babyVM.baby.picture : (babyVM.baby.gender == babyVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
 
-      <!-- SELECTED BABY ICON-->
+      <!-- SELECTED BABY ICON--
       <i class="icon ion-ios-heart click-baby" style="padding-right:10px" ng-style="babyVM.baby.uid != babyVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=babyVM.selectBaby()></i>
 
-      <!-- BABY NAME -->
+      <!-- BABY NAME --
       <div class="row row-center" style="padding-left:50px">
         <div class="col col-center">
           {{babyVM.baby.firstname}}
         </div>
       </div>
 
-    </div>
+    </div>-->
 
     <div class="list babyinfo">
 
       <!-- BABY PICTURE -->
-      <div class="row row-center">
-        <div class="col" style="text-align:center">
+      <div class="row">
+        <div class="col col-20"></div>
+        <div class="col col-60" style="text-align:center; width:100%">
           <br>
+          <img src="img/camera.png" class="babycamera" ng-if="babyVM.baby.picture == null">
           <img src="img/baby-boy.png" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.baby.gender == babyVM.MALE && babyVM.baby.picture == null" ng-click="pop_pictureMenu()">
           <img src="img/baby-girl.png" class="baby-picture" style="border-color : lightpink" ng-if="babyVM.baby.gender == babyVM.FEMALE && babyVM.baby.picture == null" ng-click="pop_pictureMenu()">
           <img src="{{babyVM.baby.picture}}" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.baby.gender == babyVM.MALE && babyVM.baby.picture != null" ng-click="pop_pictureMenu()">
@@ -38,6 +41,12 @@
           <br>
           <br>
         </div>
+        <div class="col col-20 col-baby-heart">
+          <br>
+          <!-- SELECTED BABY ICON-->
+          <i class="icon ion-ios-heart click-baby icon-heart-edit" style="padding-right:10px" ng-style="babyVM.baby.uid != babyVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=babyVM.selectBaby()></i>
+        </div>
+
       </div>
 
       <!-- BABY SURNAME -->
@@ -56,7 +65,7 @@
           {{'SETTINGS.BABY_NAME' | translate}}
         </div>
         <div class="col col-50">
-          <input name="name" type="text" ng-model="babyVM.baby.name" style="width:100%" ng-blur="babyVM.changeName()">
+          <input name="name" type="text" ng-model="babyVM.baby.name" style="width:100%" ng-blur="babyVM.changeName()" ng-disabled="babyVM.baby.uid == babyVM.BABY_DEMO_UID">
         </div>
       </div>
 
@@ -70,7 +79,7 @@
         </div>
 
         <div class="col col-50 col-center">
-          <div class="settings-time" ng-click="babyVM.openDatePicker()">
+          <div class="settings-time" ng-click="babyVM.baby.uid != babyVM.BABY_DEMO_UID?babyVM.openDatePicker():''" ng-disabled="babyVM.baby.uid == babyVM.BABY_DEMO_UID" ng-class="babyVM.baby.uid == babyVM.BABY_DEMO_UID?'disabled':''">
             {{babyVM.baby.birthday.toLocaleDateString()}}
           </div>
         </div>
@@ -102,7 +111,7 @@
           {{'SETTINGS.BABY_WEIGHT' | translate}}
         </div>
         <div class="col col-center col-25">
-          <input name="weight" type="number" ng-model="babyVM.baby.weight" style="width:100%" ng-blur="babyVM.changeWeight()">
+          <input name="weight" type="number" ng-model="babyVM.baby.weight" style="width:100%" ng-blur="babyVM.changeWeight()" ng-disabled="babyVM.baby.uid == babyVM.BABY_DEMO_UID">
         </div>
         <div class="col col-center col-20">
           {{'ACRONYM.WEIGHT' | translate}}
@@ -115,7 +124,7 @@
           {{'SETTINGS.BABY_HEIGHT' | translate}}
         </div>
         <div class="col col-center col-25">
-          <input name="height" type="number" ng-model="babyVM.baby.height" style="width:100%" ng-blur="babyVM.changeHeight()">
+          <input name="height" type="number" ng-model="babyVM.baby.height" style="width:100%" ng-blur="babyVM.changeHeight()" ng-disabled="babyVM.baby.uid == babyVM.BABY_DEMO_UID">
         </div>
         <div class="col col-center col-20">
           {{'ACRONYM.HEIGHT' | translate}}

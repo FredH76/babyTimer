@@ -113,6 +113,8 @@ var translationsFR = {
     TODAY_TEXT: "aujourd'hui",
   },
   POPUP: {
+    TITLE_SELECT_BABY_MENU: "SELECTION BEBE",
+    SELECT_BABY_TEXT: "Choisissez un bébé",
     DATEPICKER_TITLE: "Selectionnez une date",
     TITLE_PICTURE_MENU: "GESTIONNAIRE PHOTO",
     OPEN_CAMERA: "Prendre une photo",

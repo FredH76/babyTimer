@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('graphCtrl', function($document, $rootScope, $scope, $filter, $timeout, utils, ionicDatePicker, DBrecord, fileManager) {
+.controller('graphCtrl', function ($document, $rootScope, $scope, $filter, $timeout, utils, ionicDatePicker, DBrecord, fileManager) {
   var vm = this;
 
   var refreshTimeout = null;
@@ -50,7 +50,7 @@ angular.module('app.controllers')
   vm.startDate = new Date(moment(vm.endDate).subtract(vm.duration.nbDay, 'days'));
 
   // set COLOR depending on baby gender
-  var baby = DBrecord.getBabyInfo();
+  var baby = DBrecord.getCurBaby();
   /*if(baby == null){
     DBrecord.loadDemoBaby();
     baby = DBrecord.getBabyInfo();
@@ -91,17 +91,17 @@ angular.module('app.controllers')
   }
 
   // get BREAST data to display
-  breastData = DBrecord.getBreastData();
+  breastData = DBrecord.getBreastData(baby.uid);
   // update breast Data (label and sets):
   _updateBreastDataSets(vm.startDate, vm.endDate);
 
   // get BOTTLE  data to display
-  bottleData = DBrecord.getBottleData();
+  bottleData = DBrecord.getBottleData(baby.uid);
   // update bottle Data (label and sets):
   _updateBottleDataSets(vm.startDate, vm.endDate);
 
   // get MEASURE data to display
-  measureData = DBrecord.getMeasureData();
+  measureData = DBrecord.getMeasureData(baby.uid);
   // create weightLabel:
   weightLabel = _createWeightAxisLabel();
 
@@ -181,7 +181,7 @@ angular.module('app.controllers')
           },
           ticks: {
             autoSkip: false,
-            callback: function(value, index, values) {
+            callback: function (value, index, values) {
               if (index % 7)
                 return "";
               else
@@ -313,7 +313,7 @@ angular.module('app.controllers')
     };
     ionicDatePicker.openDatePicker(datePickerConf);
 
-    $timeout(function() {
+    $timeout(function () {
         var elt = document.getElementsByClassName("selected_date_full");
         elt[0].firstChild.data = $filter('translate')('POPUP.DATEPICKER_TITLE');
       },
@@ -327,39 +327,32 @@ angular.module('app.controllers')
   }
 
   // APPLY CHART CONFIGURATION
-  $document.ready(function() {
+  $document.ready(function () {
 
-    $timeout(function() {
-        // initialize WEIGHT CHART
-        var ctx1 = document.getElementById("weightChart");
-        vm.weightChart = new Chart(ctx1, weightConfig);
+    $timeout(function () {
+      // initialize WEIGHT CHART
+      var ctx1 = document.getElementById("weightChart");
+      vm.weightChart = new Chart(ctx1, weightConfig);
 
-        // initialize BREAST NB CHART
-        var ctx2 = document.getElementById("breastNbChart");
-        vm.breastNbChart = new Chart(ctx2, breastNbConfig);
+      // initialize BREAST NB CHART
+      var ctx2 = document.getElementById("breastNbChart");
+      vm.breastNbChart = new Chart(ctx2, breastNbConfig);
 
-        // initialize BREAST SUM CHART
-        var ctx3 = document.getElementById("breastSumChart");
-        vm.breastSumAvgChart = new Chart(ctx3, breastSumAvgConfig);
+      // initialize BREAST SUM CHART
+      var ctx3 = document.getElementById("breastSumChart");
+      vm.breastSumAvgChart = new Chart(ctx3, breastSumAvgConfig);
 
-        // initialize BOTTLE NB CHART
-        var ctx4 = document.getElementById("bottleNbChart");
-        vm.bottleNbChart = new Chart(ctx4, bottleNbConfig);
+      // initialize BOTTLE NB CHART
+      var ctx4 = document.getElementById("bottleNbChart");
+      vm.bottleNbChart = new Chart(ctx4, bottleNbConfig);
 
-        // initialize BOTTLE SUM CHART
-        var ctx5 = document.getElementById("bottleSumChart");
-        vm.bottleSumAvgChart = new Chart(ctx5, bottleSumAvgConfig);
+      // initialize BOTTLE SUM CHART
+      var ctx5 = document.getElementById("bottleSumChart");
+      vm.bottleSumAvgChart = new Chart(ctx5, bottleSumAvgConfig);
 
-        changeDuration();
-      },
-      200
-    );
+      changeDuration();
+    }, );
   });
-
-  /********************************************************************************************/
-  /*                                      EVENT MANAGEMENT
-  /********************************************************************************************/
-
 
   /********************************************************************************************/
   /*                              PUBLIC FUNCTIONS IMPLEMENTATION
@@ -478,7 +471,46 @@ angular.module('app.controllers')
 
     vm.bottleNbChart.update();
     vm.bottleSumAvgChart.update();
+
+    // for WEIGHT //////////////////////////////////////////////////////////////////////////////
+    // TODO: move this code to a more appropriate place
+    minWeight_y = measureData.weight.length > 0 ? measureData.weight[0].y - .5 : 2;
+    maxWeight_y = measureData.weight.length > 0 ? measureData.weight[0].y + 1 : 5;
+    weightConfig.data.labels = weightLabel;
+    weightConfig.data.datasets[0].data = measureData.weight;
+    weightConfig.options.scales.xAxes[0].time.min = weightLabel[0];
+    weightConfig.options.scales.xAxes[0].time.max = weightLabel[weightLabel.length - 1];
+    weightConfig.options.scales.yAxes[0].ticks.min = minWeight_y;
+    weightConfig.options.scales.yAxes[0].ticks.max = maxWeight_y;
+    vm.weightChart.update();
+
   }
+
+
+  /********************************************************************************************/
+  /*                                      EVENT MANAGEMENT
+  /********************************************************************************************/
+  $rootScope.$on('update_baby_selection', function () {
+    baby = DBrecord.getCurBaby();
+
+    // get BREAST data to display
+    breastData = DBrecord.getBreastData(baby.uid);
+    // update breast Data (label and sets):
+    _updateBreastDataSets(vm.startDate, vm.endDate);
+
+    // get BOTTLE  data to display
+    bottleData = DBrecord.getBottleData(baby.uid);
+    // update bottle Data (label and sets):
+    _updateBottleDataSets(vm.startDate, vm.endDate);
+
+    // get MEASURE data to display
+    measureData = DBrecord.getMeasureData(baby.uid);
+    // create weightLabel:
+    weightLabel = _createWeightAxisLabel();
+
+    //refresh display with new data
+    changeDuration();
+  })
 
   /********************************************************************************************/
   /*                                      TOOL BOX

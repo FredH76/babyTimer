@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function($filter, utils, fileManager) {
+.factory('DBrecord', function ($filter, utils, fileManager) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -66,6 +66,7 @@ angular.module('app.factory', [])
     doesDemoBabyExist: doesDemoBabyExist,
     getBabyInfo: getBabyInfo,
     getBabyUIDList: getBabyUIDList,
+    getBabyDemoUID: getBabyDemoUID,
     getBabyInfoList: getBabyInfoList,
     saveBaby: saveBaby,
     deleteBaby: deleteBaby,
@@ -157,7 +158,7 @@ angular.module('app.factory', [])
   /*********************              GET CURRENT BABY UID                  *****************/
   function getCurBaby() {
     var baby = null;
-    if (localStorage["config_current_baby"] !== undefined){
+    if (localStorage["config_current_baby"] !== undefined) {
       var uid = JSON.parse(localStorage["config_current_baby"]);
       baby = JSON.parse(localStorage[uid]);
     }
@@ -181,14 +182,20 @@ angular.module('app.factory', [])
     return uid;
   }
 
-  /*********************               CREATE DEMO BABY ID                  *****************/
+  /*********************                 GET DEMO BABY UID                  *****************/
+  function getBabyDemoUID() {
+    return BABY_UID_PREFIX + "demo";
+  }
+
+  /*********************                 CREATE DEMO BABY                   *****************/
   function createDemoBaby() {
 
     //1- create demo baby entry
     var demoBaby = angular.copy(defaultBaby);
-    demoBaby.uid = BABY_UID_PREFIX + "demo";
+    demoBaby.uid = getBabyDemoUID();
     demoBaby.firstname = $filter('translate')('SETTINGS.DEMO_BABY_FIRSTNAME');;
     demoBaby.name = "DEMO";
+    demoBaby.picture = "img/bebeDemo.jpg";
     demoBaby.birthday = moment().subtract(28, 'days').hours(0).minutes(0).seconds(0).toDate();
     demoBaby.gender = MALE;
     demoBaby.weight = 3.5;
@@ -486,21 +493,20 @@ angular.module('app.factory', [])
   }
 
   /*********************                  GET REC LIST                        *****************/
-  function getRecList(date) {
+  function getRecList(babyUID, fromDate) {
     var recList = [];
     var prefix = RECORD_PREFIX;
 
-    // if a date is provided: set filter on this day
-    if (date !== null && date !== undefined) {
-      prefix += date.getFullYear() + "/";
-      prefix += utils.fillWithZero(date.getMonth()) + "/";
-      prefix += utils.fillWithZero(date.getDate()) + "_";
-    }
+    /* if a date is provided: set filter on this day
+    if (fromDate !== null && fromDate !== undefined) {
+      prefix += fromDate.getFullYear() + "/";
+      prefix += utils.fillWithZero(fromDate.getMonth()) + "/";
+      prefix += utils.fillWithZero(fromDate.getDate()) + "_";
+    }*/
 
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      //if (property.startsWith(prefix)) {
-      if (property.slice(0, prefix.length) == prefix) {
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == babyUID) {
         var rec = {};
         rec = JSON.parse(localStorage[property]);
         rec.UID = property;
@@ -543,7 +549,7 @@ angular.module('app.factory', [])
     // store BABY REC
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix && localStorage[property].uid == babyUID) {
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == babyUID) {
         data[property] = JSON.parse(localStorage[property]);
       }
     }
@@ -570,7 +576,7 @@ angular.module('app.factory', [])
 
 
   /*********************                  GET MEASURE DATA                    *****************/
-  function getMeasureData() {
+  function getMeasureData(babyUID) {
     var prefix = RECORD_PREFIX;
     var dataSet = {
       weight: [],
@@ -579,7 +585,7 @@ angular.module('app.factory', [])
 
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == babyUID) {
         rec = JSON.parse(localStorage[property]);
         // extract data
         if (rec.measure == true) {
@@ -603,7 +609,7 @@ angular.module('app.factory', [])
   }
 
   /*********************                  GET BREAST DATA                    *****************/
-  function getBreastData() {
+  function getBreastData(babyUID) {
     var prefix = RECORD_PREFIX;
     var breastRawData = [];
     var dataSet = {
@@ -614,7 +620,7 @@ angular.module('app.factory', [])
 
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == babyUID) {
         rec = JSON.parse(localStorage[property]);
         // extract breast raw data
         if (rec.breast == true) {
@@ -662,7 +668,7 @@ angular.module('app.factory', [])
   }
 
   /*********************                  GET BOTTLE DATA                   *****************/
-  function getBottleData() {
+  function getBottleData(babyUID) {
     var prefix = RECORD_PREFIX;
     var bottleRawData = [];
     var dataSet = {
@@ -673,7 +679,7 @@ angular.module('app.factory', [])
 
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == babyUID) {
         rec = JSON.parse(localStorage[property]);
         // extract bottle raw data
         if (rec.bottle == true) {
