@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function ($filter, utils, fileManager) {
+.factory('DBrecord', function ($rootScope, $filter, utils, fileManager) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -14,7 +14,7 @@ angular.module('app.factory', [])
     weight: 0,
     height: 0,
     picture: null,
-    show: true,
+    selected: false,
   }
 
   // DEFAULT DISPLAY CONFIGURATION STRUCTURE  
@@ -49,6 +49,7 @@ angular.module('app.factory', [])
     patchToV0_1_4: patchToV0_1_4,
     patchToV0_2_0: patchToV0_2_0,
     patchToV0_2_1: patchToV0_2_1,
+    patchToV1_1_0: patchToV1_1_0,
 
     // Settings
     getDisplayConf: getDisplayConf,
@@ -61,6 +62,7 @@ angular.module('app.factory', [])
     //baby infos
     setCurBaby: setCurBaby,
     getCurBaby: getCurBaby,
+    getCurBabyUID: getCurBabyUID,
     createNewBaby: createNewBaby,
     createDemoBaby: createDemoBaby,
     doesDemoBabyExist: doesDemoBabyExist,
@@ -156,18 +158,39 @@ angular.module('app.factory', [])
   }
 
   /*********************              GET CURRENT BABY UID                  *****************/
-  function getCurBaby() {
-    var baby = null;
-    if (localStorage["config_current_baby"] !== undefined) {
-      var uid = JSON.parse(localStorage["config_current_baby"]);
-      baby = JSON.parse(localStorage[uid]);
+  function getCurBabyUID() {
+    var babyList = getBabyInfoList();
+    for (var i = 0; i < babyList.length; i++) {
+      if (babyList[i].selected)
+        return (babyList[i].uid);
     }
-    return baby;
+    return null;
+  }
+
+
+  /*********************              GET CURRENT BABY INFOs                 *****************/
+  function getCurBaby() {
+    var curBaby = {};
+
+    var babyList = getBabyInfoList();
+    for (var i = 0; i < babyList.length; i++) {
+      if (babyList[i].selected)
+        curBaby = babyList[i];
+    }
+    return curBaby;
   }
 
   /*********************              SET CURRENT BABY                      *****************/
   function setCurBaby(babyUID) {
-    localStorage["config_current_baby"] = JSON.stringify(babyUID);
+    var babyList = getBabyInfoList();
+    for (var i = 0; i < babyList.length; i++) {
+      if (babyList[i].uid == babyUID)
+        babyList[i].selected = true;
+      else
+        babyList[i].selected = false;
+      saveBaby(babyList[i]);
+    }
+    $rootScope.$broadcast('update_baby_selection');
   }
 
 
@@ -195,7 +218,7 @@ angular.module('app.factory', [])
     demoBaby.uid = getBabyDemoUID();
     demoBaby.firstname = $filter('translate')('SETTINGS.DEMO_BABY_FIRSTNAME');;
     demoBaby.name = "DEMO";
-    demoBaby.picture = "img/bebeDemo.jpg";
+    demoBaby.picture = null; //"img/bebeDemo.jpg";
     demoBaby.birthday = moment().subtract(28, 'days').hours(0).minutes(0).seconds(0).toDate();
     demoBaby.gender = MALE;
     demoBaby.weight = 3.5;
@@ -454,6 +477,7 @@ angular.module('app.factory', [])
     if (baby.$$hashKey)
       delete baby.$$hashKey;
     localStorage[baby.uid] = JSON.stringify(baby);
+    $rootScope.$broadcast('update_baby_infos');
   }
 
   /*********************                  DELETE BABY                        *****************/
@@ -469,6 +493,15 @@ angular.module('app.factory', [])
       if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID == baby.uid) {
         localStorage.removeItem(property);
       }
+    }
+
+    // change current baby selection if needed
+    if (baby.selected) {
+      var len = getBabyUIDList().length;
+      if (len > 0)
+        setCurBaby(getBabyUIDList()[0]);
+      else
+        setCurBaby(null);
     }
   }
 
@@ -574,6 +607,25 @@ angular.module('app.factory', [])
     };
   }
 
+  function exportAll(fileType) {
+    var data = {};
+
+    fileType = fileType || JSON_FILE;
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      data[property] = localStorage[property];
+    }
+
+    // save in local/external file system (external for debug)
+    var curTime = new Date();
+    var fileName = "allDB_";
+    fileName += curTime.getFullYear() + "/";
+    fileName += utils.fillWithZero(curTime.getMonth()) + "/";
+    fileName += utils.fillWithZero(curTime.getDate()) + "_";
+
+    fileManager.saveData(fileName, fileType, data);
+  }
 
   /*********************                  GET MEASURE DATA                    *****************/
   function getMeasureData(babyUID) {
@@ -809,6 +861,88 @@ angular.module('app.factory', [])
   // add CONFIG_DAYNIGHT_MODE param
   function patchToV0_2_1() {
     setDayNightConf(defaultDayNightPrefs);
+  }
+
+
+  function patchToV1_1_0() {
+    var prefix = RECORD_PREFIX;
+
+    // export all for safety purpose
+    exportAll();
+
+    // remove 'config_current_baby' in DB entries.
+    delete localStorage['config_current_baby'];
+
+    // add 'selected' property to current baby
+    var baby = getBabyInfoList()[0];
+    baby.selected = true;
+    if (baby.picture == undefined)
+      baby.picture = null;
+    saveBaby(baby);
+
+    // go through every property of LocalStorage
+    for (var property in localStorage) {
+      if (property.slice(0, prefix.length) == prefix) {
+
+        rec = JSON.parse(localStorage[property]);
+
+        // add BabyUID property;
+        rec.babyUID = baby.uid;
+
+        // delete breast infos if empty
+        if (rec.breast != true) {
+          delete rec.breast;
+          delete rec.duration;
+          delete rec.leftSide;
+          delete rec.rightSide;
+        }
+
+        // delete bottle infos if empty or replace field name (to quantity)
+        if (rec.bottle != true) {
+          delete rec.bottle;
+          delete rec.bottleContent;
+        } else {
+          rec.quantity = rec.bottleContent;
+          delete rec.bottleContent;
+        }
+
+        // delete medecine infos if empty
+        if (rec.medecine != true) {
+          delete rec.medecine;
+          delete rec.vitamin;
+          delete rec.paracetamol;
+          delete rec.otherMed;
+          delete rec.otherMedName;
+        }
+
+        // delete diapper infos if empty
+        if (rec.diapper != true) {
+          delete rec.diapper;
+          delete rec.peeLevel;
+          delete rec.pooLevel;
+        }
+
+        // delete bath infos if empty
+        if (rec.bath != true) {
+          delete rec.bath;
+        }
+
+        // delete measure infos if empty
+        if (rec.measure != true) {
+          delete rec.measure;
+          delete rec.weight;
+          delete rec.height;
+        }
+
+        // delete message infos if empty
+        if (rec.message != true) {
+          delete rec.message;
+          delete rec.msgTxt;
+        }
+
+        localStorage[property] = JSON.stringify(rec);
+      }
+    }
   }
 
   /********************************************************************************************/

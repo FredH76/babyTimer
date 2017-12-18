@@ -469,6 +469,7 @@ angular.module('app.controllers')
   /*  rec.message
   /*  rec.msgTxt
   /*  rec.babyUID
+  /*  rec.selected
   /********************************************************************************************/
   function save() {
     var l_rec = {};

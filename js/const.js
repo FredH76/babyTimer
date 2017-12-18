@@ -15,6 +15,9 @@ var MODE_AUTO = 0x00;
 var MODE_MANUAL = 0x01
 var MODE_EDIT = 0x02;
 
+var ADD_BABY = 0x00;
+var EDIT_BABY = 0x01;
+
 var MALE = 0x01;
 var FEMALE = 0x02;
 
@@ -32,3 +35,12 @@ var ENGLISH = "english";
 var FRENCH = "french";
 var KILO = "kilo";
 var OUNCE = "ounce";
+
+/* BROADCAST 
+
+update_baby_infos : 
+update_baby_selection :
+display_configuration_updated :
+language_changed:
+
+*/

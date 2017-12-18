@@ -71,10 +71,9 @@ angular.module('app.controllers')
   /******************************      POP SELECT BABY                 ************************/
   function pop_SelBaby() {
     $scope.babyList = DBrecord.getBabyInfoList();
-    $scope.selectedBabyUID = DBrecord.getCurBaby().uid;
     $scope.MALE = MALE;
     selBabyPopup = $ionicPopup.show({
-      title: $filter('translate')('POPUP.TITLE_SELECT_BABY_MENU'),
+      title: $filter('translate')('POPUP.SELECT_BABY_TITLE'),
       cssClass: 'popup-title sel-popup',
       templateUrl: 'templates/pop_baby_list.html',
       scope: $scope,
@@ -83,12 +82,8 @@ angular.module('app.controllers')
 
   /*********************                 Select Baby                           ****************/
   function selectBaby(baby) {
-    var l_curBaby = DBrecord.getCurBaby();
-    if (l_curBaby.uid != baby.uid) {
-      DBrecord.setCurBaby(baby.uid);
-      $rootScope.$broadcast('update_baby_selection');
-      selBabyPopup.close();
-    }
+    DBrecord.setCurBaby(baby.uid);
+    selBabyPopup.close();
   }
 
   /*********************                 Cancel Select Baby                    ****************/

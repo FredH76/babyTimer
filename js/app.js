@@ -16,9 +16,9 @@ angular.module('app', [
   'app.filters'
 ])
 
-.run(function($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
+.run(function ($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
 
-  $ionicPlatform.ready(function() {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -49,6 +49,10 @@ angular.module('app', [
       if (utils.compVersion(dbVersion, "0.2.1") < 0) {
         DBrecord.patchToV0_2_1(); // add config_dayNight_mode record
       }
+      if (utils.compVersion(dbVersion, "1.1.0") < 0) {
+        DBrecord.patchToV1_1_0(); // remove 'config_current_baby' record in DB + remove empty fields in records + add 'babyUID' property to each records
+      }
+
 
       DBrecord.storeAppVersion(app_version);
     }
@@ -59,32 +63,42 @@ angular.module('app', [
       // DEFAULT : set to local country unit
       var test = $translate.use();
       switch ($translate.use()) {
-        case 'fr_FR':
-        case 'fr':
-          countryConf.language = FRENCH;
-          countryConf.units = KILO;
-          $translate.use('fr');
-          break;
-        default:
-          countryConf.language = ENGLISH;
-          countryConf.units = OUNCE;
-          $translate.use('en');
+      case 'fr_FR':
+      case 'fr':
+        countryConf.language = FRENCH;
+        countryConf.units = KILO;
+        $translate.use('fr');
+        break;
+      default:
+        countryConf.language = ENGLISH;
+        countryConf.units = OUNCE;
+        $translate.use('en');
       }
       DBrecord.setCountryConf(countryConf);
     } else {
       // LOAD from DB
       switch (countryConf.language) {
-        case (FRENCH):
-          $translate.use('fr');
-          break;
-        case (ENGLISH):
-        default:
-          $translate.use('en');
+      case (FRENCH):
+        $translate.use('fr');
+        break;
+      case (ENGLISH):
+      default:
+        $translate.use('en');
       }
     }
 
-    //create demo baby
-    //DBrecord.createDemoBaby();
+    // create demo baby if no baby in DB
+    if (DBrecord.getBabyUIDList().length == 0) {
+      var uid = DBrecord.createDemoBaby();
+      DBrecord.setCurBaby(uid);
+      $rootScope.$broadcast('update_baby_infos');
+      $rootScope.$broadcast('update_baby_selection');
+    } else {
+      // select a baby if not yet done
+      if (DBrecord.getCurBabyUID() == null) {
+        DBrecord.setCurBaby(DBrecord.getBabyUIDList()[0])
+      }
+    }
 
     /* this code is for AUTOMATIC LIGHT SENSOR
     // initalize luminosity sensor (first reading is often 0)
@@ -121,7 +135,7 @@ angular.module('app', [
   });
 })
 
-.config(function($ionicConfigProvider, $translateProvider) {
+.config(function ($ionicConfigProvider, $translateProvider) {
   $ionicConfigProvider.tabs.position('bottom'); //bottom
   $ionicConfigProvider.navBar.alignTitle('center');
 

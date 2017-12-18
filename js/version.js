@@ -1,12 +1,23 @@
-var app_version = "1.0.1";
+var app_version = "1.1.0";
 
-
-
-/*******************************   version = 1.0.1  ********************************************
+/*******************************   version = 1.1.0  ********************************************
 new functionnalities :
-- add chart 
-- TODO : reformat DB record : replace bottleContent by quantity !
--TO Be UPDATED when overwritten by version 1.1.0
+- add CHARTS:
+  o create BREAST/BOTTLE/WEIGHT(1rst month) charts
+  o add option to select time scale (1,2,4 weeks)
+  o add option to select total or average display
+- add DEMO BABY:
+  o create virtual record for 1 month
+  o create one if no baby in DB.
+- add MULTI-BABY selection
+- replace side menu by a tab ('settings')
+- remove 'config_current_baby' in DB entries.
+- reformat rec_records :
+  o add 'babyUID' property  
+  o add 'selected' property
+  o remove empty property
+  o remove 'show' property
+  o rename 'bottleContent' in 'quantity' 
 
 /*******************************   version = 0.2.1  ********************************************
 new functionnalities:

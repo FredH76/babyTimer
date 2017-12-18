@@ -5,11 +5,6 @@ navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-  <!-- Settings Tab -->
-  <ion-tab title="{{'TAB_TITLE.SETTINGS' | translate}}" icon="ion-gear-a" ui-sref="tab.settings">
-    <ion-nav-view name="tab-settings" animation="slide-left-right"></ion-nav-view>
-  </ion-tab>
-
   <!-- Automatic Tab -->
   <!--<ion-tab title="Automatic" icon="ion-clock" href="#/tab/auto">-->
   <ion-tab title="{{'TAB_TITLE.AUTOMATIC' | translate}}" icon="ion-android-stopwatch" ui-sref="tab.auto({mode :0})">
@@ -31,5 +26,11 @@ navigation history that also transitions its views in and out.
   <ion-tab title="{{'TAB_TITLE.GRAPHIC' | translate}}" icon="ion-stats-bars" ui-sref="tab.graphic">
     <ion-nav-view name="tab-graphic" animation="slide-left-right"></ion-nav-view>
   </ion-tab>
+
+  <!-- Settings Tab -->
+  <ion-tab title="{{'TAB_TITLE.SETTINGS' | translate}}" icon="ion-gear-a" ui-sref="tab.settings">
+    <ion-nav-view name="tab-settings" animation="slide-left-right"></ion-nav-view>
+  </ion-tab>
+
 
 </ion-tabs>

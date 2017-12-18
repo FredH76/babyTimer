@@ -29,7 +29,7 @@ var translationsFR = {
     GRAPHIC: "Graphiques",
     MENU: "Réglages",
     BABY_INFOS: "Informations Bébé",
-    BABIES_LIST: "Liste Bébés",
+    BABIES_LIST: "Infos Bébés",
     CONFIGURATION: "Configuration",
   },
   INPUT: {
@@ -61,7 +61,7 @@ var translationsFR = {
     BREAK_HEADER: "REPAS PRECEDENT :",
   },
   MENU: {
-    BABY_LIST: "Liste Bébés",
+    BABY_LIST: "Informations Bébés",
     CONFIGURATION: "Configuration",
     ACCOUNT: "Comptes   (pas encore disponible)",
   },
@@ -113,13 +113,16 @@ var translationsFR = {
     TODAY_TEXT: "aujourd'hui",
   },
   POPUP: {
-    TITLE_SELECT_BABY_MENU: "SELECTION BEBE",
+    SELECT_BABY_TITLE: "SELECTION BEBE",
     SELECT_BABY_TEXT: "Choisissez un bébé",
     DATEPICKER_TITLE: "Selectionnez une date",
-    TITLE_PICTURE_MENU: "GESTIONNAIRE PHOTO",
-    OPEN_CAMERA: "Prendre une photo",
-    OPEN_GALLERY: "Choisir dans gallerie",
-    DELETE_PICTURE: "Effacer photo courante",
+    PICTURE_TITLE: "GESTIONNAIRE PHOTO",
+    PICTURE_BUTTON_CAMERA: "Prendre une photo",
+    PICTURE_BUTTON_GALLERY: "Choisir dans gallerie",
+    PICTURE_BUTTON_DELETE: "Effacer photo courante",
+    CONFIRM_TITLE: "ATTENTION",
+    CONFIRM_TEXT_BEFORE_NAME: "Vous allez définitivement supprimer ",
+    CONFIRM_TEXT_AFTER_NAME: "et tous ses enregistrements!",
     CANCEL: "Annuler"
   },
   ACRONYM: {

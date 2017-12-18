@@ -5,7 +5,6 @@ angular.module('app.controllers')
   var vm = this;
   vm.editMode = null;
   vm.babyList = null;
-  vm.selectedBabyUID = null;
   vm.demoBabyExist = null;
 
   /******************************      FUNCTION DECLARATION            ************************/
@@ -29,7 +28,6 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   vm.editMode = false;
   vm.babyList = DBrecord.getBabyInfoList();
-  vm.selectedBabyUID = DBrecord.getCurBaby().uid;
   vm.demoBabyExist = DBrecord.doesDemoBabyExist();
 
 
@@ -55,11 +53,10 @@ angular.module('app.controllers')
 
   /*********************                   SELECT BABY                        *****************/
   function selectBaby(baby) {
-    if (vm.selectedBabyUID != baby.uid) {
-      vm.selectedBabyUID = baby.uid;
-      DBrecord.setCurBaby(vm.selectedBabyUID);
-      $rootScope.$broadcast('update_baby_selection');
-    }
+    DBrecord.setCurBaby(baby.uid);
+
+    //refresh babyList
+    vm.babyList = DBrecord.getBabyInfoList();
   }
 
 
@@ -68,7 +65,8 @@ angular.module('app.controllers')
     if (angular.element(event.target).hasClass('click-baby'))
       return;
     $state.go('babySettings', {
-      babyUID: baby.uid
+      babyUID: baby.uid,
+      mode: EDIT_BABY,
     });
   }
 
@@ -80,12 +78,11 @@ angular.module('app.controllers')
     // create a new baby
     var babyUid = DBrecord.createNewBaby();
 
-    // set as current baby
-    vm.selectedBabyUID = babyUid;
-    DBrecord.setCurBaby(babyUid);
-
-    //refresh babyList
-    vm.babyList = DBrecord.getBabyInfoList();
+    // go to baby edit page
+    $state.go('babySettings', {
+      babyUID: babyUid,
+      mode: ADD_BABY,
+    });
   }
 
   /*********************                DELETE BABY                          *****************/
@@ -96,14 +93,6 @@ angular.module('app.controllers')
     //refresh babyList and babyDemo
     vm.babyList = DBrecord.getBabyInfoList();
     vm.demoBabyExist = DBrecord.doesDemoBabyExist();
-
-    // refresh current Baby
-    if (baby.uid == vm.selectedBabyUID) {
-      if (vm.babyList.length == 0)
-        vm.selectedBabyUID = null;
-      else
-        vm.selectedBabyUID = vm.babyList[0].uid;
-    }
 
     if (vm.babyList.length == 1)
       vm.editMode = false;
@@ -117,13 +106,11 @@ angular.module('app.controllers')
     // create a demo baby
     var babyUid = DBrecord.createDemoBaby();
 
-    // set as current baby
-    vm.selectedBabyUID = babyUid;
-    DBrecord.setCurBaby(babyUid);
-
-    //refresh babyList
-    vm.babyList = DBrecord.getBabyInfoList();
-    vm.demoBabyExist = DBrecord.doesDemoBabyExist();
+    // go to baby edit page
+    $state.go('babySettings', {
+      babyUID: babyUid,
+      mode: ADD_BABY,
+    });
   }
 
   /*********************                 IMPORT BABY                          *****************/

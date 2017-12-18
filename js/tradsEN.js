@@ -86,10 +86,10 @@ var translationsEN = {
   GRAPH: {},
   POPUP: {
     DATEPICKER_TITLE: "Pick a Date",
-    TITLE_PICTURE_MENU: "PICTURE MANAGER",
-    OPEN_CAMERA: "Take a picture",
-    OPEN_GALLERY: "Open gallery",
-    DELETE_PICTURE: "Delete current picture",
+    PICTURE_TITLE: "PICTURE MANAGER",
+    PICTURE_BUTTON_CAMERA: "Take a picture",
+    PICTURE_BUTTON_GALLERY: "Open gallery",
+    PICTURE_BUTTON_DELETE: "Delete current picture",
     CANCEL: "Cancel"
   },
   ACRONYM: {

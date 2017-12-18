@@ -6,7 +6,7 @@
     <img ng-src="{{babyItem.picture !== null ? babyItem.picture : (babyItem.gender == MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
 
     <!-- SELECTED BABY ICON-->
-    <i class="icon ion-ios-heart click-baby" style="padding-right:0px" ng-style="babyItem.uid != selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}"></i>
+    <i class="icon ion-ios-heart click-baby" style="padding-right:0px" ng-style="babyItem.selected?{'color':'PaleVioletRed'}:{'color':'darkgrey'}"></i>
 
     <!-- BABY NAME -->
     <div class="row row-center" style="padding-left:57px; height: 100%">

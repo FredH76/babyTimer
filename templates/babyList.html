@@ -33,12 +33,12 @@
           <img ng-src="{{babyItem.picture !== null ? babyItem.picture : (babyItem.gender == lstVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
 
           <!-- SELECTED BABY ICON-->
-          <i class="icon ion-ios-heart click-baby" style="padding-right:40px" ng-style="babyItem.uid != lstVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=lstVM.selectBaby(babyItem)></i>
+          <i class="icon ion-ios-heart click-baby" style="padding-right:40px" ng-style="babyItem.selected ?{'color':'PaleVioletRed'}:{'color':'darkgrey'}" ng-click=lstVM.selectBaby(babyItem)></i>
 
           <!-- SHOW MORE ICON -->
           <!-- ion-android-more-horizontal / ion-android-more-horizontal / ion-plus-circled / 
               ion-ios-plus-outline -->
-          <i class="icon ion-chevron-right" style="font-size:25px"></i>
+          <i class="icon ion-chevron-right menu-chevron" style="font-size:25px"></i>
 
           <!-- BABY NAME -->
           <div class="row row-center" style="padding-left:50px">

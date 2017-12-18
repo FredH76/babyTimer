@@ -4,7 +4,7 @@ angular.module('app.controllers')
 
   var vm = this;
   vm.baby = null;
-  vm.selectedBabyUID = null;
+  vm.babyList = null;
 
   /******************************      FUNCTION DECLARATION            ************************/
   vm.goBack = goBack;
@@ -16,7 +16,9 @@ angular.module('app.controllers')
   vm.onClickFemale = onClickFemale;
   vm.changeWeight = changeWeight;
   vm.changeHeight = changeHeight;
-  //vm.deleteBaby = deleteBaby;
+  vm.saveBaby = saveBaby;
+  vm.cancelBaby = cancelBaby;
+  vm.deleteBaby = deleteBaby;
 
   /******************************       POPUP  DECLARATION             ************************/
   var picturePopup = null;
@@ -33,7 +35,7 @@ angular.module('app.controllers')
 
   /******************************         INITIALISATION               ************************/
   vm.baby = DBrecord.getBabyInfo($stateParams.babyUID);
-  vm.selectedBabyUID = DBrecord.getCurBaby().uid;
+  vm.babyUIDList = DBrecord.getBabyUIDList();
   $ionicNavBarDelegate.showBackButton(false);
 
   /*********************               OPEN DATE PICKER                     *******************/
@@ -67,7 +69,6 @@ angular.module('app.controllers')
   function _onDatePicked(val) { //Mandatory
     vm.baby.birthday = new Date(val);
     console.log('Return value from the datepicker popup is : ' + val, vm.baby.birthday);
-    DBrecord.saveBaby(vm.baby);
   }
 
   /****************************        GO back         ****************************************/
@@ -78,7 +79,6 @@ angular.module('app.controllers')
     } else {
       $state.go('tab.settings');
     }
-    //$state.go('tab.settings');
   }
 
   /*********************                 Open Camera                          *****************/
@@ -99,9 +99,6 @@ angular.module('app.controllers')
     // 3 - call cordova camera function
     $cordovaCamera.getPicture(options).then(function (imageFile) {
       vm.baby.picture = imageFile;
-      DBrecord.saveBaby(vm.baby);
-      if (vm.selectedBabyUID == vm.baby.uid)
-        $rootScope.$broadcast('update_baby_infos');
     });
   }
 
@@ -125,10 +122,6 @@ angular.module('app.controllers')
     // 3 - call cordova camera function
     $cordovaCamera.getPicture(options).then(function (imageFile) {
       vm.baby.picture = imageFile;
-      DBrecord.saveBaby(vm.baby);
-      if (vm.selectedBabyUID == vm.baby.uid)
-        $rootScope.$broadcast('update_baby_infos');
-
     });
 
   }
@@ -137,82 +130,94 @@ angular.module('app.controllers')
   function deletePicture() {
     picturePopup.close();
     vm.baby.picture = null;
-    DBrecord.saveBaby(vm.baby);
   }
 
   /*********************                   SELECT BABY                        *****************/
   function selectBaby() {
-    if (vm.selectedBabyUID != vm.baby.uid) {
-      vm.selectedBabyUID = vm.baby.uid;
-      DBrecord.setCurBaby(vm.selectedBabyUID);
-      $rootScope.$broadcast('update_baby_selection');
-    }
+    vm.baby.selected = true;
   }
 
   /*********************                 change Name                          *****************/
-  function changeName() {
-    DBrecord.saveBaby(vm.baby);
-  }
+  function changeName() {}
 
   /*********************                 change Firstame                      *****************/
-  function changeFirstname() {
-    DBrecord.saveBaby(vm.baby);
-    if (vm.selectedBabyUID == vm.baby.uid)
-      $rootScope.$broadcast('update_baby_infos');
-  }
+  function changeFirstname() {}
 
   /*********************          Click on MALE RADIO BUTTON                  *****************/
   function onClickMale() {
     vm.baby.gender = MALE;
-    DBrecord.saveBaby(vm.baby);
   }
 
   /*********************          Click on FEMALE RADIO BUTTON                *****************/
   function onClickFemale() {
     vm.baby.gender = FEMALE;
-    DBrecord.saveBaby(vm.baby);
   }
 
   /*********************                 change Weight                        *****************/
-  function changeWeight() {
-    DBrecord.saveBaby(vm.baby);
-  }
+  function changeWeight() {}
 
   /*********************                 change Height                        *****************/
-  function changeHeight() {
+  function changeHeight() {}
+
+  /*********************                 SAVE BABY                            *****************/
+  function saveBaby() {
+    // update selected Baby
+    if (vm.baby.selected)
+      DBrecord.setCurBaby(vm.baby.uid);
+
+    // save change in DB
     DBrecord.saveBaby(vm.baby);
+
+    goBack();
   }
 
-  /*********************                DELETE BABY                          *****************/
-  /*function deleteBaby() {
-    // delete baby
-    DBrecord.deleteBaby(baby);
-
-    //
+  /*********************                 CANCEL BABY                            *****************/
+  function cancelBaby() {
+    if ($stateParams.mode == ADD_BABY)
+      DBrecord.deleteBaby(vm.baby);
     goBack();
-  }*/
+  }
+
+  /*********************                 DELETE BABY                          *****************/
+  function deleteBaby() {
+    // pop delete  confirmation
+    pop_confirmDeleteBaby();
+  }
 
 
   /****************************        POPUP MANAGEMENT             ***************************/
 
-  /*// SHOW popup to validate deletion
-  function pop_deleteBaby(baby) {
-    $scope.baby = baby;
-    picturePopup = $ionicPopup.show({
-      title: $filter('translate')('POPUP.TITLE_PICTURE_MENU'),
-      cssClass: 'popup-title',
-      templateUrl: 'templates/pop_picture.html',
+  // SHOW popup to confirm deletion
+  function pop_confirmDeleteBaby() {
+    $scope.baby = vm.baby;
+    var confirmPopup = $ionicPopup.confirm({
+      title: $filter('translate')('POPUP.CONFIRM_TITLE'),
+      cssClass: 'popup-confirm',
+      /*template: $filter('translate')('POPUP.CONFIRM_TEXT', {
+        name: 'Vince'
+      }),*/
+      template: "<span>{{'POPUP.CONFIRM_TEXT_BEFORE_NAME' | translate}}</span><br><b>{{baby.firstname}}</b> !",
+      okText: $filter('translate')('BUTTON.OK'),
+      okType: 'button button-block button-positive button-outline',
+      cancelText: $filter('translate')('BUTTON.CANCEL'),
+      cancelType: 'button button-block button-positive button-outline',
       scope: $scope,
     });
-  }*/
 
+    confirmPopup.then(function (res) {
+      if (res) {
+        DBrecord.deleteBaby(vm.baby);
+        goBack();
+      }
+    });
+  }
 
   //--------------------------            PICTURE                   ---------------------------/
   // SHOW popup to choose between Picture/Gallery/delete/cancel
   function pop_pictureMenu(baby) {
     $scope.baby = baby;
     picturePopup = $ionicPopup.show({
-      title: $filter('translate')('POPUP.TITLE_PICTURE_MENU'),
+      title: $filter('translate')('POPUP.PICTURE_TITLE'),
       cssClass: 'popup-title',
       templateUrl: 'templates/pop_picture.html',
       scope: $scope,

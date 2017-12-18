@@ -433,17 +433,18 @@
       <!-- BOTTOM BUTTON -->
       <div>
         <div class="row bottom-button-row">
-          <!-- SAVE BUTTON -->
-          <div class="col col-50">
-            <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
-              {{'BUTTON.SAVE' | translate}}
-            </button>
-          </div>
 
           <!-- RESET BUTTON -->
           <div class="col col-50">
             <button class="button button-block button-positive button-outline" ng-click="inVM.reset()">
               {{'BUTTON.RESET' | translate}}
+            </button>
+          </div>
+
+          <!-- SAVE BUTTON -->
+          <div class="col col-50">
+            <button class="button button-block button-positive button-outline " ng-click="inVM.save()" ng-disabled="!inVM.enableSave">
+              {{'BUTTON.SAVE' | translate}}
             </button>
           </div>
 

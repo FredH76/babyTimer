@@ -7,6 +7,14 @@
     </button>&nbsp;&nbsp;
   </ion-nav-buttons>
 
+  <ion-nav-buttons side="secondary">
+    <!-- SAVE BUTTON (RIGHT)-->
+    <button class="button button-stable button-outline bar-button-right" ng-click="babyVM.saveBaby()">
+      <div class="button-text">
+        {{'BUTTON.SAVE' | translate}}
+      </div>
+    </button>
+  </ion-nav-buttons>
   <ion-content>
 
     <!-- BABY HEADER --
@@ -15,7 +23,7 @@
       <img ng-src="{{babyVM.baby.picture !== null ? babyVM.baby.picture : (babyVM.baby.gender == babyVM.MALE ? 'img/baby-boy.png' : 'img/baby-girl.png') }}" class="babyAvatar">
 
       <!-- SELECTED BABY ICON--
-      <i class="icon ion-ios-heart click-baby" style="padding-right:10px" ng-style="babyVM.baby.uid != babyVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=babyVM.selectBaby()></i>
+      <i class="icon ion-ios-heart click-baby" style="padding-right:10px" ng-style="babyVM.baby.selected?{'color':'PaleVioletRed'}:{'color':'darkgrey'}" ng-click=babyVM.selectBaby()></i>
 
       <!-- BABY NAME --
       <div class="row row-center" style="padding-left:50px">
@@ -33,7 +41,8 @@
         <div class="col col-20"></div>
         <div class="col col-60" style="text-align:center; width:100%">
           <br>
-          <img src="img/camera.png" class="babycamera" ng-if="babyVM.baby.picture == null">
+          <!-- camera picture -->
+          <img src="img/camera.png" class="babycamera" ng-if="babyVM.baby.picture == null" ng-click="pop_pictureMenu()">
           <img src="img/baby-boy.png" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.baby.gender == babyVM.MALE && babyVM.baby.picture == null" ng-click="pop_pictureMenu()">
           <img src="img/baby-girl.png" class="baby-picture" style="border-color : lightpink" ng-if="babyVM.baby.gender == babyVM.FEMALE && babyVM.baby.picture == null" ng-click="pop_pictureMenu()">
           <img src="{{babyVM.baby.picture}}" class="baby-picture" style="border-color : darkturquoise" ng-if="babyVM.baby.gender == babyVM.MALE && babyVM.baby.picture != null" ng-click="pop_pictureMenu()">
@@ -44,7 +53,7 @@
         <div class="col col-20 col-baby-heart">
           <br>
           <!-- SELECTED BABY ICON-->
-          <i class="icon ion-ios-heart click-baby icon-heart-edit" style="padding-right:10px" ng-style="babyVM.baby.uid != babyVM.selectedBabyUID?{'color':'darkgrey'}:{'color':'PaleVioletRed'}" ng-click=babyVM.selectBaby()></i>
+          <i class="icon ion-ios-heart click-baby icon-heart-edit" style="padding-right:10px" ng-style="babyVM.baby.selected?{'color':'PaleVioletRed'}:{'color':'darkgrey'}" ng-click=babyVM.selectBaby()></i>
         </div>
 
       </div>
@@ -135,19 +144,32 @@
     <!-- END OF BABY'S INFO LIST -->
 
 
-    <!-- BOTTOM BUTTON 
+    <!-- BOTTOM BUTTON -->
     <div>
-      <div class="row bottom-button-row">
-        <!-- DELETE BABY BUTTON 
-        <div class="col col-50">
-          <button class="button button-block button-positive button-outline " ng-click="babyVM.toggleDelMode()">
-            {{babyVM.delMode?('BUTTON.OK' | translate):('BUTTON.DELETE' | translate)}}
+      <div class="row settings-row">
+        <!-- DELETE BUTTON -->
+        <div class="col col-33">
+          <button class="button button-block button-positive button-outline " ng-click="babyVM.deleteBaby()" ng-disabled="babyVM.babyUIDList.length <= 1">
+            {{'BUTTON.DELETE' | translate}}
+          </button>
+        </div>
+
+        <!-- CANCEL BUTTON -->
+        <div class="col col-33">
+          <button class="button button-block button-positive button-outline " ng-click="babyVM.cancelBaby()">
+            {{'BUTTON.CANCEL' | translate}}
+          </button>
+        </div>
+
+        <!-- SAVE BUTTON -->
+        <div class="col col-33">
+          <button class="button button-block button-positive button-outline " ng-click="babyVM.saveBaby()">
+            {{'BUTTON.OK' | translate}}
           </button>
         </div>
       </div>
 
     </div>
-    -->
 
   </ion-content>
 

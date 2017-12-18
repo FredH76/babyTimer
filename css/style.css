@@ -15,6 +15,10 @@
     margin-left: 20px;
   }
   
+  .button {
+    white-space: nowrap;
+  }
+  
   .nav-avatar-img .babyAvatar {
     height: 37px;
     margin: -2px;
@@ -696,6 +700,14 @@ rzslider .rz-ticks .rz-tick {
   .settings-time.disabled {
     background: lightgrey;
     color: grey;
+  }
+  
+  .popup-confirm {
+    text-align: center;
+  }
+  
+  .popup-confirm .popup-buttons {
+    margin-top: -15px;
   }
   
   .settings-row {
