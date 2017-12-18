@@ -44,7 +44,7 @@
       <div ng-if="inVM.curMode===inVM.MODE_AUTO">
         <!-- CHRONOMETER HEADER -->
         <div class="row row-center item-divider text-label">
-          <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
+          <img src="img/breast-on.png" style="width:35px; margin-left:3px; margin-right:2px">
           <div class="col col-center">{{'INPUT.BREAST_CHRONO_HEADER' | translate}}</div>
           <!--<div class="col text-infos" style="text-align:right;vertical-align:bottom">{{inVM.curHour}}h {{inVM.curMin}}mn {{inVM.curSec}}s</div>-->
         </div>
@@ -151,7 +151,7 @@
         <!-- MANUAL HEADER-->
         <div class="item item-divider text-label item-avatar" ng-click="inVM.onToggleBreast()">
           <div class="row row-center">
-            <img src="img/breast.png" style="width:35px; margin-left:3px; margin-right:2px">
+            <img src="img/breast-on.png" style="width:37px; margin-left:1px; margin-right:2px">
             <div class="col">{{'INPUT.BREAST_MANUAL_HEADER' | translate}}</div>
             <div class="col" style="text-align:right">
               <label class="toggle toggle-positive">
@@ -291,7 +291,7 @@
       <div ng-if="inVM.displayConf.diapper">
         <div class="item item-divider text-label" ng-click="inVM.onToggleDiapper()">
           <div class="row row-center">
-            <img src="img/diapper-on.png" style="width:30px; margin-left:5px; margin-right:5px">
+            <img src="img/diapper-on-0.png" style="width:30px; margin-left:5px; margin-right:5px">
             <div class="col">{{'INPUT.DIAPPER_HEADER' | translate}}</div>
             <div class="col" style="text-align:right">
               <label class="toggle toggle-positive">
@@ -387,7 +387,7 @@
               <input name="weight" type="number" ng-model="inVM.weight" style="width:100%; padding-left:10px" ng-blur="inVM.changeWeight()">
             </div>
             <div class="col col-left col-15">
-              {{'ACRONYM.WEIGHT' | translate}}
+              {{'ACRONYM.WEIGHT_KG' | translate}}
             </div>
 
             <!-- HEIGTH -->
@@ -398,7 +398,7 @@
               <input name="height" type="number" ng-model="inVM.height" style="width:100%; padding-left:10px" ng-blur="inVM.changeHeight()">
             </div>
             <div class="col col-left col-15">
-              {{'ACRONYM.HEIGHT' | translate}}
+              {{'ACRONYM.HEIGHT_CM' | translate}}
             </div>
           </div>
 

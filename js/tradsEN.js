@@ -99,8 +99,8 @@ var translationsEN = {
     SECOND: "s",
     LEFT: "L",
     RIGHT: "R",
-    WEIGHT: "kg",
-    HEIGHT: "in",
+    WEIGHT_KG: "kg",
+    HEIGHT_CM: "cm",
   },
   WEEK: {
     MONDAY: "Monday",

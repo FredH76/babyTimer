@@ -40,7 +40,11 @@
         <!-- DAY HEADER -->
         <div class="item item-divider day-header">
           <div class="row row-center text-label" ng-dblclick="histVM.showHideDayRec(day)">
-            <div class="col col-center">{{day.toLocaleDateString()}}
+            <div class="col col-90 col-center">{{day.toLocaleDateString()}}
+            </div>
+            <div class="col col-10 col-center">
+              <i ng-if="day.show != true" class="ion-ios-plus-outline" style="color:darkcyan;font-size:25px" ng-click="histVM.showHideDayRec(day)"></i>
+              <i ng-if="day.show === true" class="ion-ios-minus-outline" style="color:darkcyan;font-size:25px" ng-click="histVM.showHideDayRec(day)"></i>
             </div>
           </div>
         </div>
@@ -74,10 +78,10 @@
                   <!-- BREAST -->
                   <div class="col-5 col-center" style="text-align:right;margin-left:-10px">
                     <div ng-if="item.breast == true">
-                      <img ng-src="img/breast-sm-on.jpg" style="height:35px">
+                      <img ng-src="img/breast-on.png" style="height:35px">
                     </div>
                     <div ng-if="item.breast != true">
-                      <img ng-src="img/breast-sm-off.jpg" style="height:35px">
+                      <img ng-src="img/breast-off.png" style="height:35px">
                     </div>
                   </div>
 
@@ -104,7 +108,7 @@
                   </div>
 
                   <!-- BOTTLE -->
-                  <div class="col col-10 no-side-padding" style="text-align:right">
+                  <div class="col col-5" style="text-align:right">
                     <div ng-if="item.bottle == true">
                       <img ng-src="img/bottle-on.png" style="height:35px">
                     </div>
@@ -114,20 +118,20 @@
                   </div>
 
                   <!-- CONTENT -->
-                  <div class="col col-15 col-center" ng-if="item.bottle == true">
+                  <div class="col col-10 col-center no-side-padding" ng-if="item.bottle == true">
                     <div style="width:100%; text-align:left">
                       {{item.quantity}}
                       <br>ml
                     </div>
                   </div>
-                  <div class="col col-15 col-center" ng-if="item.bottle != true">
+                  <div class="col col-10 col-center no-side-padding" ng-if="item.bottle != true">
                     <div style="width:100%; text-align:left; color:lightgrey">
                       &nbsp;&nbsp;--
                     </div>
                   </div>
 
                   <!-- MEDECINE : ICON -->
-                  <div class="col col-15" style="text-align:right;margin-left:-25px" ng-if="histVM.displayConf.medecine">
+                  <div class="col col-5" style="text-align:right; padding-right:0px" ng-if="histVM.displayConf.medecine">
                     <div ng-if="item.medecine == true">
                       <img ng-src="img/medecine-on.png" style="height:33px">
                     </div>
@@ -136,7 +140,7 @@
                     </div>
                   </div>
                   <!-- MEDECINE : DETAIL -->
-                  <div class="col col-15 med-infos" ng-if="histVM.displayConf.medecine">
+                  <div class="col col-10 med-infos" ng-if="histVM.displayConf.medecine">
                     <!-- VITAMIN -->
                     <div ng-if="item.medecine && item.vitamin" class="status-checked">{{histVM.vitaminName.slice(0,4)}}</div>
                     <div ng-if="!item.medecine || !item.vitamin">--</div>
@@ -149,44 +153,44 @@
                   </div>
 
                   <!-- PEE -->
-                  <div class="col col-10" style="text-align:right;margin-left:-22px" ng-if="histVM.displayConf.diapper">
+                  <div class="col col-5" style="text-align:right" ng-if="histVM.displayConf.diapper">
                     <div ng-if="item.diapper == true">
                       <div ng-if="item.peeLevel == 0">
-                        <img ng-src="img/diapper-on-0.jpg" style="height:30px">
+                        <img ng-src="img/diapper-on-0.png" style="height:30px">
                       </div>
                       <div ng-if="item.peeLevel == 1">
-                        <img ng-src="img/diapper-pee1.jpg" style="height:30px">
+                        <img ng-src="img/diapper-pee1.png" style="height:30px">
                       </div>
                       <div ng-if="item.peeLevel == 2">
-                        <img ng-src="img/diapper-pee2.jpg" style="height:30px">
+                        <img ng-src="img/diapper-pee2.png" style="height:30px">
                       </div>
                       <div ng-if="item.peeLevel == 3">
-                        <img ng-src="img/diapper-pee3.jpg" style="height:30px">
+                        <img ng-src="img/diapper-pee3.png" style="height:30px">
                       </div>
                     </div>
                     <div ng-if="item.diapper != true">
-                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                      <img ng-src="img/diapper-off.png" style="height:30px">
                     </div>
                   </div>
 
                   <!-- POO -->
-                  <div class="col col-10" style="text-align:right" ng-if="histVM.displayConf.diapper">
+                  <div class="col col-5 no-side-padding" style="text-align:left" ng-if="histVM.displayConf.diapper">
                     <div ng-if="item.diapper == true">
                       <div ng-if="item.pooLevel == 0">
-                        <img ng-src="img/diapper-on-0.jpg" style="height:30px">
+                        <img ng-src="img/diapper-on-0.png" style="height:30px">
                       </div>
                       <div ng-if="item.pooLevel == 1">
-                        <img ng-src="img/diapper-poo1.jpg" style="height:30px">
+                        <img ng-src="img/diapper-poo1.png" style="height:30px">
                       </div>
                       <div ng-if="item.pooLevel == 2">
-                        <img ng-src="img/diapper-poo2.jpg" style="height:30px">
+                        <img ng-src="img/diapper-poo2.png" style="height:30px">
                       </div>
                       <div ng-if="item.pooLevel == 3">
-                        <img ng-src="img/diapper-poo3.jpg" style="height:30px">
+                        <img ng-src="img/diapper-poo3.png" style="height:30px">
                       </div>
                     </div>
                     <div ng-if="item.diapper != true">
-                      <img ng-src="img/diapper-off.jpg" style="height:30px">
+                      <img ng-src="img/diapper-off.png" style="height:30px">
                     </div>
                   </div>
 
@@ -198,6 +202,25 @@
                     <div ng-if="!item.bath">
                       <img ng-src="img/bath-off.png" style="height:28px">
                     </div>
+                  </div>
+
+                  <!-- MEASURE -->
+                  <div class="col col-10" style="text-align:center" ng-if="histVM.displayConf.measure">
+                    <div ng-if="item.measure">
+                      <img ng-src="img/measure-on.png" style="height:28px">
+                    </div>
+                    <div ng-if="!item.measure">
+                      <img ng-src="img/measure-off.png" style="height:28px">
+                    </div>
+                  </div>
+                  <!-- MEASURE : DETAIL -->
+                  <div class="col col-15 med-infos" ng-if="histVM.displayConf.measure">
+                    <!-- WEIGHT -->
+                    <div ng-if="item.measure && item.weight" class="status-checked">{{item.weight.toString().slice(0,5)}} {{('ACRONYM.WEIGHT_KG' | translate)}}</div>
+                    <div ng-if="!item.measure || !item.weight">--</div>
+                    <!-- HEIGHT -->
+                    <div ng-if="item.measure && item.height" class="status-checked">{{item.height.toString().slice(0,4)}} {{('ACRONYM.HEIGHT_CM' | translate)}}</div>
+                    <div ng-if="!item.measure || !item.height">--</div>
                   </div>
 
                 </div>

@@ -18,6 +18,18 @@ angular.module('app', [
 
 .run(function ($rootScope, $ionicPlatform, $ionicGesture, $translate, $filter, utils, DBrecord) {
 
+  // get version number in database
+  var dbVersion = DBrecord.getAppVersion();
+  // if database version lower than current app version: update DB.
+  if (utils.compVersion(dbVersion, app_version) < 0) {
+
+    if (utils.compVersion(dbVersion, "1.1.2") < 0) {
+      DBrecord.patchToV1_1_2(); // create baby demo + add country prefs + add day/night prefs + add display prefs
+    }
+
+    DBrecord.storeAppVersion(app_version);
+  }
+
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -30,108 +42,49 @@ angular.module('app', [
       StatusBar.styleDefault();
     }
 
-    // get version number in database
-    var dbVersion = DBrecord.getAppVersion();
-    // if database version lower than current app version: update DB.
-    if (utils.compVersion(dbVersion, app_version) < 0) {
-      if (utils.compVersion(dbVersion, "0.1.1") < 0) {
-        DBrecord.patchToV0_1_1(); // create a default baby record + add babyUID and text fields to all records
-      }
-      if (utils.compVersion(dbVersion, "0.1.3") < 0) {
-        DBrecord.patchToV0_1_3(); // add medecine fields to all records
-      }
-      if (utils.compVersion(dbVersion, "0.1.4") < 0) {
-        DBrecord.patchToV0_1_4(); // add config_input_display record + add weight/height fields to all records
-      }
-      if (utils.compVersion(dbVersion, "0.2.0") < 0) {
-        DBrecord.patchToV0_2_0(); // add config_country_prefs record
-      }
-      if (utils.compVersion(dbVersion, "0.2.1") < 0) {
-        DBrecord.patchToV0_2_1(); // add config_dayNight_mode record
-      }
-      if (utils.compVersion(dbVersion, "1.1.0") < 0) {
-        DBrecord.patchToV1_1_0(); // remove 'config_current_baby' record in DB + remove empty fields in records + add 'babyUID' property to each records
-      }
-
-
-      DBrecord.storeAppVersion(app_version);
-    }
-
-    // set language and unit
+    // set LANGUAGE (according to user prefs)
     var countryConf = DBrecord.getCountryConf();
-    if (countryConf.language === null) {
-      // DEFAULT : set to local country unit
-      var test = $translate.use();
-      switch ($translate.use()) {
-      case 'fr_FR':
-      case 'fr':
-        countryConf.language = FRENCH;
-        countryConf.units = KILO;
-        $translate.use('fr');
-        break;
-      default:
-        countryConf.language = ENGLISH;
-        countryConf.units = OUNCE;
-        $translate.use('en');
-      }
-      DBrecord.setCountryConf(countryConf);
-    } else {
-      // LOAD from DB
-      switch (countryConf.language) {
-      case (FRENCH):
-        $translate.use('fr');
-        break;
-      case (ENGLISH):
-      default:
-        $translate.use('en');
-      }
-    }
-
-    // create demo baby if no baby in DB
-    if (DBrecord.getBabyUIDList().length == 0) {
-      var uid = DBrecord.createDemoBaby();
-      DBrecord.setCurBaby(uid);
-      $rootScope.$broadcast('update_baby_infos');
-      $rootScope.$broadcast('update_baby_selection');
-    } else {
-      // select a baby if not yet done
-      if (DBrecord.getCurBabyUID() == null) {
-        DBrecord.setCurBaby(DBrecord.getBabyUIDList()[0])
-      }
+    switch (countryConf.language) {
+    case (FRENCH):
+      $translate.use('fr');
+      break;
+    case (ENGLISH):
+    default:
+      $translate.use('en');
     }
 
     /* this code is for AUTOMATIC LIGHT SENSOR
-    // initalize luminosity sensor (first reading is often 0)
-    window.plugin.lightsensor.getReading();
+     // initalize luminosity sensor (first reading is often 0)
+     window.plugin.lightsensor.getReading();
 
-    // check luminosity on each user gesture
-    var element = angular.element(document.querySelector('#body'));
-    $ionicGesture.on('tap', function (e) {
-      console.log("catch a user event");
+     // check luminosity on each user gesture
+     var element = angular.element(document.querySelector('#body'));
+     $ionicGesture.on('tap', function (e) {
+       console.log("catch a user event");
 
-      // check if luminosity is in mode automatique
-      if (DBrecord.getDayNightConf().modeAuto) {
-        //get luminosity value
-        window.plugin.lightsensor.getReading(readLightSuccess);
+       // check if luminosity is in mode automatique
+       if (DBrecord.getDayNightConf().modeAuto) {
+         //get luminosity value
+         window.plugin.lightsensor.getReading(readLightSuccess);
 
-        function readLightSuccess(params) {
-          console.log("get light success : " + params.intensity, params);
-          var l_dayNightConf = DBrecord.getDayNightConf();
+         function readLightSuccess(params) {
+           console.log("get light success : " + params.intensity, params);
+           var l_dayNightConf = DBrecord.getDayNightConf();
 
-          if (params.intensity > l_dayNightConf.autoThreshold) {
-            l_dayNightConf.modeDayOn = true;
-          } else {
-            // switch to NIGHT mode
-            l_dayNightConf.modeDayOn = false;
-          }
+           if (params.intensity > l_dayNightConf.autoThreshold) {
+             l_dayNightConf.modeDayOn = true;
+           } else {
+             // switch to NIGHT mode
+             l_dayNightConf.modeDayOn = false;
+           }
 
-          //save changes
-          DBrecord.setDayNightConf(l_dayNightConf);
-          $rootScope.$broadcast('dayNight_updated');
-        }
-      }
-    }, element);
-    */ // END OF AUTOMATIC LIGHT SENSOR
+           //save changes
+           DBrecord.setDayNightConf(l_dayNightConf);
+           $rootScope.$broadcast('dayNight_updated');
+         }
+       }
+     }, element);
+     */ // END OF AUTOMATIC LIGHT SENSOR
   });
 })
 

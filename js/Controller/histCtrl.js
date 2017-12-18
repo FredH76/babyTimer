@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('histCtrl', function ($rootScope, $scope, $state, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
+.controller('histCtrl', function ($rootScope, $scope, $stateParams, $state, $ionicPlatform, $filter, $timeout, $interval, $ionicScrollDelegate, utils, DBrecord) {
   var vm = this;
 
   vm.baby = null;
@@ -25,26 +25,12 @@ angular.module('app.controllers')
   vm.otherMedName = ""; // to be defined item per item
 
   /******************************         INITIALISATION               ************************/
+
+  //$ionicPlatform.ready(function () {
   vm.baby = DBrecord.getCurBaby();
   vm.displayConf = DBrecord.getDisplayConf();
   refreshRecList();
-
-  /*$scope.$on('$ionicView.loaded', function () {
-    var temp = true; // Anything you can think of
-    $ionicScrollDelegate.scrollBottom();
-  });
-
-  $scope.$on('$ionicView.beforeEnter', function () {
-    var temp = true; // Anything you can think of
-    $ionicScrollDelegate.scrollBottom();
-  });
-
-  $scope.$on('$ionicView.afterEnter', function () {
-    var temp = true; // Anything you can think of
-    $ionicScrollDelegate.scrollBottom();
-  });*/
-
-
+  //});
   vm.editMode = false;
 
   _updateInterval();
@@ -113,6 +99,10 @@ angular.module('app.controllers')
     refreshRecList();
   })
 
+  $rootScope.$on('update_records', function () {
+    refreshRecList();
+  });
+
   /********************************************************************************************/
   /*                                      TOOL BOX
   /********************************************************************************************/
@@ -148,6 +138,9 @@ angular.module('app.controllers')
       dispItem.otherMedName = vm.recList[i].otherMedName;
       dispItem.message = vm.recList[i].message;
       dispItem.msgTxt = vm.recList[i].msgTxt;
+      dispItem.measure = vm.recList[i].measure;
+      dispItem.weight = vm.recList[i].weight;
+      dispItem.height = vm.recList[i].height;
 
       vm.dispList[i] = dispItem;
     }
@@ -188,7 +181,7 @@ angular.module('app.controllers')
       }
     }
 
-    // set show state (only last day)
+    // set show state (only last day) <<<<<<<<<<<<<<<<<<<< SET OPENED DAYS HERE <<<<<<<<<<<<<<<<<
     if (vm.dayList.length != 0)
       vm.dayList[vm.dayList.length - 1].show = true;
 

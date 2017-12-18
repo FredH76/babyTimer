@@ -57,13 +57,13 @@ angular.module('app.routes', [])
   })
 
   .state('tab.historic', {
-    cache: false,
+    cache: true,
     url: '/historic',
     views: {
       'tab-historic': {
         templateUrl: 'templates/tab-historic.html',
         controller: 'histCtrl',
-        controllerAs: 'histVM'
+        controllerAs: 'histVM',
       }
     }
   })
@@ -122,8 +122,8 @@ angular.module('app.routes', [])
 
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/tab/manual/1/null');
-  $urlRouterProvider.otherwise('/tab/settings');
-  //$urlRouterProvider.otherwise('/tab/historic');
+  //$urlRouterProvider.otherwise('/tab/settings');
+  $urlRouterProvider.otherwise('/tab/historic');
   //$urlRouterProvider.otherwise('/tab/graphic');
   //$urlRouterProvider.otherwise('/babyList');
 

@@ -132,8 +132,8 @@ var translationsFR = {
     SECOND: "s",
     LEFT: "G",
     RIGHT: "D",
-    WEIGHT: "kg ",
-    HEIGHT: "cm",
+    WEIGHT_KG: "kg",
+    HEIGHT_CM: "cm",
   },
   WEEK: {
     MONDAY: "Lundi",

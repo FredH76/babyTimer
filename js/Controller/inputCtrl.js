@@ -602,8 +602,12 @@ angular.module('app.controllers')
     // reset data
     _initData();
 
+
+    // send refresh data (for historic tab)
+    $rootScope.$broadcast('update_records');
+
     // go to historic
-    $state.go('tab.historic', {});
+    $state.go('tab.historic');
   }
 
   /*********************                  CANCEL                              *****************/
@@ -712,7 +716,7 @@ angular.module('app.controllers')
     if (vm.curMode === MODE_EDIT) {
       // control that recUID is linked to a valid record in DB
       var loaded_rec = DBrecord.loadRec($stateParams.recUID);
-      if (loaded_rec === null) {
+      if (loaded_rec === {}) {
         //TODO : display warning popup
         // go back to historic
         $state.go('tab.historic', {});

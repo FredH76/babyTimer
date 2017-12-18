@@ -1,6 +1,6 @@
 angular.module('app.factory', [])
 
-.factory('DBrecord', function ($rootScope, $filter, utils, fileManager) {
+.factory('DBrecord', function ($rootScope, $translate, $filter, utils, fileManager) {
   var RECORD_PREFIX = "rec_";
   var BABY_UID_PREFIX = "babyUID_";
 
@@ -21,8 +21,8 @@ angular.module('app.factory', [])
   var defaultInputDisplay = {
     medecine: true,
     diapper: true,
-    bath: true,
-    measure: true,
+    bath: false,
+    measure: false,
     note: true,
   }
 
@@ -44,12 +44,7 @@ angular.module('app.factory', [])
     //version
     getAppVersion: getAppVersion,
     storeAppVersion: storeAppVersion,
-    patchToV0_1_1: patchToV0_1_1,
-    patchToV0_1_3: patchToV0_1_3,
-    patchToV0_1_4: patchToV0_1_4,
-    patchToV0_2_0: patchToV0_2_0,
-    patchToV0_2_1: patchToV0_2_1,
-    patchToV1_1_0: patchToV1_1_0,
+    patchToV1_1_2: patchToV1_1_2,
 
     // Settings
     getDisplayConf: getDisplayConf,
@@ -113,15 +108,15 @@ angular.module('app.factory', [])
   /*********************             GET DISPLAY CONFIGURATION             *****************/
   function getDisplayConf() {
     var displayConf = null;
-    if (localStorage["config_input_display"] === undefined)
-      displayConf = defaultInputDisplay;
-    else
+    if (localStorage["config_input_display"] !== undefined)
       displayConf = JSON.parse(localStorage["config_input_display"]);
     return displayConf;
   }
 
   /*********************            SAVE DISPLAY CONFIGURATION              *****************/
   function saveDisplayConf(displayConf) {
+    if (displayConf == undefined)
+      displayConf = defaultDayNightPrefs;
     localStorage["config_input_display"] = JSON.stringify(displayConf);
   }
 
@@ -129,9 +124,7 @@ angular.module('app.factory', [])
   /*********************           GET COUNTRY CONFIGURATION                *****************/
   function getCountryConf() {
     var countryConf = null;
-    if (localStorage["config_country_prefs"] === undefined)
-      countryConf = defaultCountryPrefs;
-    else
+    if (localStorage["config_country_prefs"] !== undefined)
       countryConf = JSON.parse(localStorage["config_country_prefs"]);
     return countryConf;
   }
@@ -145,9 +138,7 @@ angular.module('app.factory', [])
   /*********************           GET DAY/NIGHT CONFIGURATION              *****************/
   function getDayNightConf() {
     var dayNightConf = null;
-    if (localStorage["config_dayNight_prefs"] === undefined)
-      dayNightConf = defaultDayNightPrefs;
-    else
+    if (localStorage["config_dayNight_prefs"] !== undefined)
       dayNightConf = JSON.parse(localStorage["config_dayNight_prefs"]);
     return dayNightConf;
   }
@@ -286,9 +277,9 @@ angular.module('app.factory', [])
       var l_minBottleMl = weekParams[weekNum].minBottleMl;
 
       for (var i = 0; i < 7; i++) {
-        var l_rec = {};
 
         // set medecine
+        var l_rec = {};
         curDay.hours(9);
         l_rec.startTime = curDay.toDate();
         l_rec.medecine = true;
@@ -301,10 +292,12 @@ angular.module('app.factory', [])
 
         // set diapper
         curDay.hours(0);
-        l_rec = {};
         var nbDayDiapper = (Math.floor(Math.random() * (6 - 4 + 1)) + 4);
         for (diapperNum = 0; diapperNum < nbDayDiapper; diapperNum++) {
+          l_rec = {};
           l_rec.startTime = curDay.hours((24 / nbDayDiapper) * diapperNum).minutes(0).seconds(0).toDate();
+          var temp = l_rec.startTime;
+          l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
           l_rec.diapper = true;
           l_rec.peeLevel = (Math.floor(Math.random() * (3 - 0 + 1)) + 0);
           l_rec.pooLevel = (Math.floor(Math.random() * (3 - 0 + 1)) + 0);
@@ -319,6 +312,7 @@ angular.module('app.factory', [])
         var sd = temp % 3;
         if ((curDay.date() % 3) == 0) {
           l_rec.startTime = curDay.hours(10).minutes(30).seconds(0).toDate();
+          l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
           l_rec.bath = true;
           l_rec.babyUID = demoBaby.uid;
           saveRec(l_rec);
@@ -326,10 +320,11 @@ angular.module('app.factory', [])
 
         // set breast records
         curDay.hours(0);
-        l_rec = {};
         var nbDayBreast = (Math.floor(Math.random() * (l_maxBreastNb - l_minBreastNb + 1)) + l_minBreastNb);
         for (breastNum = 0; breastNum < nbDayBreast; breastNum++) {
+          l_rec = {};
           l_rec.startTime = curDay.hours((24 / nbDayBreast) * breastNum).minutes(0).seconds(0).toDate();
+          l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
           l_rec.breast = true;
           l_rec.duration = (Math.floor(Math.random() * (l_maxBreastDur - l_minBreastDur + 1)) + l_minBreastDur) * 60;
           l_rec.babyUID = demoBaby.uid;
@@ -338,10 +333,11 @@ angular.module('app.factory', [])
 
         // set bottle records
         curDay.hours(0);
-        l_rec = {};
         var nbDayBottle = (Math.floor(Math.random() * (l_maxBottleNb - l_minBottleNb + 1)) + l_minBottleNb);
         for (bottleNum = 0; bottleNum < nbDayBottle; bottleNum++) {
+          l_rec = {};
           l_rec.startTime = curDay.hours((24 / nbDayBottle) * bottleNum).minutes(0).seconds(0).toDate();
+          l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
           l_rec.bottle = true;
           l_rec.quantity = (Math.floor(Math.random() * (l_maxBottleMl - l_minBottleMl + 1)) + l_minBottleMl) * 10;
           l_rec.babyUID = demoBaby.uid;
@@ -358,57 +354,79 @@ angular.module('app.factory', [])
     //3- create weight records 
     var l_rec = {};
     var curDay = moment(demoBaby.birthday);
+    l_rec = {};
     l_rec.startTime = curDay.toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.4;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(1 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.25;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(1 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.15;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(1 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.22;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(1 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.29;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(1 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.4;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(2 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.5;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(6 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.75;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(3 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.85;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(5 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 3.95;
     l_rec.babyUID = demoBaby.uid;
     saveRec(l_rec);
+    l_rec = {};
     l_rec.startTime = curDay.add(6 * 24 * 60 * 60 * 1000).toDate();
+    l_rec = loadRec(_createRecUID(l_rec)) || l_rec;
     l_rec.measure = true;
     l_rec.weight = 4.2;
     l_rec.babyUID = demoBaby.uid;
@@ -508,11 +526,12 @@ angular.module('app.factory', [])
   /*********************                  LOAD RECORD                        *****************/
   function loadRec(recUID) {
     var rec = null;
-    rec = JSON.parse(localStorage[recUID]);
-    if (rec !== null && rec !== undefined)
-      return rec;
-    else
-      return null;
+    if (localStorage[recUID] !== undefined) {
+      rec = JSON.parse(localStorage[recUID]);
+      // reformat date
+      rec.startTime = new Date(rec.startTime);
+    }
+    return rec;
   }
 
   /*********************                  SAVE RECORD UID                     *****************/
@@ -781,167 +800,57 @@ angular.module('app.factory', [])
   /********************************************************************************************/
   /*********************              DB UPDATE VERSION PATCH                 *****************/
   /********************************************************************************************/
-  // create a default baby record + add babyUID to all records
-  function patchToV0_1_1() {
-    var babyUID = null;
 
-    // create a baby
-    if (getBabyUIDList().length == 0)
-      babyUID = createNewBaby();
-    else {
-      console.error("ERROR : DBrecord.patchToV0_1_1 >> a baby already exist. Its UID wil be used");
-      babyUID = getBabyUIDList()[0];
-    }
-
-    var prefix = RECORD_PREFIX;
-    // go through every property of LocalStorage
-    for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
-        // Attribute babyUID to all record
-        rec = JSON.parse(localStorage[property]);
-        rec.babyUID = babyUID;
-        // add new properties: message, msgTxt
-        rec.message = false;
-        rec.msgTxt = "";
-        localStorage[property] = JSON.stringify(rec);
-      }
-    }
-  }
-
-  // add MEDECINE + TEXT fields to all records
-  function patchToV0_1_3() {
-    var babyUID = null;
+  // create baby demo + add country prefs + add day/night prefs + add display prefs
+  function patchToV1_1_2() {
     var prefix = RECORD_PREFIX;
 
+    // delete all records that do not belong a baby
     // go through every property of LocalStorage
     for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
-        // Attribute Medecine fields to all record
-        rec = JSON.parse(localStorage[property]);
-        // add new properties: medecine, vitamin,..
-        rec.medecine = false;
-        rec.vitamin = false;
-        rec.paracetamol = false;
-        rec.otherMed = false;
-        rec.otherMedName = "";
-
-        localStorage[property] = JSON.stringify(rec);
-      }
-    }
-  }
-
-  // add MEASURES fields to all records
-  // add CONFIG_INPUT_DISPLAY param
-  function patchToV0_1_4() {
-    var babyUID = null;
-    var prefix = RECORD_PREFIX;
-
-    // go through every property of LocalStorage
-    for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
-        // Attribute Measure fields to all record
-        rec = JSON.parse(localStorage[property]);
-        // add new properties: medecine, vitamin,..
-        rec.measure = false;
-        rec.weight = 0;
-        rec.height = 0;
-
-        localStorage[property] = JSON.stringify(rec);
+      if (property.slice(0, prefix.length) == prefix && JSON.parse(localStorage[property]).babyUID === undefined) {
+        delete localStorage[property];
       }
     }
 
-    saveDisplayConf(defaultInputDisplay);
-  }
+    // create DEMO BABY (if none in DB) and set it as current
+    if (getBabyUIDList().length == 0) {
+      var uid = createDemoBaby();
+      setCurBaby(uid);
+      $rootScope.$broadcast('update_baby_infos');
+      $rootScope.$broadcast('update_baby_selection');
+    }
 
-  // add CONFIG_COUNTRY_PREFS param
-  function patchToV0_2_0() {
-    setCountryConf(defaultCountryPrefs);
-  }
-
-  // add CONFIG_DAYNIGHT_MODE param
-  function patchToV0_2_1() {
-    setDayNightConf(defaultDayNightPrefs);
-  }
-
-
-  function patchToV1_1_0() {
-    var prefix = RECORD_PREFIX;
-
-    // export all for safety purpose
-    exportAll();
-
-    // remove 'config_current_baby' in DB entries.
-    delete localStorage['config_current_baby'];
-
-    // add 'selected' property to current baby
-    var baby = getBabyInfoList()[0];
-    baby.selected = true;
-    if (baby.picture == undefined)
-      baby.picture = null;
-    saveBaby(baby);
-
-    // go through every property of LocalStorage
-    for (var property in localStorage) {
-      if (property.slice(0, prefix.length) == prefix) {
-
-        rec = JSON.parse(localStorage[property]);
-
-        // add BabyUID property;
-        rec.babyUID = baby.uid;
-
-        // delete breast infos if empty
-        if (rec.breast != true) {
-          delete rec.breast;
-          delete rec.duration;
-          delete rec.leftSide;
-          delete rec.rightSide;
-        }
-
-        // delete bottle infos if empty or replace field name (to quantity)
-        if (rec.bottle != true) {
-          delete rec.bottle;
-          delete rec.bottleContent;
-        } else {
-          rec.quantity = rec.bottleContent;
-          delete rec.bottleContent;
-        }
-
-        // delete medecine infos if empty
-        if (rec.medecine != true) {
-          delete rec.medecine;
-          delete rec.vitamin;
-          delete rec.paracetamol;
-          delete rec.otherMed;
-          delete rec.otherMedName;
-        }
-
-        // delete diapper infos if empty
-        if (rec.diapper != true) {
-          delete rec.diapper;
-          delete rec.peeLevel;
-          delete rec.pooLevel;
-        }
-
-        // delete bath infos if empty
-        if (rec.bath != true) {
-          delete rec.bath;
-        }
-
-        // delete measure infos if empty
-        if (rec.measure != true) {
-          delete rec.measure;
-          delete rec.weight;
-          delete rec.height;
-        }
-
-        // delete message infos if empty
-        if (rec.message != true) {
-          delete rec.message;
-          delete rec.msgTxt;
-        }
-
-        localStorage[property] = JSON.stringify(rec);
+    // add country configuration
+    var countryConf = getCountryConf();
+    if (countryConf === null) {
+      countryConf = {};
+      // DEFAULT : set to local country unit
+      switch ($translate.use()) {
+      case 'fr_FR':
+      case 'fr':
+        countryConf.language = FRENCH;
+        countryConf.units = KILO;
+        $translate.use('fr');
+        break;
+      default:
+        countryConf.language = ENGLISH;
+        countryConf.units = OUNCE;
+        $translate.use('en');
       }
+      setCountryConf(countryConf);
+    }
+
+    // add day/night configuration
+    var dayNightConf = getDayNightConf();
+    if (dayNightConf === null) {
+      setDayNightConf(defaultDayNightPrefs);
+    }
+
+    // add display configuration
+    var displayConf = getDisplayConf();
+    if (displayConf === null) {
+      saveDisplayConf(defaultInputDisplay);
     }
   }
 

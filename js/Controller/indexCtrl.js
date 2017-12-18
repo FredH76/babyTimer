@@ -3,7 +3,6 @@ angular.module('app.controllers')
 .controller('indexCtrl', function ($rootScope, $scope, $ionicHistory, $state, $ionicPlatform, $ionicPopup, $filter, DBrecord) {
   var vm = this;
 
-  vm.baby = DBrecord.getCurBaby();
   vm.modeDayOn = null;
 
   /******************************      FUNCTION DECLARATION            ************************/
@@ -20,8 +19,10 @@ angular.module('app.controllers')
   $scope.selectBaby = selectBaby;
   $scope.cancel = cancel;
 
-  /******************************         INITIALISATION               ************************/
+  vm.baby = DBrecord.getCurBaby();
   vm.modeDayOn = DBrecord.getDayNightConf().modeDayOn;
+
+  /******************************         INITIALISATION               ************************/
   $ionicPlatform.ready(function () {
     _setLuminosity();
 

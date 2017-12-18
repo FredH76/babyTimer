@@ -1,4 +1,12 @@
-var app_version = "1.1.0";
+var app_version = "1.1.2";
+
+/*******************************   version = 1.1.2  ********************************************
+new functionnalities :
+- historic tab: 
+  o add +/- buttons
+  o refresh list only on broadcast reception
+- graph tab: set default duration to 2 weeks
+- baby demo: merge record when record already exist
 
 /*******************************   version = 1.1.0  ********************************************
 new functionnalities :

@@ -45,7 +45,7 @@ angular.module('app.controllers')
   /******************************         INITIALISATION               ************************/
   refreshTimeout = 10;
   vm.durationList = utils.getDurationList();
-  vm.duration = vm.durationList[2];
+  vm.duration = vm.durationList[1];
   vm.endDate = new Date;
   vm.startDate = new Date(moment(vm.endDate).subtract(vm.duration.nbDay, 'days'));
 
