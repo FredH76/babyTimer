@@ -3,6 +3,13 @@
     font-family: sans-serif;
   }
   
+  body {
+    white-space: nowrap;
+  }
+  /*.col {
+    overflow: visibleÒ;
+  }*/
+  
   .has-tabs.has-button-bar {
     bottom: var(--button-bar-height);
   }
@@ -17,6 +24,10 @@
   
   .button {
     white-space: nowrap;
+  }
+  
+  select {
+    -webkit-appearance: none;
   }
   
   .nav-avatar-img .babyAvatar {

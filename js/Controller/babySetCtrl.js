@@ -98,6 +98,7 @@ angular.module('app.controllers')
 
     // 3 - call cordova camera function
     $cordovaCamera.getPicture(options).then(function (imageFile) {
+      picturePopup.close(); // duplicate close() to fix some bug on iPhone 4
       vm.baby.picture = imageFile;
     });
   }
@@ -121,6 +122,7 @@ angular.module('app.controllers')
 
     // 3 - call cordova camera function
     $cordovaCamera.getPicture(options).then(function (imageFile) {
+      picturePopup.close(); // duplicate close() to fix some bug on iPhone 4
       vm.baby.picture = imageFile;
     });
 
