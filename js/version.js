@@ -1,6 +1,10 @@
 var app_version = "1.1.2";
 
 /*******************************   version = 1.1.2  ********************************************
+- set cordova.plugins.Keyboard.hideKeyboardAccessoryBar() to FALSE
+
+
+/*******************************   version = 1.1.2  ********************************************
 new functionnalities :
 - historic tab: 
   o add +/- buttons
